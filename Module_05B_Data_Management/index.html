@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 05B：數據管理與持久化 — NautilusTrader 教材</title>
+    <meta name="description" content="從 CSV 到 DataCatalog：掌握 NautilusTrader 的數據管線">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <!-- 側邊欄 -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">05B</span> 數據管理</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <!-- 主內容 -->
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
+                        class="separator">›</span>模組 05B</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+                <h1>模組 05B：數據管理與持久化<span class="subtitle">從你的 CSV 到 NautilusTrader 能讀的格式</span></h1>
+
+                <p>NautilusTrader 需要特定格式的數據才能運行回測。這個模組教你如何把各種來源的數據轉換、存儲、和載入到系統中。</p>
+
+                <!-- ==================== -->
+                <h2>一、數據管線全景</h2>
+                <p>數據從你自己的檔案到回測引擎，需要經過以下步驟：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph source["📁 數據來源"]
+                        direction TB
+                        csv["CSV 檔案"]
+                        api["交易所 API"]
+                        vendor["數據供應商<br />(Databento/Tardis)"]
+                        end
+
+                        subgraph transform["🔄 數據轉換"]
+                        direction TB
+                        wrangler["Wrangler<br />數據整理器"]
+                        loader["DataLoader<br />數據載入器"]
+                        end
+
+                        subgraph storage["💾 數據存儲"]
+                        direction TB
+                        catalog["DataCatalog<br />(Parquet 格式)"]
+                        memory["直接載入記憶體"]
+                        end
+
+                        subgraph engine["⚙️ 回測引擎"]
+                        direction TB
+                        backtest["BacktestEngine"]
+                        end
+
+                        source ==> transform ==> storage ==> engine
+                    </div>
+                    <div class="caption">圖 1：數據從來源到回測引擎的完整管線</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、Wrangler — 數據格式轉換器</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼需要 Wrangler？</div>
+                    <p><strong>❌ 如果直接用 pandas DataFrame</strong>：NautilusTrader 不認識 DataFrame。它需要的是
+                        <code>QuoteTick</code>、<code>TradeTick</code>、<code>Bar</code> 等專用數據對象，因為這些對象經過 Rust 優化，速度比原始
+                        Python 快 100 倍以上。</p>
+                    <p><strong>✅ 用 Wrangler</strong>：它幫你把 pandas DataFrame 轉換成 NautilusTrader 專用的數據對象，一行代碼搞定。</p>
+                </div>
+
+                <h3>從 CSV 載入 K 線數據</h3>
+                <pre><code class="language-python">"""
+從自己的 CSV 檔案載入 K 線數據到 NautilusTrader
+"""
+import pandas as pd
+from nautilus_trader.persistence.wranglers import BarDataWrangler
+from nautilus_trader.model.data import BarType
+from nautilus_trader.model.identifiers import InstrumentId
+
+# 1. 用 pandas 讀取你的 CSV
+df = pd.read_csv("my_btc_data.csv")
+# 你的 CSV 欄位可能是：timestamp, open, high, low, close, volume
+
+# 2. 確保索引是時間戳
+df["timestamp"] = pd.to_datetime(df["timestamp"])
+df = df.set_index("timestamp")
+
+# 3. 定義 BarType（什麼品種、什麼時間框架）
+bar_type = BarType.from_str("BTC-USDT-PERP.BINANCE-1-MINUTE-LAST-EXTERNAL")
+#                             品種                   時間框架  價格類型  來源
+
+# 4. 用 Wrangler 轉換！
+wrangler = BarDataWrangler(bar_type=bar_type, instrument=instrument)
+bars = wrangler.process(df)  # 返回 list[Bar]
+
+print(f"✅ 載入了 {len(bars)} 根 K 線")
+print(f"第一根: {bars[0]}")
+print(f"最後根: {bars[-1]}")</code></pre>
+
+                <h3>其它 Wrangler 種類</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Wrangler</th>
+                                <th>輸入 DataFrame 欄位</th>
+                                <th>輸出數據類型</th>
+                                <th>適用場景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>QuoteTickDataWrangler</code></td>
+                                <td>bid, ask, bid_size, ask_size</td>
+                                <td><code>QuoteTick</code></td>
+                                <td>有完整報價數據（外匯、加密貨幣）</td>
+                            </tr>
+                            <tr>
+                                <td><code>TradeTickDataWrangler</code></td>
+                                <td>price, quantity, aggressor_side</td>
+                                <td><code>TradeTick</code></td>
+                                <td>逐筆成交數據</td>
+                            </tr>
+                            <tr>
+                                <td><code>BarDataWrangler</code></td>
+                                <td>open, high, low, close, volume</td>
+                                <td><code>Bar</code></td>
+                                <td>K 線數據（最常見）</td>
+                            </tr>
+                            <tr>
+                                <td><code>OrderBookDeltaDataWrangler</code></td>
+                                <td>action, side, price, size</td>
+                                <td><code>OrderBookDelta</code></td>
+                                <td>訂單簿增量數據（高頻）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>三、DataCatalog — 數據倉庫</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼需要 DataCatalog？</div>
+                    <p><strong>❌ 如果每次回測都從 CSV 重新讀取</strong>：CSV 是文字格式，解析慢。100 萬根 K 線可能需要 30 秒以上。而且你需要每次都重新做 Wrangler 轉換。
+                    </p>
+                    <p><strong>✅ 用 DataCatalog</strong>：它把數據存為 <strong>Parquet 格式</strong>（二進制列式存儲），讀取速度比 CSV 快 10-50
+                        倍。而且一次寫入、多次讀取，不需要重複轉換。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph write["✍️ 寫入（只做一次）"]
+                        direction TB
+                        w1["CSV → Wrangler → Bars"]
+                        w2["catalog.write_data(bars)"]
+                        w1 --> w2
+                        end
+
+                        subgraph read["📖 讀取（每次回測）"]
+                        direction TB
+                        r1["catalog.bars()"]
+                        r2["直接得到 list 對象"]
+                        r1 --> r2
+                        end
+
+                        subgraph format["📦 Parquet 格式"]
+                        direction TB
+                        f1["二進制列式存儲"]
+                        f2["壓縮比 5-10x"]
+                        f3["支援時間範圍查詢"]
+                        end
+
+                        write --> format --> read
+
+                        style format fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
+                    </div>
+                    <div class="caption">圖 2：DataCatalog 的寫入與讀取流程</div>
+                </div>
+
+                <h3>寫入數據到 Catalog</h3>
+                <pre><code class="language-python">"""
+把數據存入 DataCatalog（只需做一次）
+"""
+from nautilus_trader.persistence.catalog import ParquetDataCatalog
+
+# 1. 指定 Catalog 的存儲目錄
+catalog = ParquetDataCatalog("./my_catalog")
+
+# 2. 寫入數據（bars 是上一步 Wrangler 產出的）
+catalog.write_data(bars)
+print(f"✅ 已寫入 {len(bars)} 根 K 線到 Catalog")
+
+# 目錄結構會變成：
+# ./my_catalog/
+# └── bar/
+#     └── BTC-USDT-PERP.BINANCE-1-MINUTE-LAST-EXTERNAL/
+#         └── part-0.parquet      ← 二進制數據檔案</code></pre>
+
+                <h3>從 Catalog 讀取數據</h3>
+                <pre><code class="language-python">"""
+從 DataCatalog 讀取數據（每次回測都用這個）
+"""
+from nautilus_trader.persistence.catalog import ParquetDataCatalog
+
+catalog = ParquetDataCatalog("./my_catalog")
+
+# 讀取所有 K 線
+bars = catalog.bars()
+
+# 或者按時間範圍讀取（只讀 2024 年 1 月的數據）
+from datetime import datetime
+bars_jan = catalog.bars(
+    start=datetime(2024, 1, 1),
+    end=datetime(2024, 2, 1),
+)
+
+# 讀取特定品種
+bars_btc = catalog.bars(
+    bar_types=["BTC-USDT-PERP.BINANCE-1-MINUTE-LAST-EXTERNAL"],
+)
+
+print(f"📊 讀取了 {len(bars)} 根 K 線（速度：毫秒級！）")</code></pre>
+
+                <!-- ==================== -->
+                <h2>四、K 線聚合 — 自定義時間框架</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼需要 K 線聚合？</div>
+                    <p><strong>❌ 如果只能用數據源提供的時間框架</strong>：你的數據源可能只有 1 分鐘 K 線。但你的策略需要 15 分鐘或 4 小時 K 線。你需要自己寫代碼把 1 分鐘 K
+                        線合併成更大的時間框架——容易出錯。</p>
+                    <p><strong>✅ 用 BarAggregator</strong>：NautilusTrader 內建 K
+                        線聚合器，可以自動把任何時間框架的數據聚合成你需要的時間框架。而且它支援不只是時間，還能按成交量、成交筆數聚合。</p>
+                </div>
+
+                <pre><code class="language-python">"""
+在策略中訂閱自定義時間框架的 K 線
+"""
+class MyStrategy(Strategy):
+    def on_start(self):
+        # 訂閱 15 分鐘 K 線（引擎會自動從 1 分鐘 K 線聚合）
+        bar_type_15m = BarType.from_str(
+            "BTC-USDT-PERP.BINANCE-15-MINUTE-LAST-INTERNAL"
+            #                                            ^^^^^^^^
+            # INTERNAL = NautilusTrader 自己聚合
+            # EXTERNAL = 由外部數據源提供
+        )
+        self.subscribe_bars(bar_type_15m)
+
+        # 你甚至可以訂閱按「成交量」聚合的 K 線！
+        bar_type_volume = BarType.from_str(
+            "BTC-USDT-PERP.BINANCE-1000-VOLUME-LAST-INTERNAL"
+            # 每累積 1000 單位成交量就生成一根 K 線
+        )
+        self.subscribe_bars(bar_type_volume)
+
+    def on_bar(self, bar: Bar):
+        # 當聚合完的 K 線到達時，這個回調被觸發
+        self.log.info(f"收到 K 線: {bar}")</code></pre>
+
+                <h3>K 線聚合類型</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>聚合方式</th>
+                                <th>BarType 格式</th>
+                                <th>說明</th>
+                                <th>適用策略</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>時間聚合</td>
+                                <td><code>15-MINUTE</code></td>
+                                <td>每 15 分鐘一根</td>
+                                <td>趨勢跟隨策略</td>
+                            </tr>
+                            <tr>
+                                <td>成交量聚合</td>
+                                <td><code>1000-VOLUME</code></td>
+                                <td>每 1000 單位成交量一根</td>
+                                <td>量能突破策略</td>
+                            </tr>
+                            <tr>
+                                <td>筆數聚合</td>
+                                <td><code>500-TICK</code></td>
+                                <td>每 500 筆交易一根</td>
+                                <td>高頻交易策略</td>
+                            </tr>
+                            <tr>
+                                <td>價值聚合</td>
+                                <td><code>1000000-VALUE</code></td>
+                                <td>每 100 萬單位價值一根</td>
+                                <td>合約類策略</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>五、自定義數據類型</h2>
+                <p>如果你有自己的數據（例如：情緒指標、新聞事件），可以定義自定義數據類型在 NautilusTrader 中使用：</p>
+
+                <pre><code class="language-python">"""
+定義一個自定義數據類型：市場情緒指數
+"""
+from nautilus_trader.model.custom import customdataclass
+
+# 用 @customdataclass 裝飾器定義自定義數據
+@customdataclass
+class SentimentData:
+    instrument_id: str   # 品種 ID
+    score: float         # 情緒分數 (-1.0 到 1.0)
+    source: str          # 來源（Twitter, Reddit 等）
+
+# 在策略中訂閱和使用
+class MyStrategy(Strategy):
+    def on_start(self):
+        # 訂閱自定義數據
+        self.subscribe_data(
+            data_type=SentimentData,
+            metadata={"instrument_id": "BTC-USDT-PERP.BINANCE"},
+        )
+
+    def on_data(self, data):
+        if isinstance(data, SentimentData):
+            if data.score > 0.8:
+                self.log.info("🟢 市場情緒極度樂觀！")
+            elif data.score < -0.8:
+                self.log.info("🔴 市場情緒極度悲觀！")</code></pre>
+
+                <!-- ==================== -->
+                <h2>六、序列化格式</h2>
+                <p>NautilusTrader 支援多種序列化格式，用於不同場景：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>格式</th>
+                                <th>用途</th>
+                                <th>速度</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Apache Arrow / Parquet</strong></td>
+                                <td>數據持久化（DataCatalog）</td>
+                                <td>⚡⚡⚡</td>
+                                <td>列式存儲，壓縮率高，讀取極快</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MsgPack</strong></td>
+                                <td>網路傳輸、Redis 緩存</td>
+                                <td>⚡⚡</td>
+                                <td>二進制 JSON，體積小</td>
+                            </tr>
+                            <tr>
+                                <td><strong>JSON</strong></td>
+                                <td>配置文件、日誌</td>
+                                <td>⚡</td>
+                                <td>人類可讀，方便除錯</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ 為什麼不直接用 JSON 存儲所有數據？</div>
+                    <p><strong>❌ 用 JSON 存 100 萬根 K 線</strong>：檔案大小約 500MB，讀取需要 30+ 秒。<br />
+                        <strong>✅ 用 Parquet 存 100 萬根 K 線</strong>：檔案大小約 50MB（壓縮 10 倍），讀取只需 1-2 秒。
+                    </p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、互動練習</h2>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 1：選擇正確的 Wrangler</div>
+                    <p>你有以下三種數據，應該分別用哪個 Wrangler？</p>
+                    <ol>
+                        <li>來自 Binance 的 <code>bid, ask, bid_size, ask_size</code> 報價數據</li>
+                        <li>來自 TradingView 的 <code>open, high, low, close, volume</code> K 線數據</li>
+                        <li>來自某交易所的逐筆成交 <code>price, quantity, side</code> 數據</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-wrangler')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-wrangler">1. QuoteTickDataWrangler
+                        → 有 bid/ask 就是報價數據
+
+                        2. BarDataWrangler
+                        → 有 OHLCV 就是 K 線數據
+
+                        3. TradeTickDataWrangler
+                        → 有 price/quantity/side 就是逐筆成交
+
+                        💡 訣竅：看 DataFrame 的欄位名稱就能判斷用哪個 Wrangler</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 2：解讀 BarType 字串</div>
+                    <p>以下 BarType 字串分別代表什麼？</p>
+                    <ol>
+                        <li><code>ETH-USDT.BINANCE-5-MINUTE-LAST-EXTERNAL</code></li>
+                        <li><code>BTC-USD.COINBASE-1000-VOLUME-LAST-INTERNAL</code></li>
+                        <li><code>EUR-USD.SIM-1-HOUR-BID-INTERNAL</code></li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-bartype')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-bartype">1. ETH-USDT.BINANCE-5-MINUTE-LAST-EXTERNAL
+                        品種: ETH-USDT（Binance 交易所）
+                        時間: 5 分鐘
+                        價格: LAST（最後成交價）
+                        來源: EXTERNAL（數據由外部提供，不是自己聚合）
+
+                        2. BTC-USD.COINBASE-1000-VOLUME-LAST-INTERNAL
+                        品種: BTC-USD（Coinbase 交易所）
+                        聚合: 每 1000 單位成交量
+                        價格: LAST（最後成交價）
+                        來源: INTERNAL（由 NautilusTrader 自己從 tick 聚合）
+
+                        3. EUR-USD.SIM-1-HOUR-BID-INTERNAL
+                        品種: EUR-USD（模擬交易所）
+                        時間: 1 小時
+                        價格: BID（買入價）
+                        來源: INTERNAL（引擎自己聚合）</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 3：設計數據管線</div>
+                    <p>你有一個 CSV 檔案，包含過去 1 年的 BTC 1 分鐘 K 線數據（約 52 萬行）。你的策略需要 15 分鐘 K 線。描述你的數據處理步驟。</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-pipeline')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-pipeline">步驟 1: 用 pandas 讀取 CSV
+                        df = pd.read_csv("btc_1m.csv")
+
+                        步驟 2: 用 BarDataWrangler 轉換為 Bar 對象
+                        wrangler = BarDataWrangler(bar_type=..., instrument=...)
+                        bars = wrangler.process(df)
+
+                        步驟 3: 存入 DataCatalog（一次性操作）
+                        catalog = ParquetDataCatalog("./my_catalog")
+                        catalog.write_data(bars)
+
+                        步驟 4: 在策略的 on_start() 中訂閱 15 分鐘 K 線
+                        bar_type_15m = BarType.from_str(
+                        "BTC-USDT-PERP.BINANCE-15-MINUTE-LAST-INTERNAL"
+                        )
+                        self.subscribe_bars(bar_type_15m)
+
+                        💡 關鍵：你不需要自己把 1 分鐘 K 線合併成 15 分鐘！
+                        NautilusTrader 的 BarAggregator 會自動幫你做。
+                        你只需要載入 1 分鐘數據，然後訂閱 15 分鐘 K 線。</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>八、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 你應該記住的關鍵點</div>
+                    <ol>
+                        <li><strong>Wrangler</strong>：把 pandas DataFrame 轉換成 NautilusTrader 專用數據對象</li>
+                        <li><strong>DataCatalog</strong>：用 Parquet 格式存儲數據，讀取速度比 CSV 快 10-50 倍</li>
+                        <li><strong>BarAggregator</strong>：自動把小時間框架 K 線聚合成大時間框架（時間/成交量/筆數/價值）</li>
+                        <li><strong>自定義數據</strong>：可以定義自己的數據類型（情緒、新聞等）</li>
+                        <li><strong>序列化格式</strong>：Parquet 存數據、MsgPack 傳網路、JSON 做配置</li>
+                        <li><strong>INTERNAL vs EXTERNAL</strong>：INTERNAL 由引擎自己聚合，EXTERNAL 由外部數據源提供</li>
+                    </ol>
+                </div>
+
+                <!-- 頁面導航 -->
+                <div class="page-nav">
+                    <a href="../Module_05_MessageBus/index.html">
+                        <span class="nav-label">← 上一章</span><span class="nav-title">模組 05：消息總線</span>
+                    </a>
+                    <a href="../Module_06_Cache/index.html" style="text-align:right;">
+                        <span class="nav-label">下一章 →</span><span class="nav-title">模組 06：緩存系統</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

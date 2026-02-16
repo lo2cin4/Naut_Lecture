@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 01：從零到回測 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <!-- ... omitted for brevity in template, will be filled by script ... -->
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NT</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item active" href="index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第五階段<span
+                        class="separator">›</span>Lab 01</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-5">第五階段：動手 Lab</span>
+                <h1>Lab 01：從零到回測<span class="subtitle">動手實作：建立你的第一個完整的 NautilusTrader 專案</span></h1>
+
+                <!-- ==================== -->
+                <h2>目標</h2>
+                <p>在這個 Lab 中，你將從一個空白資料夾開始，一步步搭建出一個可以運行的 EMA 交叉策略回測系統。你將學會：</p>
+                <ol>
+                    <li>專案結構的最佳實踐</li>
+                    <li>準備 CSV 數據並轉換為 Parquet</li>
+                    <li>編寫 DataCatalog 配置</li>
+                    <li>編寫 EMA Cross 策略</li>
+                    <li>配置 BacktestEngine 並運行回測</li>
+                    <li>生成 Tearsheet 分析結果</li>
+                </ol>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">🛠️ 準備工作</div>
+                    <p>請確保你已經按照 <a href="../Module_00_Getting_Started/index.html">Module 00</a> 安裝好了 Python 環境和
+                        NautilusTrader。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>步驟 1：建立專案結構</h2>
+                <p>在你的工作目錄（例如 <code>my_quant_project</code>）中，建立以下文件夾和文件：</p>
+                <pre><code class="language-bash">my_quant_project/
+├── data/               # 存放 CSV 原始數據
+├── catalog/            # 存放 Parquet 數據
+├── strategies/         # 存放策略代碼
+│   ├── __init__.py
+│   └── ema_cross.py    # 我們的策略文件
+├── config.py           # 全局配置
+└── run_backtest.py     # 回測啟動腳本
+</code></pre>
+
+                <!-- ==================== -->
+                <h2>步驟 2：準備數據 (CSV → Parquet)</h2>
+                <p>NautilusTrader 推薦使用 Partquet 格式。我們寫一個腳本把 CSV 轉成 Parquet。</p>
+                <p>假設你有一個 <code>data/ETHUSDT.csv</code>，格式如下（如果是 Binance 數據）：</p>
+                <pre>timestamp,open,high,low,close,volume,...
+1609459200000,736.42,739.00,736.00,737.95,123.45,...</pre>
+
+                <p>創建 <code>convert_data.py</code>：</p>
+                <pre><code class="language-python">import pandas as pd
+from nautilus_trader.model.data import Bar, BarType
+from nautilus_trader.model.enums import BarAggregation, PriceType
+from nautilus_trader.model.instruments import InstrumentId
+from nautilus_trader.persistence.catalog import ParquetDataCatalog
+
+def convert_csv_to_parquet():
+    # 1. 讀取 CSV
+    df = pd.read_csv("data/ETHUSDT.csv")
+    
+    # 2. 為每一行創建 Bar 對象 (這一步比較慢，但只需做一次)
+    bars = []
+    instrument_id = InstrumentId.from_str("ETHUSDT.BINANCE")
+    bar_type = BarType.from_str("ETHUSDT.BINANCE-1-MINUTE-LAST-EXTERNAL")
+    
+    for _, row in df.iterrows():
+        bar = Bar(
+            bar_type=bar_type,
+            ts_event=int(row["timestamp"] * 1_000_000), # 毫秒轉納秒
+            ts_init=int(row["timestamp"] * 1_000_000),
+            open=float(row["open"]),
+            high=float(row["high"]),
+            low=float(row["low"]),
+            close=float(row["close"]),
+            volume=float(row["volume"]),
+        )
+        bars.append(bar)
+
+    # 3. 寫入 Catalog
+    catalog = ParquetDataCatalog("./catalog")
+    catalog.write_data(bars)
+    print("數據轉換完成！")
+
+if __name__ == "__main__":
+    convert_csv_to_parquet()</code></pre>
+
+                <!-- ==================== -->
+                <h2>步驟 3：編寫策略 (strategies/ema_cross.py)</h2>
+                <pre><code class="language-python">from decimal import Decimal
+from nautilus_trader.trading.strategy import Strategy
+from nautilus_trader.config import StrategyConfig
+from nautilus_trader.indicators.average.ema import ExponentialMovingAverage
+from nautilus_trader.model.enums import OrderSide
+
+class EmaCrossConfig(StrategyConfig):
+    instrument_id: str
+    fast_period: int = 10
+    slow_period: int = 20
+    trade_size: str = "0.01"
+
+class EmaCrossStrategy(Strategy):
+    def __init__(self, config: EmaCrossConfig):
+        super().__init__(config)
+        self.instrument_id = config.instrument_id
+        
+        # 定義指標
+        self.fast_ema = ExponentialMovingAverage(config.fast_period)
+        self.slow_ema = ExponentialMovingAverage(config.slow_period)
+
+    def on_bar(self, bar):
+        # 更新指標
+        self.fast_ema.update(bar.close)
+        self.slow_ema.update(bar.close)
+
+        # 確保指標已準備好
+        if not self.fast_ema.initialized or not self.slow_ema.initialized:
+            return
+
+        # 獲取當前持倉
+        pos = self.portfolio.position(self.instrument_id)
+        
+        # 交易邏輯
+        if self.fast_ema.value > self.slow_ema.value:
+            # 黃金交叉：買入
+            if not pos:
+                self.buy()
+        elif self.fast_ema.value < self.slow_ema.value:
+            # 死亡交叉：賣出
+            if pos:
+                self.sell_all()
+
+    def buy(self):
+        order = self.order_factory.market(
+            instrument_id=self.instrument_id,
+            order_side=OrderSide.BUY,
+            quantity=self.config.trade_size,
+        )
+        self.submit_order(order)
+
+    def sell_all(self):
+        self.close_all_positions(self.instrument_id)</code></pre>
+
+                <!-- ==================== -->
+                <h2>步驟 4：運行回測 (run_backtest.py)</h2>
+                <pre><code class="language-python">from decimal import Decimal
+from nautilus_trader.backtest.engine import BacktestEngine, BacktestEngineConfig
+from nautilus_trader.model.instruments import InstrumentId
+from nautilus_trader.model.currencies import Currency
+from nautilus_trader.model.objects import Money
+from nautilus_trader.model.enums import AccountType, OmsType
+
+from strategies.ema_cross import EmaCrossStrategy, EmaCrossConfig
+
+#配置回測引擎
+config = BacktestEngineConfig(
+    strategies=[
+        EmaCrossConfig(
+            instrument_id="ETHUSDT.BINANCE",
+            fast_period=10,
+            slow_period=20,
+            trade_size="0.1",
+        )
+    ]
+)
+engine = BacktestEngine(config=config)
+
+# 1. 配置交易所和帳戶
+engine.add_venue(
+    venue="BINANCE",
+    oms_type=OmsType.NETTING,
+    account_type=AccountType.MARGIN,
+    starting_balances=[Money(10_000, Currency.from_str("USDT"))],
+)
+
+# 2. 載入數據 (從我們剛才建立的 Catalog)
+engine.add_data_from_catalog("./catalog")
+
+# 3. 運行回測
+engine.run()
+
+# 4. 輸出結果
+engine.trader.generate_account_report("BINANCE")
+print("回測完成！")
+
+# 5. 生成 Tearsheet (可選，需安裝 quantstats)
+# 這裡展示簡易結果
+portfolio = engine.trader.portfolio
+print(f"最終權益: {portfolio.account('BINANCE').balance_total(Currency.from_str('USDT'))}")
+</code></pre>
+
+                <!-- ==================== -->
+                <h2>作業</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">📝 挑戰任務</div>
+                    <p>1. 修改上面的代碼，加入 <code>FeeModel</code>（Maker 0.02%, Taker 0.04%）。</p>
+                    <p>2. 修改策略，加入止損邏輯（例如：如果虧損超過 2% 則強制平倉）。</p>
+                    <p>3. 嘗試在回測中加入第二個品種（例如 BTCUSDT），並讓策略同時交易兩個品種。</p>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_17_Advanced_Topics/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 17：進階主題</span></a>
+                    <a href="../Lab_02_Binance_Sandbox/index.html" style="text-align:right;"><span class="nav-label">下一章
+                            →</span><span class="nav-title">Lab 02：接入 Binance 沙箱</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

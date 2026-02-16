@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 11：策略開發完全指南 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item active" href="index.html"><span class="nav-num">11</span> 策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第三階段<span
+                        class="separator">›</span>模組 11</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-3">第三階段：實戰應用</span>
+                <h1>模組 11：策略開發完全指南<span class="subtitle">從零開始寫你的第一個交易策略</span></h1>
+
+                <p>NautilusTrader 的策略開發遵循一個簡單的模式：
+                    <strong>繼承基類 → 實現回調 → 填入邏輯</strong>。這個模組會教你從零開始寫出完整的交易策略。
+                </p>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼要用 Strategy 基類，而不是自己寫？</div>
+                    <p><strong>❌ 如果自己從零寫交易邏輯</strong>：你需要自己處理數據訂閱、訂單管理、持倉追蹤、日誌記錄、風控對接... 至少 2000 行代碼才能做到 Strategy
+                        基類免費給你的功能。</p>
+                    <p><strong>✅ 用 Strategy 基類</strong>：你只需要關心「什麼時候買、什麼時候賣」。其餘的基礎設施（緩存、消息總線、訂單工廠、Portfolio 查詢）全部自動注入。
+                    </p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>一、Strategy 基類 — 你的策略框架</h2>
+                <p>所有策略都繼承自 <code>Strategy</code> 基類。它提供了完整的「腳手架」，你只需要填入交易邏輯：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph lifecycle["🔄 策略生命週期"]
+                        direction TB
+                        init["__init__<br />初始化配置和指標"]
+                        start["on_start()<br />訂閱數據、初始化邏輯"]
+                        running["運行中"]
+                        stop["on_stop()<br />清理資源、平倉"]
+                        init --> start --> running --> stop
+                        end
+
+                        subgraph callbacks["📡 事件回調 (運行中)"]
+                        direction TB
+                        on_bar["on_bar(bar)"]
+                        on_quote["on_quote_tick(tick)"]
+                        on_trade["on_trade_tick(tick)"]
+                        on_filled["on_order_filled(event)"]
+                        end
+
+                        running ==> callbacks
+
+                        style lifecycle fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
+                        style callbacks fill:#0f1419,stroke:#ab47bc,stroke-width:1px
+                    </div>
+                    <div class="caption">圖 1：策略的生命週期和回調方法</div>
+                </div>
+
+                <h2>二、策略模板 — 最小可運行策略</h2>
+                <pre><code class="language-python">from nautilus_trader.trading.strategy import Strategy
+from nautilus_trader.config import StrategyConfig
+from nautilus_trader.model.identifiers import InstrumentId
+from nautilus_trader.model.data import Bar, BarType
+
+
+class MyStrategyConfig(StrategyConfig, frozen=True):
+    """策略配置 — 所有可調參數放這裡"""
+    instrument_id: InstrumentId
+    bar_type: BarType
+    fast_ema_period: int = 10
+    slow_ema_period: int = 20
+
+
+class MyStrategy(Strategy):
+    """你的策略 — 填入交易邏輯"""
+
+    def __init__(self, config: MyStrategyConfig):
+        super().__init__(config)
+        # 保存配置
+        self.instrument_id = config.instrument_id
+        self.bar_type = config.bar_type
+
+        # 初始化指標
+        self.fast_ema = ExponentialMovingAverage(config.fast_ema_period)
+        self.slow_ema = ExponentialMovingAverage(config.slow_ema_period)
+
+    def on_start(self):
+        """策略啟動時調用 — 訂閱數據"""
+        # 訂閱 K 線數據
+        self.subscribe_bars(self.bar_type)
+        # 記錄日誌
+        self.log.info("策略已啟動")
+
+    def on_bar(self, bar: Bar):
+        """收到新 K 線時調用 — 核心交易邏輯"""
+        # 更新指標
+        self.fast_ema.update_raw(bar.close.as_double())
+        self.slow_ema.update_raw(bar.close.as_double())
+
+        # 等指標準備好
+        if not self.fast_ema.initialized:
+            return
+
+        # ===== 交易邏輯 =====
+        # 快線上穿慢線 → 買入
+        if self.fast_ema.value > self.slow_ema.value:
+            if self.portfolio.is_flat(self.instrument_id):
+                self._buy()
+
+        # 快線下穿慢線 → 賣出
+        elif self.fast_ema.value < self.slow_ema.value:
+            if self.portfolio.is_net_long(self.instrument_id):
+                self._sell()
+
+    def _buy(self):
+        """建立多頭持倉"""
+        order = self.order_factory.market(
+            instrument_id=self.instrument_id,
+            order_side=OrderSide.BUY,
+            quantity=Quantity.from_str("0.01"),
+        )
+        self.submit_order(order)
+
+    def _sell(self):
+        """平掉多頭持倉"""
+        order = self.order_factory.market(
+            instrument_id=self.instrument_id,
+            order_side=OrderSide.SELL,
+            quantity=Quantity.from_str("0.01"),
+        )
+        self.submit_order(order)
+
+    def on_order_filled(self, event):
+        """訂單成交回調"""
+        self.log.info(f"訂單成交: {event}")
+
+    def on_stop(self):
+        """策略停止時調用 — 清理"""
+        self.cancel_all_orders(self.instrument_id)
+        self.close_all_positions(self.instrument_id)
+        self.log.info("策略已停止")
+</code></pre>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">✅ 這就是完整的策略了！</div>
+                    <p>不到 80 行代碼，你就擁有了一個完整的 EMA 交叉策略：有配置、有指標、有交易邏輯、有風控（透過全局 RiskEngine）。同樣的代碼可以直接用在回測和實盤中。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>三、核心回調方法一覽</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>回調方法</th>
+                                <th>觸發時機</th>
+                                <th>常用操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>on_start()</code></td>
+                                <td>策略啟動</td>
+                                <td>訂閱數據、載入歷史指標值</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_stop()</code></td>
+                                <td>策略停止</td>
+                                <td>取消訂單、平倉</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_bar(bar)</code></td>
+                                <td>收到新 K 線</td>
+                                <td>更新指標、判斷開平倉</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_quote_tick(tick)</code></td>
+                                <td>收到新報價</td>
+                                <td>觀察買賣價差</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_trade_tick(tick)</code></td>
+                                <td>收到新成交</td>
+                                <td>觀察成交量和方向</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_order_filled(event)</code></td>
+                                <td>訂單成交</td>
+                                <td>記錄日誌、調整持倉</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_order_rejected(event)</code></td>
+                                <td>訂單被拒</td>
+                                <td>記錄錯誤、重試</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_order_canceled(event)</code></td>
+                                <td>訂單被取消</td>
+                                <td>清理掛單記錄</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_position_opened(event)</code></td>
+                                <td>新持倉建立</td>
+                                <td>設置止損</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_position_closed(event)</code></td>
+                                <td>持倉關閉</td>
+                                <td>記錄盈虧</td>
+                            </tr>
+                            <tr>
+                                <td><code>on_event(event)</code></td>
+                                <td>任何事件</td>
+                                <td>通用事件處理</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、指標系統</h2>
+                <p>NautilusTrader 內建了豐富的技術指標：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>類別</th>
+                                <th>指標</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>趨勢</td>
+                                <td>EMA, SMA, WMA, DEMA, TEMA, KAMA, HMA</td>
+                            </tr>
+                            <tr>
+                                <td>動量</td>
+                                <td>RSI, MACD, Stochastic, CCI, ROC, Williams %R</td>
+                            </tr>
+                            <tr>
+                                <td>波動率</td>
+                                <td>ATR, Bollinger Bands, Keltner Channel, Donchian</td>
+                            </tr>
+                            <tr>
+                                <td>成交量</td>
+                                <td>OBV, VWAP, MFI, AD</td>
+                            </tr>
+                            <tr>
+                                <td>統計</td>
+                                <td>Standard Deviation, Variance, Linear Regression</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre><code class="language-python"># 使用指標的三步曲
+# 1. __init__ 中建立
+self.rsi = RelativeStrengthIndex(period=14)
+
+# 2. on_bar 中更新
+self.rsi.update_raw(bar.close.as_double())
+
+# 3. 讀取值
+if self.rsi.initialized and self.rsi.value > 70:
+    # RSI 超買 → 考慮賣出
+    pass</code></pre>
+
+                <!-- ==================== -->
+                <h2>四B、Actor vs Strategy — 什麼時候該用哪個？</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼要有 Actor？Strategy 不夠嗎？</div>
+                    <p><strong>❌ 如果把所有邏輯都塞進 Strategy</strong>：你的策略會變成「超級大類」，既做數據處理又做交易決策。難以測試、難以複用。</p>
+                    <p><strong>✅ 用 Actor + Strategy</strong>：Actor 負責「觀察和計算」（如生成信號），Strategy 負責「交易」。它們之間用 MessageBus
+                        通訊，完全解耦。</p>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>特性</th>
+                                <th>Actor</th>
+                                <th>Strategy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>能訂閱數據</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>能下單</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>有 order_factory</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>有 portfolio 訪問</td>
+                                <td>✅（唯讀）</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>典型用途</td>
+                                <td>信號生成、數據處理、監控</td>
+                                <td>交易邏輯、訂單管理</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre><code class="language-python">"""Actor → Strategy 協作範例：信號生成器 + 交易執行器"""
+from nautilus_trader.common.actor import Actor
+from nautilus_trader.common.signal import Signal
+
+class SignalGenerator(Actor):
+    """Actor：只生成信號，不做交易"""
+    def on_bar(self, bar: Bar):
+        rsi = self._calculate_rsi(bar)
+        if rsi < 30:
+            # 發布「建議買入」信號到 MessageBus
+            self.publish_signal(name="BUY", value=rsi)
+        elif rsi > 70:
+            self.publish_signal(name="SELL", value=rsi)
+
+class TradeExecutor(Strategy):
+    """Strategy：接收信號並執行交易"""
+    def on_start(self):
+        self.subscribe_signal(name="BUY")
+        self.subscribe_signal(name="SELL")
+
+    def on_signal(self, signal: Signal):
+        if signal.name == "BUY" and self.portfolio.is_flat(self.instrument_id):
+            self._buy()
+        elif signal.name == "SELL" and self.portfolio.is_net_long(self.instrument_id):
+            self._sell()</code></pre>
+
+                <!-- ==================== -->
+                <h2>四C、OrderFactory — 進階下單模式</h2>
+
+                <p><code>self.order_factory</code> 是你在策略中下單的唯一工具。它能創建所有 11 種訂單，這裡展示最實用的幾個模式：</p>
+
+                <h3>模式 1：Bracket Order（括號訂單 = 入場 + 止損 + 止盈）</h3>
+                <pre><code class="language-python">"""一次下三個訂單：市價入場 + 止損 + 止盈"""
+from nautilus_trader.model.orders import OrderList
+
+def _open_position_with_bracket(self):
+    # OrderList 把三個訂單綁在一起
+    bracket = self.order_factory.bracket(
+        instrument_id=self.instrument_id,
+        order_side=OrderSide.BUY,
+        quantity=Quantity.from_str("0.01"),
+        # 入場用市價單
+        entry_trigger_price=None,  # 市價入場
+        # 止損設在入場價下方 2%
+        sl_trigger_price=Price.from_str("49000.00"),
+        # 止盈設在入場價上方 4%
+        tp_price=Price.from_str("52000.00"),
+    )
+    # 一次提交整個 bracket
+    self.submit_order_list(bracket)
+    # 當入場單成交後，止損和止盈自動啟動
+    # 當止損或止盈任一觸發，另一個自動取消（OCO）</code></pre>
+
+                <h3>模式 2：Trailing Stop（移動止損）</h3>
+                <pre><code class="language-python">"""用 ATR 動態計算止損距離"""
+def _set_trailing_stop(self):
+    atr_value = self.atr.value  # ATR 指標的當前值
+
+    order = self.order_factory.trailing_stop_market(
+        instrument_id=self.instrument_id,
+        order_side=OrderSide.SELL,  # 賣出止損
+        quantity=Quantity.from_str("0.01"),
+        # 止損距離 = 2 倍 ATR
+        trailing_offset=Decimal(str(atr_value * 2)),
+        trailing_offset_type=TrailingOffsetType.PRICE,
+        trigger_type=TriggerType.LAST_TRADE,
+    )
+    self.submit_order(order)
+    # 價格上漲時，止損價跟著上移
+    # 價格下跌超過 2×ATR 時，觸發止損</code></pre>
+
+                <!-- ==================== -->
+                <h2>五、官方範例策略解讀</h2>
+                <p>NautilusTrader 附帶了 17 個官方範例策略，涵蓋各種交易模式。以下是精選的 5 個最有學習價值的：</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">📐</span>
+                        <h4>ema_cross.py</h4>
+                        <p><strong>EMA 交叉策略</strong><br />最基礎的趨勢跟蹤策略。快 EMA 上穿慢 EMA 做多，反之做空。學習策略基本結構的最佳起點。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h4>ema_cross_bracket.py</h4>
+                        <p><strong>EMA 交叉 + 括號訂單</strong><br />在 EMA 交叉基礎上加入止損止盈（Bracket Order），展示條件單組合的使用。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📈</span>
+                        <h4>ema_cross_trailing_stop.py</h4>
+                        <p><strong>移動止損策略</strong><br />使用 ATR 指標動態計算止損距離，展示如何用移動止損鎖定利潤。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📖</span>
+                        <h4>orderbook_imbalance.py</h4>
+                        <p><strong>訂單簿失衡策略</strong><br />基於訂單簿買賣壓力失衡做交易。展示如何使用 Level 2 數據。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🎯</span>
+                        <h4>market_maker.py</h4>
+                        <p><strong>做市商策略</strong><br />在買賣兩側掛單賺取價差。展示高頻交易和庫存管理的基本邏輯。</p>
+                    </div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>六、策略開發最佳實踐</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">1️⃣</span>
+                        <h4>配置分離</h4>
+                        <p>所有可調參數放在 <code>StrategyConfig</code> 中，不要硬編碼在策略內。方便回測時進行參數優化。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">2️⃣</span>
+                        <h4>等待指標初始化</h4>
+                        <p>在 <code>on_bar()</code> 中，必須檢查 <code>indicator.initialized</code>，否則前幾根 K 線的指標值是不準確的。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">3️⃣</span>
+                        <h4>記錄充分日誌</h4>
+                        <p>用 <code>self.log.info()</code> 記錄關鍵決策點。回測時可以回顧每一個交易決策的原因。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">4️⃣</span>
+                        <h4>on_stop() 清理</h4>
+                        <p>策略停止時務必取消所有掛單和平倉。避免殘留訂單在沒有監控的情況下執行。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">5️⃣</span>
+                        <h4>檢查持倉再下單</h4>
+                        <p>下單前先用 <code>self.portfolio.is_flat()</code> 檢查持倉狀態，避免重複加倉。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">6️⃣</span>
+                        <h4>使用訂單工廠</h4>
+                        <p>始終用 <code>self.order_factory</code> 創建訂單，它會自動生成唯一的 ClientOrderId 和正確的 StrategyId。</p>
+                    </div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 1：設計一個 RSI 策略</div>
+                    <p>設計一個基於 RSI 的策略：RSI &gt; 70 時賣出（超買），RSI &lt; 30 時買入（超賣）。列出你需要的回調方法和邏輯流程。</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-rsi')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-rsi">需要的結構：
+
+                        1. __init__: 建立 RSI 指標（period=14）
+                        2. on_start: 訂閱 K 線數據
+                        3. on_bar:
+                        - 更新 RSI：self.rsi.update_raw(bar.close)
+                        - 檢查初始化：if not self.rsi.initialized: return
+                        - RSI &lt; 30 且無持倉 → self._buy()
+                        - RSI &gt; 70 且有多頭持倉 → self._sell()
+                        4. on_order_filled: 記錄成交日誌
+                        5. on_stop: 取消所有訂單、平倉
+
+                        額外加分：
+                        - 加入 ATR 計算止損距離
+                        - RSI 從超賣區回升（穿過 30）時才買入
+                        - 設置最大持倉限制</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 2：找出代碼錯誤</div>
+                    <p>以下策略代碼有 <strong>3 個錯誤</strong>，你能找到嗎？</p>
+                    <pre><code class="language-python">class BuggyStrategy(Strategy):
+    def __init__(self, config):
+        self.ema = ExponentialMovingAverage(20)  # 🤔 錯誤 1
+
+    def on_start(self):
+        self.subscribe_bars(self.config.bar_type)
+
+    def on_bar(self, bar: Bar):
+        self.ema.update_raw(bar.close)            # 🤔 錯誤 2
+        if self.ema.value > bar.close.as_double():
+            self._buy()
+
+    def _buy(self):
+        order = self.order_factory.market(
+            instrument_id=self.instrument_id,
+            order_side=OrderSide.BUY,
+            quantity=Quantity.from_str("0.01"),
+        )
+        self.submit_order(order)                  # 🤔 錯誤 3（邏輯問題）</code></pre>
+                    <button class="btn-run" onclick="toggleAnswer('answer-bugs11')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-bugs11">錯誤 1: 缺少 super().__init__(config)
+                        → 沒有初始化父類，self.cache, self.log 等全部不可用
+                        → 正確: 加上 super().__init__(config)
+
+                        錯誤 2: bar.close 是 Price 對象，不是 float
+                        → update_raw() 需要 float
+                        → 正確: self.ema.update_raw(bar.close.as_double())
+                        （這個寫對了一半：as_double() 需要加括號）
+
+                        錯誤 3: 沒有檢查持倉狀態就下單
+                        → 每根 K 線都會觸發買入，越買越多
+                        → 正確: 先檢查 if self.portfolio.is_flat(self.instrument_id)</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 3：Actor 還是 Strategy？</div>
+                    <p>以下場景，你應該用 Actor 還是 Strategy？</p>
+                    <ol>
+                        <li>你想持續監控 BTC 和 ETH 的價差，當價差超過閾值時記錄日誌</li>
+                        <li>你想根據 RSI 信號自動買賣</li>
+                        <li>你想從外部 API 獲取情緒數據並廣播到系統中</li>
+                        <li>你想做一個統計套利策略，同時在兩個品種上下單</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-actor')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-actor">1. Actor ← 只是觀察和記錄，不需要下單
+                        2. Strategy ← 需要下單
+                        3. Actor ← 數據處理和廣播，不涉及交易
+                        4. Strategy ← 需要在多個品種上下單
+
+                        💡 判斷標準很簡單：
+                        需要下單 → Strategy
+                        不需要下單 → Actor</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>八、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>Strategy 基類</strong>提供完整的框架，你只需填入邏輯</li>
+                        <li><strong>生命週期</strong>：init → on_start → 運行（回調）→ on_stop</li>
+                        <li><strong>事件回調</strong>：on_bar、on_quote_tick、on_order_filled 等</li>
+                        <li><strong>指標系統</strong>：30+ 內建指標，三步使用</li>
+                        <li><strong>最佳實踐</strong>：配置分離、等待初始化、記錄日誌、停止時清理</li>
+                        <li><strong>官方範例</strong>：從 ema_cross.py 開始學習</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_10_Portfolio/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 10：投資組合</span></a>
+                    <a href="../Module_12_Backtest_And_Live/index.html" style="text-align:right;"><span
+                            class="nav-label">下一章 →</span><span class="nav-title">模組 12：回測系統與實盤部署</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

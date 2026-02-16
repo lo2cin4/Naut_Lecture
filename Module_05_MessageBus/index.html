@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 05：消息總線 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NautilusTrader</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學與品質屬性</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
+                        class="separator">›</span>模組 05</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+                <h1>模組 05：消息總線 — 系統的神經網絡<span class="subtitle">理解組件間如何溝通 — 這是整個系統的通訊基礎</span></h1>
+
+                <p>在模組 02 中我們提到，所有組件透過<strong>消息總線 (MessageBus)</strong> 通訊。現在讓我們深入理解它的運作機制。</p>
+
+                <!-- ==================== -->
+                <h2>一、為什麼需要消息總線？</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card" style="border-color:var(--accent-red);">
+                        <span class="icon">❌</span>
+                        <h4>沒有消息總線</h4>
+                        <p>組件直接互相調用。每加一個新組件，就要修改所有相關組件。10 個組件就有 45 條連線。<br /><strong>結果</strong>：牽一髮動全身</p>
+                    </div>
+                    <div class="feature-card" style="border-color:var(--accent-green);">
+                        <span class="icon">✅</span>
+                        <h4>有消息總線</h4>
+                        <p>所有組件只和消息總線交互。新增組件只需要「訂閱」感興趣的主題。<br /><strong>結果</strong>：完全解耦，擴展自如</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph before["❌ 直接連接 — 網狀結構 (TB式)"]
+                        direction TB
+                        A1["DataEngine"] <--> B1["ExecutionEngine"]
+                            A1 <--> C1["RiskEngine"]
+                                B1 <--> C1
+                                    end
+
+                                    subgraph after["✅ 消息總線 — 星型結構 (LR式)"]
+                                    direction LR
+                                    A2["組件 A"] --- MB["📡 MessageBus"] --- B2["組件 B"]
+                                    C2["組件 C"] --- MB --- D2["組件 D"]
+                                    end
+                    </div>
+                    <div class="caption">圖 1：無消息總線（左）vs 有消息總線（右）的組件連接方式</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、三種通訊模式</h2>
+                <p>消息總線支援三種完全不同的通訊模式，適用於不同場景：</p>
+
+                <h3>2.1 發布/訂閱 (Pub/Sub)</h3>
+                <div class="card">
+                    <div class="card-title">📢 一對多廣播</div>
+                    <p>發布者不知道誰在聽，訂閱者不知道誰在發。它們透過<strong>主題 (Topic)</strong> 鬆耦合連接。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant DE as 📊 DataEngine<br />(發布者)
+                        participant MB as 📡 MessageBus
+                        participant S1 as 🎯 策略 A<br />(訂閱者)
+                        participant S2 as 🎯 策略 B<br />(訂閱者)
+                        participant Port as 💰 Portfolio<br />(訂閱者)
+
+                        Note over S1,Port: 啟動時各自訂閱
+                        S1->>MB: subscribe("data.quotes.BTCUSDT.BINANCE")
+                        S2->>MB: subscribe("data.quotes.BTCUSDT.BINANCE")
+                        Port->>MB: subscribe("data.quotes.*")
+
+                        Note over DE: 收到新報價
+                        DE->>MB: publish("data.quotes.BTCUSDT.BINANCE", quote)
+                        MB->>S1: 推送報價
+                        MB->>S2: 推送報價
+                        MB->>Port: 推送報價
+                    </div>
+                    <div class="caption">圖 2：發布/訂閱模式 — DataEngine 發布報價，多個組件同時收到</div>
+                </div>
+
+                <h3>2.2 請求/回應 (Request/Response)</h3>
+                <div class="card">
+                    <div class="card-title">🔄 一問一答</div>
+                    <p>一個組件發出請求，期待收到一個回應。適用於需要「查詢」數據的場景。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant S as 🎯 你的策略
+                        participant MB as 📡 MessageBus
+                        participant DE as 📊 DataEngine
+
+                        S->>MB: request(DataType.BAR, instrument_id)
+                        MB->>DE: 轉發請求
+                        DE->>DE: 查詢歷史 K 線
+                        DE->>MB: response(bars_data)
+                        MB->>S: 回傳結果
+                    </div>
+                    <div class="caption">圖 3：請求/回應模式 — 策略查詢歷史數據</div>
+                </div>
+
+                <h3>2.3 點對點 (Direct Messaging)</h3>
+                <div class="card">
+                    <div class="card-title">📬 指名送達</div>
+                    <p>直接把消息發送給特定的組件。通常用於命令傳遞。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant RE as 🛡️ RiskEngine
+                        participant MB as 📡 MessageBus
+                        participant EE as ⚙️ ExecutionEngine
+
+                        Note over RE: 風控通過，轉發訂單命令
+                        RE->>MB: send("ExecutionEngine", submit_order_cmd)
+                        MB->>EE: 直接送達
+                    </div>
+                    <div class="caption">圖 4：點對點模式 — 風控引擎直接把命令發給執行引擎</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>三、主題路由系統</h2>
+                <p>消息總線用<strong>主題字串</strong>來路由消息，類似於 MQTT 或 Redis 的頻道概念：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>主題模式</th>
+                                <th>說明</th>
+                                <th>例子</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>data.quotes.{symbol}.{venue}</code></td>
+                                <td>特定品種的報價</td>
+                                <td><code>data.quotes.BTCUSDT.BINANCE</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>data.trades.{symbol}.{venue}</code></td>
+                                <td>特定品種的逐筆成交</td>
+                                <td><code>data.trades.ETHUSDT.OKX</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>data.bars.{bar_type}</code></td>
+                                <td>特定類型的 K 線</td>
+                                <td><code>data.bars.BTCUSDT.BINANCE-1-MINUTE-LAST</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>events.order.{venue}</code></td>
+                                <td>特定交易所的訂單事件</td>
+                                <td><code>events.order.BINANCE</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>events.position.*</code></td>
+                                <td>所有持倉事件（萬用字元）</td>
+                                <td>匹配所有持倉相關事件</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 萬用字元訂閱</div>
+                    <p>使用 <code>*</code> 可以匹配任何內容。例如 <code>data.quotes.*</code> 會接收所有品種的報價。這在你想要監控全部市場活動時非常有用。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、消息流水線</h2>
+                <p>了解一條消息是如何在系統中流動的：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph flow["消息流水線"]
+                        direction LR
+                        A["1️⃣ 產生"] --> B["2️⃣ 發布"] --> C["3️⃣ 匹配"] --> D["4️⃣ 同步調度"] --> E["5️⃣ 完成"]
+                        end
+
+                        F["⏱️ 關鍵特性：<br />同步完成<br />保證順序"]
+                        F -.-> D
+
+                        style flow fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
+                    </div>
+                    <div class="caption">圖 5：消息的同步調度流程</div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ 同步調度的意義</div>
+                    <p>這意味著當 DataEngine 發布一個報價事件時，它會<strong>等待所有訂閱者</strong>（你的策略、Portfolio
+                        等）都處理完畢後才繼續。好處是事件順序嚴格保證，壞處是如果你的策略處理太慢，會拖慢整個系統。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>五、Redis 外部總線</h2>
+                <p>在實盤環境中，消息總線可以選擇性地連接到 <strong>Redis</strong>，實現：</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">💾</span>
+                        <h4>消息持久化</h4>
+                        <p>所有消息寫入 Redis Streams，即使系統崩潰也不會丟失。重啟後可以從 Redis 恢復狀態。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🌐</span>
+                        <h4>跨進程通訊</h4>
+                        <p>多個 TradingNode 可以透過 Redis 共享消息。適用於分布式部署場景。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h4>外部監控</h4>
+                        <p>外部工具（如監控面板）可以訂閱 Redis 中的交易事件，即時監控系統狀態。</p>
+                    </div>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph node1["🖥️ TradingNode 1"]
+                        s1["策略 A"]
+                        mb1["消息總線"]
+                        s1 --> mb1
+                        end
+
+                        subgraph node2["🖥️ TradingNode 2"]
+                        s2["策略 B"]
+                        mb2["消息總線"]
+                        s2 --> mb2
+                        end
+
+                        subgraph redis["🔴 Redis"]
+                        streams["Redis Streams<br />消息持久化"]
+                        end
+
+                        mb1 <-->|"發布/訂閱"| streams
+                            mb2 <-->|"發布/訂閱"| streams
+                    </div>
+                    <div class="caption">圖 6：多節點透過 Redis 共享消息</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>六、節流器 (Throttler)</h2>
+                <p>交易所通常有 API 頻率限制。消息總線內建<strong>節流器</strong>來防止超過限制：</p>
+
+                <div class="card">
+                    <div class="card-title">🚦 節流器工作原理</div>
+                    <p>假設 Binance 限制每秒最多 10 個訂單請求：</p>
+                    <ul>
+                        <li>節流器設置為 <code>limit=10, interval=1s</code></li>
+                        <li>前 10 個訂單命令立即通過</li>
+                        <li>第 11 個命令進入<strong>緩衝隊列</strong>，等到下一秒再發送</li>
+                        <li>這樣既保證了最大吞吐量，又不會被交易所拉黑</li>
+                    </ul>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、互動練習</h2>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習：選擇通訊模式</div>
+                    <p>以下場景應該使用哪種通訊模式？（發布/訂閱、請求/回應、點對點）</p>
+                    <ol>
+                        <li>DataEngine 收到新的 BTC 報價，需要通知所有策略 → ____</li>
+                        <li>策略想查詢過去 100 根 K 線的歷史數據 → ____</li>
+                        <li>RiskEngine 風控通過後，需要把訂單送給 ExecutionEngine → ____</li>
+                        <li>新的訂單成交了，需要通知 Portfolio 和策略更新 → ____</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-mode')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-mode">1. 發布/訂閱 — 一個發布者，多個訂閱者
+                        2. 請求/回應 — 需要查詢特定數據並等待結果
+                        3. 點對點 — 特定命令發給特定組件
+                        4. 發布/訂閱 — 訂單事件需要通知多個組件</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>八、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 你應該記住的關鍵點</div>
+                    <ol>
+                        <li><strong>消息總線</strong>是所有組件間唯一的通訊管道，實現完全解耦</li>
+                        <li><strong>三種模式</strong>：發布/訂閱（一對多）、請求/回應（查詢）、點對點（命令）</li>
+                        <li><strong>主題路由</strong>：用字串主題和萬用字元匹配訂閱者</li>
+                        <li><strong>同步調度</strong>：在單線程上同步完成，保證事件順序</li>
+                        <li><strong>Redis 擴展</strong>：支持消息持久化和跨進程通訊</li>
+                        <li><strong>節流器</strong>：自動限制 API 調用頻率，避免超限</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_04_Domain_Model/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 04：領域模型</span></a>
+                    <a href="../Module_06_Cache/index.html" style="text-align:right;"><span class="nav-label">下一章
+                            →</span><span class="nav-title">模組 06：緩存系統</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 02：接入 Binance 沙箱 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <!-- ... omitted -> will be filled by script ... -->
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NT</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第五階段<span
+                        class="separator">›</span>Lab 02</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-5">第五階段：動手 Lab</span>
+                <h1>Lab 02：接入 Binance 沙箱<span class="subtitle">動手實作：連接真實交易所的測試環境，體驗「實盤」的感覺</span></h1>
+
+                <!-- ==================== -->
+                <h2>目標</h2>
+                <ol>
+                    <li>申請 Binance Testnet (Futures) API Key</li>
+                    <li>配置 <code>TradingNode</code> 連接沙箱環境</li>
+                    <li>運行簡單的策略進行模擬交易</li>
+                    <li>觀察控制台日誌和訂單狀態</li>
+                </ol>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ 前置條件</div>
+                    <p>你需要一個能訪問 Binance 測試網的網路環境（部分地區可能需 VPN）。<br>
+                        你需要安裝 Redis（Docker 或本地安裝）。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>步驟 1：申請 API Key</h2>
+                <ol>
+                    <li>訪問 <a href="https://testnet.binancefuture.com/" target="_blank">Binance Futures Testnet</a>。
+                    </li>
+                    <li>註冊/登入帳號。</li>
+                    <li>在頁面下方找到 API Key 和 Secret Key。</li>
+                    <li><strong>保存好這兩組金鑰！</strong></li>
+                </ol>
+
+                <!-- ==================== -->
+                <h2>步驟 2：配置 .env 文件</h2>
+                <p>為了安全，我們不要把 Key 寫在代碼裡。創建一個 <code>.env</code> 文件：</p>
+                <pre><code class="language-bash">BINANCE_API_KEY=你的API_KEY
+BINANCE_API_SECRET=你的SECRET_KEY</code></pre>
+
+                <p>安裝 <code>python-dotenv</code>：</p>
+                <pre><code class="language-bash">pip install python-dotenv</code></pre>
+
+                <!-- ==================== -->
+                <h2>步驟 3：編寫啟動腳本 (run_sandbox.py)</h2>
+                <pre><code class="language-python">import os
+from dotenv import load_dotenv
+from decimal import Decimal
+
+from nautilus_trader.live.node import TradingNode
+from nautilus_trader.live.config import (
+    TradingNodeConfig,
+    LiveDataEngineConfig,
+    LiveExecEngineConfig,
+)
+from nautilus_trader.adapters.binance.config import (
+    BinanceLiveDataClientConfig,
+    BinanceLiveExecClientConfig,
+)
+from nautilus_trader.model.enums import AccountType, OmsType
+from nautilus_trader.model.identifiers import TraderId
+
+# 1. 載入環境變量
+load_dotenv()
+API_KEY = os.getenv("BINANCE_API_KEY")
+API_SECRET = os.getenv("BINANCE_API_SECRET")
+
+# 2. 構建配置
+node_config = TradingNodeConfig(
+    trader_id=TraderId("SANDBOX-001"),
+    
+    # 資料客戶端 (接收行情)
+    data_clients={
+        "BINANCE": BinanceLiveDataClientConfig(
+            api_key=API_KEY,
+            api_secret=API_SECRET,
+            usdt_futures=True,  # 使用 U 本位合約
+            testnet=True,       # !重要! 連接測試網
+        ),
+    },
+    
+    # 執行客戶端 (下單)
+    exec_clients={
+        "BINANCE": BinanceLiveExecClientConfig(
+            api_key=API_KEY,
+            api_secret=API_SECRET,
+            usdt_futures=True,
+            testnet=True,
+        ),
+    },
+    
+    # 引擎配置
+    data_engine=LiveDataEngineConfig(time_bars_feed_only=True), # 僅訂閱 1m K線以節省流量
+    exec_engine=LiveExecEngineConfig(reconciliation=True),      # 啟用對帳
+)
+
+# 3. 創建節點
+node = TradingNode(config=node_config)
+
+# 4. 定義一個簡單的打印策略 (用於測試連接)
+from nautilus_trader.trading.strategy import Strategy
+from nautilus_trader.config import StrategyConfig
+
+class PrintBarStrategy(Strategy):
+    def on_bar(self, bar):
+        self.log.info(f"收到 Bar: {bar}")
+
+# 5. 添加策略
+config = StrategyConfig(instrument_id="BTCUSDT-PERP.BINANCE")
+node.trader.add_strategy(PrintBarStrategy(config))
+
+# 6. 運行！
+if __name__ == "__main__":
+    node.run()</code></pre>
+
+                <!-- ==================== -->
+                <h2>步驟 4：運行結果</h2>
+                <p>運行腳本後，你應該會在控制台看到類似輸出：</p>
+                <pre><code class="language-text">[INFO] Node: Starting...
+[INFO] TradingNode: Connecting to data clients...
+[INFO] BinanceLiveDataClient: Connected to wss://stream.binancefuture.com...
+[INFO] TradingNode: Connecting to execution clients...
+[INFO] BinanceLiveExecClient: Connected...
+[INFO] TradingNode: Starting strategies...
+[INFO] PrintBarStrategy: 收到 Bar: Bar(BTCUSDT-PERP.BINANCE, ...)
+...</code></pre>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">🎉 成功連接！</div>
+                    <p>這意味著你的 NautilusTrader 已經成功連上了 Binance 的服務器，並且開始接收實時數據了。這就是實盤交易的基礎！</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>作業</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">📝 挑戰任務</div>
+                    <p>1. 將 Lab 01 中的 EMA Cross 策略移過來，配置到 <code>run_sandbox.py</code> 中。</p>
+                    <p>2. 嘗試修改 <code>trade_size</code> 為 <code>0.001</code> BTC，並觀察是否能成交（注意 Binance 的最小下單數量）。</p>
+                    <p>3. 在 Binance 測試網的網頁端查看你的帳戶，確認訂單是否真的出現了。</p>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">Lab 01：從零到回測</span></a>
+                    <a href="../Lab_03_Custom_Strategy/index.html" style="text-align:right;"><span class="nav-label">下一章
+                            →</span><span class="nav-title">Lab 03：自定義指標與策略</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 09：風控引擎 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
+                        class="separator">›</span>模組 09</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+                <h1>模組 09：風控引擎 — 交易的安全網<span class="subtitle">在訂單到達交易所之前，風控引擎是最後一道防線</span></h1>
+
+                <h2>一、為什麼風控必須是獨立組件？</h2>
+                <div class="callout callout-danger">
+                    <div class="callout-title">🚨 沒有風控的後果</div>
+                    <p>2012 年 8 月 1 日，Knight Capital 因為一個軟件 bug 在 45 分鐘內虧損了 <strong>4.6
+                            億美元</strong>，公司直接破產。如果有一個獨立的風控系統在訂單到達交易所之前檢查異常，這場災難完全可以避免。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        strategy["🎯 策略"] -->|"下單命令"| risk["🛡️ RiskEngine<br />風控引擎"]
+                        risk -->|"✅ 通過"| exec["⚙️ ExecutionEngine"]
+                        risk -->|"❌ 拒絕"| denied["OrderDenied<br />通知策略"]
+                        exec --> exchange["🏦 交易所"]
+                    </div>
+                    <div class="caption">圖 1：風控引擎攔截在策略和執行引擎之間</div>
+                </div>
+
+                <h2>二、風控檢查項目</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>檢查類別</th>
+                                <th>具體檢查</th>
+                                <th>目的</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="3" style="color:var(--accent-cyan);">訂單頻率</td>
+                                <td>每秒最大訂單數</td>
+                                <td>防止因 bug 導致的瘋狂下單</td>
+                            </tr>
+                            <tr>
+                                <td>每分鐘最大訂單數</td>
+                                <td>防止頻率過高被交易所封禁</td>
+                            </tr>
+                            <tr>
+                                <td>命令節流</td>
+                                <td>限制 API 調用頻率</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" style="color:var(--accent-green);">數量限制</td>
+                                <td>單筆最大下單數量</td>
+                                <td>防止手滑多加幾個零</td>
+                            </tr>
+                            <tr>
+                                <td>單筆最大金額</td>
+                                <td>防止單筆交易過大</td>
+                            </tr>
+                            <tr>
+                                <td>最大未完成訂單數</td>
+                                <td>防止掛單過多</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" style="color:var(--accent-orange);">持倉限制</td>
+                                <td>特定品種最大持倉</td>
+                                <td>限制單一品種的集中度</td>
+                            </tr>
+                            <tr>
+                                <td>全局最大持倉數</td>
+                                <td>限制同時持有的Position數量</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-purple);">數據驗證</td>
+                                <td>價格/數量合法性</td>
+                                <td>防止無效數據導致的錯誤訂單</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>三、配置風控規則</h2>
+                <pre><code class="language-python">from nautilus_trader.risk.config import RiskEngineConfig
+
+risk_config = RiskEngineConfig(
+    max_order_submit_rate="20/00:00:01",   # 每秒最多 20 個訂單
+    max_order_modify_rate="10/00:00:01",   # 每秒最多 10 次修改
+    max_notional_per_order={               # 單筆最大金額
+        "USDT": 100_000,                   # 每筆最多 10 萬 USDT
+    },
+)</code></pre>
+
+                <h2>四、風控觸發後的處理</h2>
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant S as 🎯 策略
+                        participant RE as 🛡️ RiskEngine
+                        participant MB as 📡 MessageBus
+
+                        S->>RE: SubmitOrder(買入 100 BTC)
+                        RE->>RE: 檢查：單筆金額超過限制！
+                        RE->>MB: 發布 OrderDenied 事件
+                        MB->>S: on_order_denied(event)
+                        Note over S: 策略收到拒絕通知<br />可以記錄日誌或調整邏輯
+                    </div>
+                    <div class="caption">圖 2：風控拒絕訂單的事件流</div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 你的策略應該處理 on_order_denied</div>
+                    <p>當風控拒絕訂單時，你的策略會收到 <code>on_order_denied</code> 回調。你應該在這裡記錄日誌，分析為什麼被拒絕，而不是忽略它。</p>
+                </div>
+
+                <h2>五、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習：設計風控規則</div>
+                    <p>你管理一個加密貨幣帳戶，初始資金 100,000 USDT。你會設置哪些風控規則？為什麼？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-risk')">💡 查看參考答案</button>
+                    <div class="exercise-output" id="answer-risk">參考風控規則：
+
+                        1. 單筆最大金額：10,000 USDT（帳戶的 10%）
+                        → 防止單筆交易造成過大損失
+
+                        2. 每秒最大訂單數：5 個
+                        → 防止策略 bug 導致的瘋狂下單
+
+                        3. 最大未完成訂單數：20 個
+                        → 防止掛單過多佔用保證金
+
+                        4. 單一品種最大持倉：20,000 USDT（帳戶的 20%）
+                        → 防止集中度過高
+
+                        風控的核心原則：寧可錯殺，不可放過。
+                        一個被風控擋住的好機會只是少賺，
+                        但一個沒被擋住的錯誤訂單可能讓你傾家蕩產。</div>
+                </div>
+
+                <h2>六、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>風控引擎</strong>是訂單到達交易所前的最後一道防線</li>
+                        <li><strong>獨立組件</strong>：即使策略有 bug，風控也能攔截</li>
+                        <li><strong>多維度檢查</strong>：頻率、數量、金額、持倉</li>
+                        <li><strong>被拒絕的訂單</strong>會產生 <code>OrderDenied</code> 事件通知策略</li>
+                        <li><strong>寧嚴勿鬆</strong>：風控設置應偏保守</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_08_ExecutionEngine/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 08：執行引擎</span></a>
+                    <a href="../Module_10_Portfolio/index.html" style="text-align:right;"><span class="nav-label">下一章
+                            →</span><span class="nav-title">模組 10：投資組合</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 01：為什麼選擇 NautilusTrader — NautilusTrader 教材</title>
+    <meta name="description" content="了解量化交易的挑戰，以及 NautilusTrader 如何解決這些問題">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+
+    <div class="page-wrapper">
+
+        <!-- ===== 側邊欄 ===== -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span class="icon">🐚</span> NautilusTrader 教材
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item active" href="index.html">
+                    <span class="nav-num">01</span> 為什麼選擇 NautilusTrader
+                </a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html">
+                    <span class="nav-num">02</span> 整體架構鳥瞰圖
+                </a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html">
+                    <span class="nav-num">03</span> 設計哲學與品質屬性
+                </a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <!-- ===== 主內容 ===== -->
+        <div class="main-content">
+
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb">
+                    <a href="../index.html">首頁</a>
+                    <span class="separator">›</span>
+                    第一階段
+                    <span class="separator">›</span>
+                    模組 01
+                </div>
+            </div>
+
+            <div class="content-container">
+
+                <span class="phase-label phase-1">第一階段：全局認識</span>
+                <h1>
+                    模組 01：為什麼選擇 NautilusTrader
+                    <span class="subtitle">理解量化交易的挑戰，以及這個框架如何解決它們</span>
+                </h1>
+
+                <!-- ==================== -->
+                <h2>一、量化交易的核心挑戰</h2>
+
+                <p>
+                    在你開始了解 NautilusTrader 之前，先來看看量化交易中最常見的「坑」。
+                    這些不是技術問題，而是<strong>每一個做量化交易的人都會遇到的實際痛點</strong>：
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h4>回測和實盤不一致</h4>
+                        <p>用 Python 做回測結果很好，但換成 C++ 或 Java 寫實盤代碼後，結果完全不同。因為回測和實盤是兩套完全不同的代碼。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🐢</span>
+                        <h4>速度不夠快</h4>
+                        <p>Python 好學好用，但速度慢。高頻策略需要微秒級的執行速度，純 Python 根本做不到。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🧩</span>
+                        <h4>難以擴展</h4>
+                        <p>一開始只交易一個交易所，後來想加更多交易所或資產類別，整個代碼就要重寫。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">💣</span>
+                        <h4>數據靜默錯誤</h4>
+                        <p>一個錯誤的價格數據沒被發現，策略用錯誤的價格下了單，造成不可逆的虧損。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔄</span>
+                        <h4>重複造輪子</h4>
+                        <p>每次新策略都要從零開始寫訂單管理、風控、數據處理、持倉追蹤。大量時間花在基礎設施而非策略本身。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">⚠️</span>
+                        <h4>風險管控薄弱</h4>
+                        <p>沒有系統化的風控，一個 bug 就可能導致無限下單。凌晨出問題時沒人發現。</p>
+                    </div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 交易員視角</div>
+                    <p>如果你曾經用 Excel 或 Python 腳本做過回測，你一定遇過第一個問題 — 回測賺錢但實盤虧錢。這在量化圈叫做<strong>「回測-實盤落差」(Backtest-Live
+                            Gap)</strong>。NautilusTrader 的最大賣點就是解決這個問題。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、NautilusTrader 是什麼</h2>
+
+                <p>
+                    NautilusTrader 是一個<strong>開源的、高性能的、可用於生產環境的算法交易平台</strong>。
+                    它的核心理念可以用一句話概括：
+                </p>
+
+                <div class="card" style="text-align:center; font-size:1.15rem; border-color: var(--accent-cyan);">
+                    <strong>「用同一套代碼，在回測和實盤中運行完全相同的策略」</strong>
+                </div>
+
+                <p>它由澳洲的 Nautech Systems 公司開發和維護，使用 LGPL v3.0 開源許可。核心用 <strong>Rust</strong> 編寫（追求極速和安全），外層用
+                    <strong>Python</strong> 封裝（方便使用和研究）。
+                </p>
+
+                <!-- ==================== -->
+                <h2>三、核心優勢一覽</h2>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">⚡</span>
+                        <h4>極速</h4>
+                        <p>核心用 Rust 編寫，配合 Tokio 非同步網絡。在保持 Python 易用性的同時，獲得接近 C++ 的性能。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🎯</span>
+                        <h4>回測 = 實盤</h4>
+                        <p>策略代碼在回測和實盤中完全一致，不需要任何修改。徹底消除「回測-實盤落差」。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔒</span>
+                        <h4>可靠安全</h4>
+                        <p>Rust 保證類型安全和線程安全。Fail-Fast 策略確保錯誤數據立即被發現，不會靜默傳播。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔌</span>
+                        <h4>模組化可擴展</h4>
+                        <p>適配器架構可以接入任何 REST API 或 WebSocket。想加新交易所？只需寫一個適配器。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📦</span>
+                        <h4>功能全面</h4>
+                        <p>9 種訂單類型、18 種 Bar 聚合方式、條件單（OCO/OTO/OUO）、冰山訂單、移動止損、TWAP 算法 — 一應俱全。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🤖</span>
+                        <h4>AI 友好</h4>
+                        <p>回測引擎足夠快，可以直接用來訓練 AI 交易代理（強化學習/進化策略）。</p>
+                    </div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、支援的資產和交易所</h2>
+
+                <h3>4.1 支援的資產類別</h3>
+                <p>NautilusTrader 是<strong>資產類別無關</strong>的設計，理論上可以交易任何東西：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>資產類別</th>
+                                <th>說明</th>
+                                <th>例子</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🏦 外匯 (FX)</td>
+                                <td>貨幣對交易</td>
+                                <td>EUR/USD, GBP/JPY</td>
+                            </tr>
+                            <tr>
+                                <td>📈 股票 (Equities)</td>
+                                <td>股票交易</td>
+                                <td>AAPL, TSLA</td>
+                            </tr>
+                            <tr>
+                                <td>📋 期貨 (Futures)</td>
+                                <td>期貨合約</td>
+                                <td>ES, NQ, CL</td>
+                            </tr>
+                            <tr>
+                                <td>🎰 期權 (Options)</td>
+                                <td>期權合約</td>
+                                <td>股票期權、指數期權</td>
+                            </tr>
+                            <tr>
+                                <td>🪙 加密貨幣 (Crypto)</td>
+                                <td>中心化及去中心化交易所</td>
+                                <td>BTC, ETH</td>
+                            </tr>
+                            <tr>
+                                <td>🌐 DeFi</td>
+                                <td>去中心化金融協議</td>
+                                <td>dYdX, Hyperliquid</td>
+                            </tr>
+                            <tr>
+                                <td>🏇 博彩 (Betting)</td>
+                                <td>運動賽事博彩交易</td>
+                                <td>Betfair</td>
+                            </tr>
+                            <tr>
+                                <td>🔮 預測市場</td>
+                                <td>預測市場交易</td>
+                                <td>Polymarket</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>4.2 已整合的交易所和數據源</h3>
+                <p>截至目前，NautilusTrader 已經有 <strong>17 個</strong>官方整合適配器：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>名稱</th>
+                                <th>類型</th>
+                                <th>狀態</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🟢 Binance（幣安）</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Bybit</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 OKX</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Interactive Brokers（盈透）</td>
+                                <td>券商（多市場）</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 BitMEX</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Coinbase Intl</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 dYdX</td>
+                                <td>去中心化交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Betfair</td>
+                                <td>博彩交易所</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Polymarket</td>
+                                <td>預測市場</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Databento</td>
+                                <td>數據供應商</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟢 Tardis</td>
+                                <td>加密貨幣數據</td>
+                                <td style="color:var(--accent-green);">穩定</td>
+                            </tr>
+                            <tr>
+                                <td>🟡 Deribit</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-orange);">測試版</td>
+                            </tr>
+                            <tr>
+                                <td>🟡 Kraken</td>
+                                <td>加密貨幣交易所</td>
+                                <td style="color:var(--accent-orange);">測試版</td>
+                            </tr>
+                            <tr>
+                                <td>🟠 AX Exchange</td>
+                                <td>永續合約交易所</td>
+                                <td style="color:var(--accent-orange);">建設中</td>
+                            </tr>
+                            <tr>
+                                <td>🟠 Hyperliquid</td>
+                                <td>去中心化交易所</td>
+                                <td style="color:var(--accent-orange);">建設中</td>
+                            </tr>
+                            <tr>
+                                <td>🟠 dYdX v4</td>
+                                <td>去中心化交易所</td>
+                                <td style="color:var(--accent-orange);">建設中</td>
+                            </tr>
+                            <tr>
+                                <td>⚪ Architect</td>
+                                <td>券商（多市場）</td>
+                                <td style="color:var(--text-muted);">計劃中</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">✅ 對交易員的意義</div>
+                    <p>不管你交易哪個市場、哪個交易所，你的策略代碼都是一樣的。只需要切換適配器，就能把同一個策略從幣安切到盈透，從加密貨幣切到股票期貨。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>五、為什麼用 Rust + Python？</h2>
+
+                <p>
+                    這是一個很重要的設計決策。NautilusTrader 不是純 Python，也不是純 Rust，
+                    而是<strong>「Rust 核心 + Python 封裝」</strong>的混合架構：
+                </p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph python_layer["🐍 Python 層 — 你寫策略的地方"]
+                        direction TB
+                        p_strategy["策略代碼 (Python)"]
+                        p_config["配置 (Python)"]
+                        p_analysis["分析/研究 (Python)"]
+                        p_strategy --- p_config --- p_analysis
+                        end
+
+                        subgraph cython_layer["🔗 Cython/PyO3 橋接層"]
+                        direction TB
+                        bindings["C 擴展模組<br />類型安全介面"]
+                        end
+
+                        subgraph rust_layer["🦀 Rust 核心 — 高性能引擎"]
+                        direction TB
+                        r_engine["交易引擎"]
+                        r_model["領域模型"]
+                        r_infra["網絡與序列化"]
+                        r_engine --- r_model --- r_infra
+                        end
+
+                        python_layer ==> cython_layer ==> rust_layer
+
+                        style cython_layer fill:#1a1f2e,stroke:#ab47bc,stroke-width:2px
+                        style python_layer fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
+                        style rust_layer fill:#0f1419,stroke:#ef5350,stroke-width:1px
+                    </div>
+                    <div class="caption">圖 1：Rust + Python 雙層架構</div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>層次</th>
+                                <th>語言</th>
+                                <th>負責什麼</th>
+                                <th>為什麼用這個語言</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:var(--accent-cyan);">核心引擎</td>
+                                <td><strong>Rust</strong></td>
+                                <td>領域模型、消息總線、緩存、序列化、網絡 IO</td>
+                                <td>極速、記憶體安全、線程安全、零成本抽象</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-cyan);">橋接層</td>
+                                <td><strong>Cython / PyO3</strong></td>
+                                <td>將 Rust 功能暴露為 Python 可調用的介面</td>
+                                <td>讓 Python 直接調用 Rust 編譯的二進制代碼</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-cyan);">使用者層</td>
+                                <td><strong>Python</strong></td>
+                                <td>策略編寫、配置、數據分析、研究</td>
+                                <td>簡單易用、機器學習生態、快速迭代</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 類比理解</div>
+                    <p>想像你開一輛賽車：<strong>Rust 是引擎</strong>（追求極致性能和安全），<strong>Python
+                            是方向盤和儀表板</strong>（你只需要握住方向盤就能駕駛，不需要懂引擎內部怎麼運作）。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>六、和其他平台對比</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>特性</th>
+                                <th style="color:var(--accent-cyan);">NautilusTrader</th>
+                                <th>zipline</th>
+                                <th>backtrader</th>
+                                <th>QuantConnect</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>核心語言</td>
+                                <td><strong>Rust + Python</strong></td>
+                                <td>Python</td>
+                                <td>Python</td>
+                                <td>C# + Python</td>
+                            </tr>
+                            <tr>
+                                <td>回測-實盤一致性</td>
+                                <td style="color:var(--accent-green);">✅ 完全一致</td>
+                                <td style="color:var(--accent-red);">❌ 僅回測</td>
+                                <td style="color:var(--accent-red);">❌ 分離</td>
+                                <td style="color:var(--accent-orange);">⚠️ 部分</td>
+                            </tr>
+                            <tr>
+                                <td>性能</td>
+                                <td style="color:var(--accent-green);">🟢 極高</td>
+                                <td style="color:var(--accent-red);">🔴 低</td>
+                                <td style="color:var(--accent-red);">🔴 低</td>
+                                <td style="color:var(--accent-orange);">🟡 中等</td>
+                            </tr>
+                            <tr>
+                                <td>事件驅動</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                                <td style="color:var(--accent-red);">❌ 向量化</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                            </tr>
+                            <tr>
+                                <td>多交易所</td>
+                                <td style="color:var(--accent-green);">✅ 17 個</td>
+                                <td style="color:var(--accent-red);">❌ 無</td>
+                                <td style="color:var(--accent-red);">❌ 少</td>
+                                <td style="color:var(--accent-green);">✅ 多</td>
+                            </tr>
+                            <tr>
+                                <td>開源</td>
+                                <td style="color:var(--accent-green);">✅ LGPL v3</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                                <td style="color:var(--accent-orange);">⚠️ 部分</td>
+                            </tr>
+                            <tr>
+                                <td>類型安全</td>
+                                <td style="color:var(--accent-green);">✅ Rust 保證</td>
+                                <td style="color:var(--accent-red);">❌ 無</td>
+                                <td style="color:var(--accent-red);">❌ 無</td>
+                                <td style="color:var(--accent-green);">✅ C# 靜態</td>
+                            </tr>
+                            <tr>
+                                <td>納秒精度</td>
+                                <td style="color:var(--accent-green);">✅ 是</td>
+                                <td style="color:var(--accent-red);">❌ 否</td>
+                                <td style="color:var(--accent-red);">❌ 否</td>
+                                <td style="color:var(--accent-red);">❌ 否</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、三種使用場景</h2>
+
+                <p>NautilusTrader 支援三種使用場景，涵蓋了策略開發的完整生命週期：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph backtest["📊 回測 (Backtest)"]
+                        direction TB
+                        bt_in["歷史數據"] --> bt_eng["模擬引擎"] --> bt_out["績效報告"]
+                        end
+
+                        subgraph sandbox["🏖️ 沙箱 (Sandbox)"]
+                        direction TB
+                        sb_in["即時數據"] --> sb_eng["模擬執行"] --> sb_out["虛擬盈虧"]
+                        end
+
+                        subgraph live["🔴 實盤 (Live)"]
+                        direction TB
+                        lv_in["即時數據"] --> lv_eng["真實執行"] --> lv_out["真實盈虧"]
+                        end
+
+                        backtest ==>|"策略驗證通過"| sandbox
+                        sandbox ==>|"確認一切正常"| live
+
+                        style backtest fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
+                        style sandbox fill:#0f1419,stroke:#ffa726,stroke-width:1px
+                        style live fill:#0f1419,stroke:#ef5350,stroke-width:1px
+                    </div>
+                    <div class="caption">圖 2：策略從回測到實盤的流程</div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>場景</th>
+                                <th>數據源</th>
+                                <th>交易執行</th>
+                                <th>適用時機</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>📊 <strong>回測</strong></td>
+                                <td>歷史數據</td>
+                                <td>模擬交易所</td>
+                                <td>開發新策略、驗證想法、調整參數</td>
+                            </tr>
+                            <tr>
+                                <td>🏖️ <strong>沙箱</strong></td>
+                                <td>即時市場數據</td>
+                                <td>模擬交易所</td>
+                                <td>用真實市場數據測試，但不動真錢</td>
+                            </tr>
+                            <tr>
+                                <td>🔴 <strong>實盤</strong></td>
+                                <td>即時市場數據</td>
+                                <td>真實交易所</td>
+                                <td>正式上線，真金白銀交易</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ 重要提醒</div>
+                    <p>策略在這三個場景中的代碼<strong>完全一樣</strong>。你只需要切換配置，而不是重寫代碼。這就是 NautilusTrader 最強大的地方。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>八、NautilusTrader 的名字由來</h2>
+
+                <p>
+                    「Nautilus」來自古希臘語，意思是<strong>「水手」</strong>（nautilus = sailor, naus = ship）。
+                    鸚鵡螺（Nautilus）的殼由<strong>模組化的腔室</strong>組成，其生長因子接近<strong>對數螺旋</strong>。
+                    這個理念被轉化為框架的設計美學 —— 模組化、可擴展、優雅成長。
+                </p>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">🐚 設計隱喻</div>
+                    <p>就像鸚鵡螺的殼一樣，NautilusTrader 的架構也是一個個「腔室」（模組）組成的。每個模組獨立但連接，整體形成一個優雅的螺旋結構。你可以只用幾個模組，也可以使用全部。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>九、互動練習</h2>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 思考題 1：你的需求分析</div>
+                    <p>根據你目前的交易情況，回答以下問題：</p>
+                    <ol>
+                        <li>你目前交易哪些市場？（加密貨幣、股票、期貨？）</li>
+                        <li>你是否遇過回測賺錢但實盤虧錢的情況？</li>
+                        <li>你對交易系統最重要的需求是什麼？（速度？穩定性？容易使用？）</li>
+                    </ol>
+                    <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                        💬 這些問題沒有標準答案，但你的回答會決定你在後面的模組中應該特別關注哪些部分。
+                    </p>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 思考題 2：平台選擇</div>
+                    <p>根據本模組學到的內容，列出 NautilusTrader 最吸引你的 <strong>三個</strong>特點，並解釋為什麼。</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-2')">💡 查看參考答案</button>
+                    <div class="exercise-output" id="answer-2">
+                        <strong>參考答案（僅供參考，你的答案可能不同）：</strong>
+
+                        1. <strong>回測-實盤一致性</strong>
+                        → 不用維護兩套代碼，降低 bug 風險和開發成本
+
+                        2. <strong>多交易所支援</strong>
+                        → 同一策略可以在不同交易所運行，增加靈活性
+
+                        3. <strong>Fail-Fast 數據安全</strong>
+                        → 錯誤數據會立即被發現，避免因為錯誤的價格數據
+                        做出錯誤的交易決策
+                    </div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>十、本模組重點回顧</h2>
+
+                <div class="card">
+                    <div class="card-title">📋 你應該記住的關鍵點</div>
+                    <ol>
+                        <li><strong>NautilusTrader 解決的核心問題</strong>：消除「回測-實盤落差」</li>
+                        <li><strong>雙語架構</strong>：Rust 核心（性能）+ Python 封裝（易用）</li>
+                        <li><strong>資產無關設計</strong>：支援 FX、股票、期貨、期權、加密貨幣、DeFi、博彩</li>
+                        <li><strong>17 個整合</strong>：涵蓋主流交易所和數據源</li>
+                        <li><strong>三種場景</strong>：回測 → 沙箱 → 實盤，代碼完全一致</li>
+                        <li><strong>模組化設計</strong>：像鸚鵡螺的殼一樣，可以靈活組合和擴展</li>
+                    </ol>
+                </div>
+
+                <!-- ===== 頁面導航 ===== -->
+                <div class="page-nav">
+                    <a href="../index.html">
+                        <span class="nav-label">← 返回</span>
+                        <span class="nav-title">教材首頁</span>
+                    </a>
+                    <a href="../Module_02_Architecture_Overview/index.html" style="text-align:right;">
+                        <span class="nav-label">下一章 →</span>
+                        <span class="nav-title">模組 02：整體架構鳥瞰圖</span>
+                    </a>
+                </div>
+
+            </div><!-- /content-container -->
+        </div><!-- /main-content -->
+    </div><!-- /page-wrapper -->
+
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NautilusTrader 完整教材</title>
+  <meta name="description" content="NautilusTrader 量化交易框架完整中文教材 — 從交易員視角深入理解自動交易系統">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+  <!-- ===== 主內容（首頁不需要側邊欄） ===== -->
+  <div class="main-content" style="margin-left:0;">
+    <div class="content-container" style="max-width:1100px;">
+
+      <!-- 英雄區 -->
+      <div class="hero">
+        <h1>🐚 NautilusTrader 完整教材</h1>
+        <p class="tagline">
+          從交易員視角出發，一步步深入理解高性能量化交易框架的設計、架構與實戰應用
+        </p>
+        <p style="color:var(--text-muted); font-size:0.85rem;">
+          共 16 個模組 · 5 大階段 · 覆蓋全部核心代碼
+        </p>
+      </div>
+
+      <hr>
+
+      <!-- ===== 第零階段 ===== -->
+      <h2>🚀 第零階段：起步</h2>
+      <p>安裝環境、跑出你的第一個回測。</p>
+      <div class="module-grid">
+
+        <a class="module-card" href="Module_00_Getting_Started/index.html">
+          <span class="phase-label phase-1">第零階段</span>
+          <div class="module-num">模組 00</div>
+          <h3>環境安裝與第一次運行</h3>
+          <p>Python 安裝、NautilusTrader 設置、Hello World 回測、Python 生存指南、源碼目錄地圖</p>
+        </a>
+
+      </div>
+
+      <!-- ===== 第一階段 ===== -->
+      <h2>📚 第一階段：全局認識</h2>
+      <p>建立對 NautilusTrader 的宏觀理解，了解它是什麼、為什麼這樣設計、整體長什麼樣。</p>
+      <div class="module-grid">
+
+        <a class="module-card" href="Module_01_Why_NautilusTrader/index.html">
+          <span class="phase-label phase-1">第一階段</span>
+          <div class="module-num">模組 01</div>
+          <h3>為什麼選擇 NautilusTrader</h3>
+          <p>量化交易的挑戰、平台核心優勢、支援的資產和交易所、Rust + Python 雙語設計的意義</p>
+        </a>
+
+        <a class="module-card" href="Module_02_Architecture_Overview/index.html">
+          <span class="phase-label phase-1">第一階段</span>
+          <div class="module-num">模組 02</div>
+          <h3>整體架構鳥瞰圖</h3>
+          <p>三層結構、六大核心組件、三種運行環境、數據流與執行流、代碼組織</p>
+        </a>
+
+        <a class="module-card" href="Module_03_Design_Philosophy/index.html">
+          <span class="phase-label phase-1">第一階段</span>
+          <div class="module-num">模組 03</div>
+          <h3>設計哲學與品質屬性</h3>
+          <p>領域驅動設計、事件驅動、Crash-Only、Fail-Fast、狀態機、線程模型</p>
+        </a>
+
+      </div>
+
+      <!-- ===== 第二階段 ===== -->
+      <h2>🔧 第二階段：核心組件深度解讀</h2>
+      <p>逐一理解每個核心組件的功能、設計原理和內部運作方式。</p>
+      <div class="module-grid">
+
+        <a class="module-card" href="Module_04_Domain_Model/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 04</div>
+          <h3>領域模型 — 交易的語言</h3>
+          <p>價格、數量、金融工具、訂單、持倉、帳戶、枚舉 — 交易世界的完整表達</p>
+        </a>
+
+        <a class="module-card" href="Module_05_MessageBus/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 05</div>
+          <h3>消息總線 — 系統的神經網絡</h3>
+          <p>發布/訂閱、命令/事件、主題路由、跨線程通訊、Redis 持久化</p>
+        </a>
+
+        <a class="module-card" href="Module_05B_Data_Management/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 05B</div>
+          <h3>數據管理與持久化</h3>
+          <p>Wrangler 數據轉換、DataCatalog Parquet 存儲、BarAggregator 自定義時間框架、序列化格式</p>
+        </a>
+
+        <a class="module-card" href="Module_06_Cache/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 06</div>
+          <h3>緩存系統 — 高速記憶體</h3>
+          <p>存儲的數據類型、讀寫 API、Redis 後端、策略中的查詢方式</p>
+        </a>
+
+        <a class="module-card" href="Module_07_DataEngine/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 07</div>
+          <h3>數據引擎 — 市場數據高速公路</h3>
+          <p>數據類型、Bar 聚合、訂閱機制、DataClient、自定義數據、持久化</p>
+        </a>
+
+        <a class="module-card" href="Module_08_ExecutionEngine/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 08</div>
+          <h3>執行引擎 — 訂單的一生</h3>
+          <p>訂單命令、事件流、執行算法、條件單、回測 vs 實盤差異</p>
+        </a>
+
+        <a class="module-card" href="Module_09_RiskEngine/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 09</div>
+          <h3>風控引擎 — 交易的安全網</h3>
+          <p>交易前風控、持倉監控、風控規則、節流器、安全機制</p>
+        </a>
+
+        <a class="module-card" href="Module_10_Portfolio/index.html">
+          <span class="phase-label phase-2">第二階段</span>
+          <div class="module-num">模組 10</div>
+          <h3>投資組合 — 資金的全局視角</h3>
+          <p>帳戶管理、持倉匯總、盈虧計算、績效分析、報告可視化</p>
+        </a>
+
+      </div>
+
+      <!-- ===== 第三階段 ===== -->
+      <h2>🚀 第三階段：實戰應用</h2>
+      <p>學會開發策略、運行回測、部署實盤 — 從理論到實踐。</p>
+      <div class="module-grid">
+
+        <a class="module-card" href="Module_11_Strategy_Development/index.html">
+          <span class="phase-label phase-3">第三階段</span>
+          <div class="module-num">模組 11</div>
+          <h3>策略開發完全指南</h3>
+          <p>Strategy 基類、Actor vs Strategy、Signal 系統、OrderFactory 進階模式、指標系統、17 個官方範例</p>
+        </a>
+
+        <a class="module-card" href="Module_12_Backtest_And_Live/index.html">
+          <span class="phase-label phase-3">第三階段</span>
+          <div class="module-num">模組 12</div>
+          <h3>回測系統與實盤部署</h3>
+          <p>BacktestEngine、FillModel/FeeModel、Tearsheet 可視化、TradingNode、實盤安全機制</p>
+        </a>
+
+      </div>
+
+      <!-- ===== 第四階段 ===== -->
+      <h2>🔌 第四階段：進階與擴展</h2>
+      <p>深入適配器開發、自定義組件 — 將系統擴展到任何場景。</p>
+      <div class="module-grid">
+
+        <a class="module-card" href="Module_13_Adapters_Extensions/index.html">
+          <span class="phase-label phase-4">第四階段</span>
+          <div class="module-num">模組 13</div>
+          <h3>適配器與自定義組件</h3>
+          <p>16 個官方適配器、六角架構、自定義 Actor / Indicator / DataClient</p>
+        </a>
+
+        <a class="module-card" href="Module_14_Configuration/index.html">
+          <span class="phase-label phase-4">第四階段</span>
+          <div class="module-num">模組 14</div>
+          <h3>配置系統深潛</h3>
+          <p>TradingNodeConfig、Redis 緩存、Rust 日誌、實盤超時參數詳解</p>
+        </a>
+
+        <a class="module-card" href="Module_15_Live_Advanced/index.html">
+          <span class="phase-label phase-4">第四階段</span>
+          <div class="module-num">模組 15</div>
+          <h3>實盤部署進階</h3>
+          <p>對帳機制 (Reconciliation)、自動重試、交易控制器、安全過濾器</p>
+        </a>
+
+        <a class="module-card" href="Module_16_Accounting_Risk/index.html">
+          <span class="phase-label phase-4">第四階段</span>
+          <div class="module-num">模組 16</div>
+          <h3>會計與風控深潛</h3>
+          <p>保證金模型、手續費結構、多幣種 Portfolio、策略級風控</p>
+        </a>
+
+        <a class="module-card" href="Module_17_Advanced_Topics/index.html">
+          <span class="phase-label phase-4">第四階段</span>
+          <div class="module-num">模組 17</div>
+          <h3>進階主題</h3>
+          <p>序列化 (Arrow/MsgPack)、Kernel 啟動流程、Greeks 期權定價、Tick Scheme</p>
+        </a>
+
+      </div>
+
+      <!-- ===== 第五階段 ===== -->
+      <h2>🧪 第五階段：動手 Lab</h2>
+      <div class="module-grid">
+        <a class="module-card" href="Lab_01_Backtest_Workflow/index.html">
+          <span class="phase-label phase-5">第五階段</span>
+          <div class="module-num">Lab 01</div>
+          <h3>從零到回測</h3>
+          <p>建立專案結構、數據轉換 (CSV→Parquet)、編寫 EMA Cross 策略、運行回測</p>
+        </a>
+
+        <a class="module-card" href="Lab_02_Binance_Sandbox/index.html">
+          <span class="phase-label phase-5">第五階段</span>
+          <div class="module-num">Lab 02</div>
+          <h3>接入 Binance 沙箱</h3>
+          <p>申請測試網 API Key、配置 .env、連接實盤 (沙箱) 環境、模擬交易</p>
+        </a>
+
+        <a class="module-card" href="Lab_03_Custom_Strategy/index.html">
+          <span class="phase-label phase-5">第五階段</span>
+          <div class="module-num">Lab 03</div>
+          <h3>自定義指標與策略</h3>
+          <p>組合 SMA+StdDev 實現 Z-Score、編寫均值回歸策略、進階邏輯</p>
+        </a>
+      </div>
+
+      <hr>
+
+      <!-- 附錄 -->
+      <h2>📎 附錄</h2>
+      <div class="module-grid">
+        <a class="module-card" href="Appendix/glossary.html" style="border-color: var(--text-muted);">
+          <div class="module-num">附錄 A</div>
+          <h3>交易術語表（中英對照）</h3>
+          <p>量化交易和 NautilusTrader 專有名詞的完整中英對照</p>
+        </a>
+        <a class="module-card" href="Appendix/api_reference.html" style="border-color: var(--text-muted);">
+          <div class="module-num">附錄 B</div>
+          <h3>API 速查表</h3>
+          <p>策略開發中最常用的 API 快速參考</p>
+        </a>
+        <a class="module-card" href="Appendix/code_patterns.html" style="border-color: var(--text-muted);">
+          <div class="module-num">附錄 C</div>
+          <h3>代碼模式速查表</h3>
+          <p>常見開發模式和最佳實踐</p>
+        </a>
+      </div>
+
+      <hr>
+
+      <footer style="text-align:center; padding: 2rem 0; color:var(--text-muted); font-size:0.85rem;">
+        <p>NautilusTrader 完整教材 · 以交易員視角撰寫</p>
+        <p>基於 <a href="https://github.com/nautechsystems/nautilus_trader" target="_blank">nautilus_trader</a> 開源專案</p>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="assets/lecture.js"></script>
+</body>
+
+</html>

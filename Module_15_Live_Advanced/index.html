@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 15：實盤部署進階 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NT</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span
+                        class="separator">›</span>模組 15</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-4">第四階段：進階擴展</span>
+                <h1>模組 15：實盤部署進階<span class="subtitle">對帳、容錯、控制器 — 讓你的交易系統 7×24 穩定運行</span></h1>
+
+                <!-- ==================== -->
+                <h2>一、實盤與回測的根本差異</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼實盤比回測複雜 10 倍？</div>
+                    <p><strong>❌ 回測世界</strong>：數據完美、網路零延遲、交易所永不出錯、程序永不崩潰。</p>
+                    <p><strong>✅ 實盤世界</strong>：網路會斷、交易所會拒單、API 會限速、程序會崩潰、訂單會卡住。NautilusTrader 的 <code>live/</code>
+                        模組就是為了對付這些「現實世界的混亂」。</p>
+                </div>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart TB
+                        subgraph live["🚀 實盤專屬機制"]
+                        direction LR
+                        recon["🔄 Reconciliation<br />訂單對帳"]
+                        retry["🔁 Retry<br />自動重試"]
+                        ctrl["🎮 Controller<br />交易控制器"]
+                        filter["📅 Filters<br />交易日曆"]
+                        heartbeat["💓 Heartbeat<br />心跳檢測"]
+                        end
+
+                        recon --> |"確保一致性"| safe["✅ 穩定運行"]
+                        retry --> |"容錯"| safe
+                        ctrl --> |"全局控制"| safe
+                        filter --> |"避免非交易時段"| safe
+                        heartbeat --> |"及時發現斷線"| safe
+
+                        style live fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
+                        style safe fill:#0f1419,stroke:#4caf50,stroke-width:2px
+                    </div>
+                    <div class="caption">圖 1：實盤專屬的 5 大穩定性機制</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、Reconciliation — 訂單對帳</h2>
+                <p>對帳是實盤中<strong>最重要</strong>的機制。它確保本地系統的訂單/持倉狀態與交易所完全一致。</p>
+
+                <h3>什麼時候需要對帳？</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">🔌</span>
+                        <h4>程序崩潰重啟</h4>
+                        <p>崩潰期間交易所可能執行了你的掛單</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📡</span>
+                        <h4>網路中斷恢復</h4>
+                        <p>斷線期間錯過了訂單成交回報</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">⏰</span>
+                        <h4>每日定時啟動</h4>
+                        <p>隔夜可能有倉位變化、強制平倉</p>
+                    </div>
+                </div>
+
+                <h3>對帳流程</h3>
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant NT as NautilusTrader
+                        participant EX as Exchange
+
+                        NT->>EX: 1. 請求所有 open orders
+                        EX-->>NT: 返回 open orders list
+                        NT->>NT: 2. 比對本地訂單狀態
+                        NT->>EX: 3. 請求帳戶餘額和持倉
+                        EX-->>NT: 返回帳戶狀態
+                        NT->>NT: 4. 比對本地 Portfolio
+                        Note over NT: 5. 生成差異報告
+                        NT->>NT: 6. 自動修正本地狀態
+                    </div>
+                    <div class="caption">圖 2：對帳的完整流程</div>
+                </div>
+
+                <pre><code class="language-python"># 啟用對帳
+from nautilus_trader.live.config import LiveExecEngineConfig
+
+exec_config = LiveExecEngineConfig(
+    reconciliation=True,                  # 啟用對帳
+    inflight_check_interval_ms=2000,      # 每 2 秒檢查飛行中訂單
+    inflight_check_threshold_ms=5000,     # 超過 5 秒未確認 → 告警
+)
+
+# 對帳會在啟動時自動執行，無需手動觸發
+# 超時由 timeout_reconciliation 控制（預設 30s）</code></pre>
+
+                <!-- ==================== -->
+                <h2>三、Retry — 自動重試</h2>
+                <p>當訂單提交失敗時（網路超時、API 限速），系統會自動重試：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>場景</th>
+                                <th>行為</th>
+                                <th>注意</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>網路超時</td>
+                                <td>等待後重試</td>
+                                <td>使用指數退避避免打爆 API</td>
+                            </tr>
+                            <tr>
+                                <td>API 限速 (429)</td>
+                                <td>等待限速窗口後重試</td>
+                                <td>搭配 RiskEngine 的 max_order_submit_rate</td>
+                            </tr>
+                            <tr>
+                                <td>交易所拒絕</td>
+                                <td>不重試，記錄錯誤</td>
+                                <td>餘額不足、參數錯誤等</td>
+                            </tr>
+                            <tr>
+                                <td>連接斷開</td>
+                                <td>等待重連後重試</td>
+                                <td>Heartbeat 機制會觸發重連</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、Trading Controller — 交易控制器</h2>
+                <p>Controller 是一個<strong>全局控制器</strong>，可以管理多個策略的生命週期：</p>
+
+                <pre><code class="language-python">from nautilus_trader.trading.controller import Controller
+from nautilus_trader.config import ControllerConfig
+
+class MyController(Controller):
+    """管理多個策略的啟停"""
+
+    def on_start(self):
+        self.log.info("Controller 啟動")
+        # 可以在這裡根據條件決定啟動哪些策略
+
+    def on_stop(self):
+        self.log.info("Controller 停止")
+
+    def on_trading_state_changed(self, state):
+        """當交易狀態改變時（如從 ACTIVE 變為 HALTED）"""
+        if state == TradingState.HALTED:
+            self.log.warning("交易暫停！取消所有掛單")
+            for strategy in self.trader.strategies():
+                strategy.cancel_all_orders(strategy.instrument_id)
+
+    def create_actor(self, actor_config):
+        """動態創建 Actor"""
+        pass
+
+    def create_strategy(self, strategy_config):
+        """動態創建策略"""
+        pass
+</code></pre>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 Controller vs Strategy</div>
+                    <p><strong>Strategy</strong>：負責一個策略的交易邏輯。<br>
+                        <strong>Controller</strong>：負責<strong>管理</strong>多個 Strategy 的啟停、動態增刪策略。像是「策略的經理人」。
+                    </p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>五、Trading Filters — 交易過濾器</h2>
+                <p>避免在非交易時段或特殊日子下單：</p>
+
+                <pre><code class="language-python">from nautilus_trader.trading.filters import (
+    NewsImpactFilter,           # 新聞事件過濾
+    ForexSessionFilter,         # 外匯交易時段
+    EconomicNewsEventFilter,    # 經濟數據發布
+)
+
+# 在策略中使用
+class MyStrategy(Strategy):
+
+    def on_bar(self, bar):
+        # 跳過非交易時段
+        if not self._is_trading_hours(bar.ts_event):
+            return
+
+        # 跳過重大新聞前後 30 分鐘
+        if self._near_news_event(bar.ts_event, buffer_minutes=30):
+            return
+
+        # 正常交易邏輯...
+        self._check_entry_signal(bar)
+</code></pre>
+
+                <!-- ==================== -->
+                <h2>六、Emulated Orders — 模擬訂單</h2>
+                <p>有些交易所不支持某些訂單類型（如 Trailing Stop）。NautilusTrader 的 <code>OrderEmulator</code> 可以在本地模擬這些訂單：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>訂單類型</th>
+                                <th>交易所是否原生支持</th>
+                                <th>Emulator 模擬</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Market Order</td>
+                                <td>✅ 所有交易所</td>
+                                <td>不需要模擬</td>
+                            </tr>
+                            <tr>
+                                <td>Limit Order</td>
+                                <td>✅ 所有交易所</td>
+                                <td>不需要模擬</td>
+                            </tr>
+                            <tr>
+                                <td>Stop Market</td>
+                                <td>⚠️ 大部分支持</td>
+                                <td>可選</td>
+                            </tr>
+                            <tr>
+                                <td>Trailing Stop</td>
+                                <td>❌ 部分不支持</td>
+                                <td>✅ Emulator 模擬</td>
+                            </tr>
+                            <tr>
+                                <td>Market-If-Touched</td>
+                                <td>❌ 部分不支持</td>
+                                <td>✅ Emulator 模擬</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre><code class="language-python">from nautilus_trader.common.config import OrderEmulatorConfig
+
+emulator_config = OrderEmulatorConfig()
+
+# 在 TradingNodeConfig 中啟用
+config = TradingNodeConfig(
+    emulator=emulator_config,
+    # ... 其他配置
+)
+
+# 然後在策略中正常使用 Trailing Stop
+# 如果交易所不支持，Emulator 會在本地模擬它
+order = self.order_factory.trailing_stop_market(
+    instrument_id=self.instrument_id,
+    order_side=OrderSide.SELL,
+    quantity=Quantity.from_str("1.0"),
+    trailing_offset=Decimal("50"),
+    trailing_offset_type=TrailingOffsetType.BASIS_POINTS,
+    trigger_type=TriggerType.LAST_TRADE,
+    emulation_trigger=TriggerType.LAST_TRADE,  # ← 指定模擬觸發
+)</code></pre>
+
+                <!-- ==================== -->
+                <h2>七、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 1：對帳場景分析</div>
+                    <p>你的策略在凌晨 3 點崩潰了，凌晨 5 點自動重啟。期間有一筆限價買入單在凌晨 4 點成交了。重啟後會發生什麼？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-recon')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-recon">如果開啟了 reconciliation=True：
+
+                        1. 重啟時系統向交易所請求所有訂單和持倉
+                        2. 發現交易所報告：限價單已 FILLED + 持倉 +1
+                        3. 本地狀態：限價單 SUBMITTED（未更新）
+                        4. 對帳器自動修正：
+                        - 生成 OrderFilled 事件
+                        - 更新本地持倉
+                        - 更新 Portfolio 餘額
+                        5. 策略收到 on_order_filled 回調
+                        6. 策略可以繼續正常運作
+
+                        如果沒開對帳（reconciliation=False）：
+                        ❌ 本地以為單子還掛著
+                        ❌ 不知道已經有持倉
+                        ❌ 可能重複下單 → 災難！</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 2：Controller 設計</div>
+                    <p>你有 3 個策略同時運行。週末和美國假期不想交易。設計一個 Controller 的 on_start 邏輯。</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-ctrl')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-ctrl">設計思路：
+
+                        def on_start(self):
+                        now = self.clock.utc_now()
+
+                        # 檢查是否為週末
+                        if now.weekday() >= 5: # 6=週六, 7=週日
+                        self.log.warning("週末，不啟動策略")
+                        return
+
+                        # 檢查是否為美國假期
+                        us_holidays = [...] # 預定義的假期列表
+                        if now.date() in us_holidays:
+                        self.log.warning(f"假期 {now.date()}，不啟動策略")
+                        return
+
+                        # 啟動所有策略
+                        for strategy in self.trader.strategies():
+                        strategy.start()
+                        self.log.info(f"啟動策略: {strategy.id}")
+
+                        # 設定收盤前自動平倉定時器
+                        self.clock.set_timer(
+                        name="close_positions",
+                        interval=timedelta(minutes=5),
+                        callback=self._check_close_time,
+                        )</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 3：Emulated vs Native</div>
+                    <p>你想用 Trailing Stop，但不確定交易所是否支持。用 Emulator 和 Native 各有什麼優缺點？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-emu')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-emu">Native（交易所原生支持）：
+                        ✅ 0 延遲 — 觸發和執行都在交易所端
+                        ✅ 不依賴你的程序 — 即使你斷線也會執行
+                        ❌ 不是所有交易所都支持
+
+                        Emulated（本地模擬）：
+                        ✅ 適用於任何交易所 — 不管交易所是否支持
+                        ✅ 更靈活 — 可以自定義觸發邏輯
+                        ❌ 有延遲 — 觸發後還要發送訂單到交易所
+                        ❌ 依賴程序 — 如果程序崩潰，模擬訂單消失
+
+                        💡 最佳實踐：
+                        優先使用 Native，只有在交易所不支持時才用 Emulated
+                        如果用 Emulated，確保有 save_state=True 保存狀態</div>
+                </div>
+
+                <h2>八、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>Reconciliation</strong>：啟動時自動對帳，確保本地和交易所狀態一致</li>
+                        <li><strong>Retry</strong>：訂單提交失敗自動重試，使用指數退避</li>
+                        <li><strong>Controller</strong>：全局管理多個策略的啟停和生命週期</li>
+                        <li><strong>Trading Filters</strong>：過濾非交易時段和重大新聞事件</li>
+                        <li><strong>OrderEmulator</strong>：在本地模擬交易所不支持的訂單類型</li>
+                        <li><strong>Heartbeat</strong>：定期心跳檢測，斷線自動重連</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_14_Configuration/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 14：配置系統深潛</span></a>
+                    <a href="../Module_16_Accounting_Risk/index.html" style="text-align:right;"><span
+                            class="nav-label">下一章 →</span><span class="nav-title">模組 16：會計與風控深潛</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 12：回測系統與實盤部署 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">12</span> 回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第三階段<span
+                        class="separator">›</span>模組 12</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-3">第三階段：實戰應用</span>
+                <h1>模組 12：回測系統與實盤部署<span class="subtitle">同一份策略代碼，從歷史回測無縫切換到實盤交易</span></h1>
+
+                <!-- ==================== -->
+                <h2>一、三種運行環境</h2>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph bt["🔬 回測 Backtest"]
+                        hist["歷史數據"] --> sim1["模擬交易所"]
+                        sim1 --> report["績效報告"]
+                        end
+                        subgraph sb["🏖️ 沙箱 Sandbox"]
+                        live_data["即時數據"] --> sim2["模擬交易所"]
+                        sim2 --> monitor["即時監控"]
+                        end
+                        subgraph lv["🚀 實盤 Live"]
+                        live_data2["即時數據"] --> real["真實交易所"]
+                        real --> pnl["真金白銀"]
+                        end
+
+                        bt -->|"驗證通過"| sb
+                        sb -->|"觀察一段時間"| lv
+                    </div>
+                    <div class="caption">圖 1：策略的三階段驗證流程</div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ 核心優勢</div>
+                    <p>在這三種環境中，你的<strong>策略代碼完全不需要修改</strong>。只需要改變配置中的數據源和交易所適配器。這就是 NautilusTrader 的核心價值主張之一。</p>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼回測配置需要這麼複雜？</div>
+                    <p><strong>❌ 如果只用簡單的 「price * quantity」 回測</strong>：你會忽略手續費、滑點、延遲，回測結果可能比實盤好 30-50%，上線後才發現全部虎頭蛇尾。
+                    </p>
+                    <p><strong>✅ 用 NautilusTrader 的真實模擬</strong>：配置
+                        FillModel（滑點）、FeeModel（手續費）、LatencyModel（延遲），回測結果更接近實盤。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、回測配置完整範例</h2>
+
+                <pre><code class="language-python">from nautilus_trader.backtest.engine import BacktestEngine
+from nautilus_trader.backtest.config import (
+    BacktestEngineConfig,
+    BacktestVenueConfig,
+    BacktestDataConfig,
+    BacktestRunConfig,
+)
+from nautilus_trader.model.enums import AccountType, OmsType
+
+# ===== 1. 配置引擎 =====
+engine_config = BacktestEngineConfig(
+    trader_id="BACKTESTER-001",
+    logging=LoggingConfig(log_level="INFO"),
+    risk_engine=RiskEngineConfig(
+        max_order_submit_rate="100/00:00:01",
+    ),
+)
+
+# ===== 2. 配置模擬交易所 =====
+venue_config = BacktestVenueConfig(
+    name="BINANCE",
+    oms_type=OmsType.NETTING,        # 淨額結算
+    account_type=AccountType.MARGIN,  # 保證金帳戶
+    starting_balances=["100_000 USDT"],
+    default_leverage=10,              # 10 倍槓桿
+    fill_model=FillModel(
+        prob_fill_on_limit=0.2,       # 限價單成交概率
+        prob_fill_on_stop=0.95,       # 止損單成交概率
+        prob_slippage=0.5,            # 滑點概率
+    ),
+)
+
+# ===== 3. 配置數據源 =====
+data_config = BacktestDataConfig(
+    catalog_path="./data/catalog",
+    data_cls="QuoteTick",
+    instrument_id="BTCUSDT.BINANCE",
+    start_time="2023-01-01",
+    end_time="2023-12-31",
+)
+
+# ===== 4. 配置策略 =====
+strategy_config = MyStrategyConfig(
+    instrument_id=InstrumentId.from_str("BTCUSDT.BINANCE"),
+    bar_type=BarType.from_str("BTCUSDT.BINANCE-1-MINUTE-LAST"),
+    fast_ema_period=10,
+    slow_ema_period=20,
+)
+
+# ===== 5. 運行回測 =====
+engine = BacktestEngine(config=engine_config)
+engine.add_venue(venue_config)
+engine.add_data(data_config)
+engine.add_strategy(MyStrategy(strategy_config))
+
+engine.run()
+
+# ===== 6. 查看結果 =====
+engine.trader.generate_order_fills_report()
+engine.trader.generate_positions_report()
+engine.trader.generate_account_report()</code></pre>
+
+                <!-- ==================== -->
+                <h2>三、數據目錄 (Data Catalog)</h2>
+                <p>NautilusTrader 使用 <strong>Parquet 格式</strong>高效存儲回測數據：</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">📁</span>
+                        <h4>數據寫入</h4>
+                        <p>適配器自動將收到的數據寫入 Parquet 文件。也可以手動從 CSV 導入。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">⚡</span>
+                        <h4>高效讀取</h4>
+                        <p>Parquet 是列式格式，讀取 1 年的分鐘 K 線只需要幾秒鐘。</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔍</span>
+                        <h4>按需加載</h4>
+                        <p>支援只加載指定時間範圍和品種的數據，節省記憶體。</p>
+                    </div>
+                </div>
+
+                <pre><code class="language-python"># 將數據寫入目錄
+from nautilus_trader.persistence.catalog import ParquetDataCatalog
+
+catalog = ParquetDataCatalog("./data/catalog")
+
+# 寫入報價數據
+catalog.write_data(quote_ticks)
+
+# 讀取數據（按時間範圍）
+ticks = catalog.quote_ticks(
+    instrument_ids=["BTCUSDT.BINANCE"],
+    start="2023-01-01",
+    end="2023-06-30",
+)</code></pre>
+
+                <!-- ==================== -->
+                <h2>三B、FillModel / FeeModel / LatencyModel — 確保回測真實</h2>
+                <p>這三個 Model 是區分「玩具回測」和「專業回測」的關鍵：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>控制什麼</th>
+                                <th>為什麼重要</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>FillModel</strong></td>
+                                <td>訂單成交的滑點和部分成交。可模擬「市價單滑 2 tick」、「限價單只成交 80%」</td>
+                                <td>實盤中幾乎不可能總以理想價格成交</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FeeModel</strong></td>
+                                <td>交易手續費。可配置 maker/taker 費率，也可配置固定手續費</td>
+                                <td>高頻策略每天數百筆交易，手續費累積影響巨大</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LatencyModel</strong></td>
+                                <td>網路延遲。可模擬「提交訂單到交易所確認」的時間差</td>
+                                <td>實盤中延遲可能導致錯過最佳入場點</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre><code class="language-python">"""配置真實的回測環境"""
+from nautilus_trader.backtest.models import (
+    FillModel, FeeModel, LatencyModel,
+)
+
+# 滑點模型：市價單滑 1 tick，限價單 80% 機率全額成交
+fill_model = FillModel(
+    prob_fill_on_limit=0.80,    # 限價單 80% 機率成交
+    prob_fill_on_stop=0.95,     # 停損單 95% 機率成交
+    prob_slippage=0.50,         # 50% 機率有滑點
+    random_seed=42,             # 固定隨機種子，確保可重現
+)
+
+# 手續費模型：make 單 0.02%, take 單 0.04%
+fee_model = FeeModel(
+    maker_fee=0.0002,
+    taker_fee=0.0004,
+)
+
+# 延遲模型：提交 50ms, 取消 30ms
+latency_model = LatencyModel(
+    submit_order_latency_ms=50,
+    cancel_order_latency_ms=30,
+)
+
+# 將 model 加入交易所配置
+venue_config = BacktestVenueConfig(
+    name="BINANCE",
+    oms_type=OmsType.NETTING,
+    account_type=AccountType.MARGIN,
+    starting_balances=["100_000 USDT"],
+    fill_model=fill_model,
+    fee_model=fee_model,
+    latency_model=latency_model,  # 可選
+)</code></pre>
+
+                <!-- ==================== -->
+                <h2>三C、Tearsheet — 回測結果可視化</h2>
+                <p>跑完回測後，一行代碼生成完整的互動式績效報表：</p>
+
+                <pre><code class="language-python">from nautilus_trader.analysis import create_tearsheet
+
+# 回測結束後，用這一行生成報表
+create_tearsheet(engine, output_path="tearsheet.html")
+# → 打開 tearsheet.html 就能看到互動式 Plotly 圖表！
+
+# 也可以單獨生成某一張圖
+from nautilus_trader.analysis import (
+    create_equity_curve,        # 資金曲線
+    create_drawdown_chart,      # 回撤圖
+    create_monthly_returns_heatmap,  # 月度熱力圖
+    create_rolling_sharpe,      # 滾動 Sharpe
+    create_returns_distribution,# 收益分布
+)
+
+# 資金曲線圖
+fig = create_equity_curve(
+    engine,
+    output_path="equity.html",
+    title="My EMA Strategy",
+)</code></pre>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">📈</span>
+                        <h4>Equity Chart</h4>
+                        <p>資金曲線，可疊加 Benchmark 對比</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📉</span>
+                        <h4>Drawdown Chart</h4>
+                        <p>回撤深度和持續時間</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📅</span>
+                        <h4>Monthly Returns</h4>
+                        <p>月度收益熱力圖，一眼看出季節性</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h4>Rolling Sharpe</h4>
+                        <p>滾動 Sharpe 比率，觀察策略穩定性</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔔</span>
+                        <h4>Returns Distribution</h4>
+                        <p>收益分布圖，看是否偏斜</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🕯️</span>
+                        <h4>Bars with Fills</h4>
+                        <p>K 線 + 買賣點標記</p>
+                    </div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、實盤部署</h2>
+
+                <pre><code class="language-python"># 實盤配置 — 只改適配器，策略代碼不變！
+from nautilus_trader.live.node import TradingNode
+from nautilus_trader.adapters.binance.config import (
+    BinanceLiveDataClientConfig,
+    BinanceLiveExecClientConfig,
+)
+
+node = TradingNode(config=TradingNodeConfig(
+    trader_id="LIVE-001",
+    data_clients={
+        "BINANCE": BinanceLiveDataClientConfig(
+            api_key="your-api-key",
+            api_secret="your-api-secret",
+        ),
+    },
+    exec_clients={
+        "BINANCE": BinanceLiveExecClientConfig(
+            api_key="your-api-key",
+            api_secret="your-api-secret",
+        ),
+    },
+))
+
+# 加入同一個策略！
+node.trader.add_strategy(MyStrategy(strategy_config))
+node.run()</code></pre>
+
+                <div class="callout callout-success">
+                    <div class="callout-title">✅ 注意看</div>
+                    <p>策略代碼和配置<strong>一模一樣</strong>。唯一改變的是 DataClient 和 ExecClient 從模擬變成了 Binance 真實適配器。</p>
+                </div>
+
+                <h3>實盤安全機制</h3>
+                <p>NautilusTrader 為實盤提供了幾個關鍵的安全機制：</p>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>機制</th>
+                                <th>作用</th>
+                                <th>來源</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Reconciliation</strong></td>
+                                <td>線上訂單對帳：定期檢查本地狀態和交易所是否一致</td>
+                                <td><code>live/reconciliation.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Retry</strong></td>
+                                <td>訂單提交失敗自動重試（可配置重試次數和間隔）</td>
+                                <td><code>live/retry.py</code></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Heartbeat</strong></td>
+                                <td>定時心跳檢測，斷線自動重連</td>
+                                <td>各 Adapter 內建</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>五、回測常見陷阱</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>陷阱</th>
+                                <th>說明</th>
+                                <th>如何避免</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:var(--accent-red);">前視偏差</td>
+                                <td>使用了未來才知道的數據做決策</td>
+                                <td>只用 on_bar 中收到的 bar 數據</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-red);">過擬合</td>
+                                <td>策略只在特定歷史數據上表現好</td>
+                                <td>分成訓練集和測試集</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-red);">忽略手續費</td>
+                                <td>不計入手續費導致虛假盈利</td>
+                                <td>配置真實的 maker/taker 費率</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-red);">忽略滑點</td>
+                                <td>假設總以理想價格成交</td>
+                                <td>配置 FillModel 滑點</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-red);">存活者偏差</td>
+                                <td>只測試現在還存在的品種</td>
+                                <td>包含已退市品種的數據</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 1：從回測到實盤</div>
+                    <p>你的 EMA 策略回測結果很好，你需要修改哪些東西才能實盤運行？列出具體步驟。</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-live')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-live">步驟（只改配置，不改策略代碼）：
+
+                        1. ❌ 不需要修改策略代碼
+                        2. ✅ 將 BacktestEngine 改為 TradingNode
+                        3. ✅ 將數據源從 BacktestDataConfig 改為 BinanceLiveDataClientConfig
+                        4. ✅ 將執行客戶端改為 BinanceLiveExecClientConfig
+                        5. ✅ 填入真實的 API Key 和 Secret
+                        6. ✅ 調整風控參數（實盤應更保守）
+                        7. ✅ 建議先用小資金的沙箱模式觀察一段時間
+
+                        總結：策略邏輯 0 行改動，只改「基礎設施」配置。</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 2：診斷回測問題</div>
+                    <p>你的策略回測顯示年化回報 200%，但上實盤後卻持續虧損。可能是什麼原因？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-diag')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-diag">可能原因（按可能性排序）：
+
+                        1. 沒配置手續費 (FeeModel)
+                        → 回測時 0 手續費，實際每筆要扣 0.04%
+
+                        2. 沒配置滑點 (FillModel)
+                        → 回測假設總是以理想價成交，實際可能滑 1-3 tick
+
+                        3. 過擬合 (前視偏差)
+                        → 參數只在歷史數據上最優，未來失效
+                        → 使用 Walk-Forward 或 Out-of-Sample 測試
+
+                        4. 存活者偏差
+                        → 只測了現在還在交易的品種，忽略了已下架的
+
+                        5. 延遲影響
+                        → 回測無延遲，實盤有 50-200ms 延遲</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 3：FillModel 配置</div>
+                    <p>以下公式計算了回測 vs 實盤的差異。如果你的策略平均每天交易 50 筆，每筆成交金額 $1000，taker 費率 0.04%，一年下來手續費總共多少？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-fee')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-fee">計算：
+                        50 筆/天 × $1000/筆 × 0.04% × 250 交易日
+                        = 50 × 1000 × 0.0004 × 250
+                        = $5,000
+
+                        💡 如果你的回測年化收益只有 $3,000，
+                        那它在實盤中其實是虧損的！
+                        這就是為什麼 FeeModel 如此重要。</div>
+                </div>
+
+                <h2>七、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>三種環境</strong>：回測 → 沙箱 → 實盤，策略代碼不變</li>
+                        <li><strong>回測配置</strong>：引擎 + 模擬交易所 + 數據 + 策略</li>
+                        <li><strong>FillModel / FeeModel / LatencyModel</strong>：模擬真實的滑點、手續費、延遲</li>
+                        <li><strong>Tearsheet</strong>：一行代碼生成互動式績效報表（6 種圖表）</li>
+                        <li><strong>Data Catalog</strong>：Parquet 格式高效存儲歷史數據</li>
+                        <li><strong>實盤部署</strong>：只需將適配器從模擬改為真實</li>
+                        <li><strong>安全機制</strong>：Reconciliation 對帳、Retry 重試、Heartbeat 心跳</li>
+                        <li><strong>回測陷阱</strong>：前視偏差、過擬合、忽略費用和滑點</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_11_Strategy_Development/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 11：策略開發完全指南</span></a>
+                    <a href="../Module_13_Adapters_Extensions/index.html" style="text-align:right;"><span
+                            class="nav-label">下一章 →</span><span class="nav-title">模組 13：適配器與擴展</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

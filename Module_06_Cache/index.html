@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 06：緩存系統 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NautilusTrader</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學與品質屬性</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
+                        class="separator">›</span>模組 06</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+                <h1>模組 06：緩存系統 — 高速記憶體<span class="subtitle">所有組件共享的「中央白板」— 查詢速度是納秒級的</span></h1>
+
+                <p>緩存 (Cache) 是系統的<strong>共享記憶體</strong>。所有訂單狀態、持倉、帳戶信息、市場數據快照都集中存放在這裡，讓任何組件都能以極快的速度讀取。</p>
+
+                <!-- ==================== -->
+                <h2>一、緩存的角色定位</h2>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph writers["✍️ 寫入者組件"]
+                        direction TB
+                        de["📊 DataEngine"]
+                        ee["⚙️ ExecutionEngine"]
+                        adapter["🔌 適配器"]
+                        end
+
+                        cache["💾 Cache<br />中央緩存記憶體"]
+
+                        subgraph readers["👁️ 讀取者組件"]
+                        direction TB
+                        strategy["🎯 你的策略"]
+                        risk["🛡️ RiskEngine"]
+                        portfolio["💰 Portfolio"]
+                        end
+
+                        writers ==> cache ==> readers
+
+                        style cache fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
+                    </div>
+                    <div class="caption">圖 1：緩存是「寫入者」和「讀取者」之間的橋樑</div>
+                </div>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 類比理解</div>
+                    <p>想像一個交易室的<strong>大白板</strong>：行情部門在上面寫最新報價，交易台在上面記錄訂單狀態，風控部門隨時看板確認風險數據。每個人都能看到所有信息，但只有負責的人能修改自己的區域。
+                    </p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、緩存中存了什麼？</h2>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>類別</th>
+                                <th>存儲內容</th>
+                                <th>誰寫入</th>
+                                <th>典型查詢場景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="color:var(--accent-cyan);">金融工具</td>
+                                <td>所有已知金融工具的完整定義</td>
+                                <td>適配器</td>
+                                <td>策略查詢 tick_size、lot_size</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-green);">帳戶</td>
+                                <td>帳戶餘額、保證金</td>
+                                <td>ExecutionEngine</td>
+                                <td>風控計算可用資金</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-orange);">訂單</td>
+                                <td>所有訂單的當前狀態</td>
+                                <td>ExecutionEngine</td>
+                                <td>策略查詢未完成訂單</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-purple);">持倉</td>
+                                <td>所有開倉持倉</td>
+                                <td>ExecutionEngine</td>
+                                <td>策略查詢當前持倉方向和數量</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-blue);">市場數據</td>
+                                <td>最新報價、K 線、訂單簿</td>
+                                <td>DataEngine</td>
+                                <td>策略獲取最新價格</td>
+                            </tr>
+                            <tr>
+                                <td style="color:var(--accent-gold);">自定義數據</td>
+                                <td>策略私有的鍵值對</td>
+                                <td>策略自己</td>
+                                <td>跨函數共享計算結果</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>三、策略中的查詢 API</h2>
+                <p>以下是你在策略開發中最常用的緩存查詢方法：</p>
+
+                <h3>3.1 金融工具查詢</h3>
+                <pre><code class="language-python"># 獲取金融工具定義
+instrument = self.cache.instrument(instrument_id)
+
+# 獲取所有已知金融工具
+all_instruments = self.cache.instruments()
+
+# 獲取特定交易所的所有金融工具
+binance_instruments = self.cache.instruments(venue=BINANCE)</code></pre>
+
+                <h3>3.2 訂單和持倉查詢</h3>
+                <pre><code class="language-python"># 查詢所有未完成訂單
+open_orders = self.cache.orders_open()
+
+# 查詢特定品種的未完成訂單
+btc_orders = self.cache.orders_open(instrument_id=btc_usdt_id)
+
+# 查詢當前持倉
+positions = self.cache.positions_open()
+
+# 查詢特定品種的持倉
+btc_position = self.cache.positions_open(instrument_id=btc_usdt_id)
+
+# 快速判斷是否有持倉
+is_flat = self.cache.is_flat(instrument_id=btc_usdt_id)</code></pre>
+
+                <h3>3.3 市場數據查詢</h3>
+                <pre><code class="language-python"># 最新報價
+quote = self.cache.quote_tick(instrument_id)
+
+# 最新成交
+trade = self.cache.trade_tick(instrument_id)
+
+# 最新 K 線
+bar = self.cache.bar(bar_type)
+
+# 獲取最近 N 根 K 線
+bars = self.cache.bars(bar_type, count=100)
+
+# 獲取訂單簿
+book = self.cache.order_book(instrument_id)</code></pre>
+
+                <h3>3.4 帳戶查詢</h3>
+                <pre><code class="language-python"># 獲取帳戶
+account = self.cache.account(account_id)
+
+# 獲取帳戶餘額
+balances = account.balances()
+
+# 獲取可用資金（扣除保證金後）
+free_balance = account.balance_free(Currency.from_str("USDT"))</code></pre>
+
+                <!-- ==================== -->
+                <h2>四、緩存後端</h2>
+                <p>緩存預設使用<strong>記憶體</strong>存儲（最快），但可以配置 Redis 後端實現持久化：</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">🧠</span>
+                        <h4>記憶體後端（預設）</h4>
+                        <p>• 速度最快（納秒級讀取）<br />• 系統關閉後數據消失<br />• 適合回測和沙箱<br />• 零外部依賴</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔴</span>
+                        <h4>Redis 後端（可選）</h4>
+                        <p>• 速度很快（微秒級）<br />• 系統崩潰後數據不丟失<br />• 適合實盤生產環境<br />• 支持跨進程共享</p>
+                    </div>
+                </div>
+
+                <pre><code class="language-python"># 配置 Redis 緩存後端
+from nautilus_trader.cache.config import CacheConfig
+
+config = CacheConfig(
+    database=CacheDatabaseConfig(
+        type="redis",
+        host="localhost",
+        port=6379,
+    ),
+    flush_on_start=False,  # 啟動時不清除舊數據（用於崩潰恢復）
+)</code></pre>
+
+                <!-- ==================== -->
+                <h2>五、快照與恢復</h2>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        sequenceDiagram
+                        participant Cache as 💾 Cache
+                        participant Redis as 🔴 Redis
+
+                        Note over Cache,Redis: 正常運行中
+                        Cache->>Redis: 定期寫入訂單狀態
+                        Cache->>Redis: 定期寫入持倉數據
+                        Cache->>Redis: 定期寫入帳戶餘額
+
+                        Note over Cache: 💥 系統崩潰
+
+                        Note over Cache,Redis: 重新啟動
+                        Redis->>Cache: 恢復所有訂單狀態
+                        Redis->>Cache: 恢復所有持倉
+                        Redis->>Cache: 恢復帳戶餘額
+                        Note over Cache: ✅ 狀態完全恢復
+                    </div>
+                    <div class="caption">圖 2：透過 Redis 實現崩潰後的狀態恢復</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>六、互動練習</h2>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習：策略中的緩存查詢</div>
+                    <p>假設你正在寫一個策略，需要完成以下任務。寫出你會使用的緩存查詢方法：</p>
+                    <ol>
+                        <li>檢查 BTC-USDT 是否有未平倉訂單</li>
+                        <li>獲取 BTC-USDT 的最新報價（用於計算進場價）</li>
+                        <li>查詢 BTC-USDT 的合約規格（最小下單量）</li>
+                        <li>確認帳戶是否有足夠的 USDT 餘額</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-cache')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-cache">1. open_orders =
+                        self.cache.orders_open(instrument_id=btc_usdt_id)
+                        has_open = len(open_orders) > 0
+
+                        2. quote = self.cache.quote_tick(btc_usdt_id)
+                        best_ask = quote.ask_price # 最佳賣價（你買入的價格）
+
+                        3. instrument = self.cache.instrument(btc_usdt_id)
+                        min_qty = instrument.min_quantity
+
+                        4. account = self.cache.account(account_id)
+                        free = account.balance_free(Currency.from_str("USDT"))
+                        has_enough = free >= required_amount</div>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 你應該記住的關鍵點</div>
+                    <ol>
+                        <li><strong>緩存 = 共享白板</strong>：所有組件透過它共享金融工具、訂單、持倉、帳戶、市場數據</li>
+                        <li><strong>引擎寫入</strong>，<strong>策略讀取</strong>：分工明確</li>
+                        <li><strong>記憶體預設</strong>，Redis 可選：速度和持久化的取捨</li>
+                        <li><strong>崩潰恢復</strong>：Redis 後端確保系統重啟後狀態不丟失</li>
+                        <li><strong>查詢 API 豐富</strong>：掌握 orders_open、positions_open、quote_tick 等常用方法</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_05_MessageBus/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 05：消息總線</span></a>
+                    <a href="../Module_07_DataEngine/index.html" style="text-align:right;"><span class="nav-label">下一章
+                            →</span><span class="nav-title">模組 07：數據引擎</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

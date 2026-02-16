@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>附錄 A：交易術語表 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">附錄</div>
+                </div>
+                <a class="nav-item active" href="glossary.html"><span class="nav-num">A</span> 術語表</a>
+                <a class="nav-item" href="api_reference.html"><span class="nav-num">B</span> API 速查表</a>
+                <a class="nav-item" href="code_patterns.html"><span class="nav-num">C</span> 代碼模式</a>
+                <a class="nav-item" href="../index.html">🏠 回到首頁</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>附錄<span
+                        class="separator">›</span>術語表</div>
+            </div>
+            <div class="content-container">
+
+                <h1>附錄 A：交易術語表<span class="subtitle">NautilusTrader 與量化交易核心詞彙中英對照</span></h1>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>中文術語</th>
+                                <th>英文術語</th>
+                                <th>定義與在 NautilusTrader 中的角色</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>領域模型</strong></td>
+                                <td>Domain Model</td>
+                                <td>系統的核心對象，如 Instrument, Order, Position。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>消息總線</strong></td>
+                                <td>MessageBus</td>
+                                <td>組件間通訊的中樞，支持 Pub/Sub 和 Req/Res。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>金融工具</strong></td>
+                                <td>Instrument</td>
+                                <td>可交易的資產，如 Equity, Futures, CryptoPerpetual。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>交易所</strong></td>
+                                <td>Venue</td>
+                                <td>執行交易的場所，如 BINANCE, IB, OKX。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>報價</strong></td>
+                                <td>Quote Tick</td>
+                                <td>市場當前的最佳買入 (Bid) 和賣出 (Ask) 價格。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>成交</strong></td>
+                                <td>Trade Tick</td>
+                                <td>市場上實際發生的單筆交易記錄。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>K 線</strong></td>
+                                <td>Bar</td>
+                                <td>在特定間隔（時間、成交量等）內的價格匯總 (OHLCV)。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>訂單簿</strong></td>
+                                <td>Order Book</td>
+                                <td>交易所中掛出的所有買賣單深度信息。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>執行引擎</strong></td>
+                                <td>ExecutionEngine</td>
+                                <td>管理訂單生命週期，處理下單、撤單和成交。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>數據引擎</strong></td>
+                                <td>DataEngine</td>
+                                <td>管理市場數據訂閱、分發和 Bar 聚合。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>風控引擎</strong></td>
+                                <td>RiskEngine</td>
+                                <td>下單前的風險檢查（頻率、數量、金額限制）。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>投資組合</strong></td>
+                                <td>Portfolio</td>
+                                <td>管理帳戶餘額、跨策略持倉和績效計算。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>緩存</strong></td>
+                                <td>Cache</td>
+                                <td>存儲當前系統狀態的高速記憶體組件。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>適配器</strong></td>
+                                <td>Adapter</td>
+                                <td>連接外部交易所或數據源的組件。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>回測</strong></td>
+                                <td>Backtest</td>
+                                <td>使用歷史數據模擬策略表現的過程。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>沙箱</strong></td>
+                                <td>Sandbox</td>
+                                <td>使用即時數據但模擬執行的測試環境。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>實盤</strong></td>
+                                <td>Live</td>
+                                <td>連接真實交易所進行真金白銀交易的環境。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>滑點</strong></td>
+                                <td>Slippage</td>
+                                <td>預期成交價與實際成交價之間的偏差。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>延遲</strong></td>
+                                <td>Latency</td>
+                                <td>訊息從發出到收到回應的時間間隔。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>夏普比率</strong></td>
+                                <td>Sharpe Ratio</td>
+                                <td>風險調整後的收益指標。</td>
+                            </tr>
+                            <tr>
+                                <td><strong>最大回撤</strong></td>
+                                <td>Max Drawdown</td>
+                                <td>淨值從頂峰到谷底的最大跌幅。</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

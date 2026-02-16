@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 07：數據引擎 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    整體架構</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
+                        class="separator">›</span>模組 07</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+                <h1>模組 07：數據引擎 — 市場數據高速公路<span class="subtitle">從市場到策略，數據如何被收集、處理和分發</span></h1>
+
+                <h2>一、數據引擎的職責</h2>
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph sources["🌍 數據源"]
+                        ws["交易所 WebSocket"]
+                        rest["REST API"]
+                        file["歷史數據文件"]
+                        end
+                        subgraph dc["📡 DataClient 適配器"]
+                        parse["解析原始數據"]
+                        normalize["標準化格式"]
+                        end
+                        subgraph de["📊 DataEngine 數據引擎"]
+                        route["路由分發"]
+                        aggregate["Bar 聚合"]
+                        validate["數據驗證"]
+                        end
+                        subgraph output["📤 輸出"]
+                        cache["💾 Cache"]
+                        msgbus["📡 MessageBus"]
+                        end
+                        sources --> dc --> de --> output
+                    </div>
+                    <div class="caption">圖 1：數據引擎的完整數據管道</div>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card"><span class="icon">📥</span>
+                        <h4>接收</h4>
+                        <p>從各種 DataClient 接收標準化後的市場數據（報價、成交、訂單簿）</p>
+                    </div>
+                    <div class="feature-card"><span class="icon">🔄</span>
+                        <h4>聚合</h4>
+                        <p>將逐筆成交數據聚合為 K 線 (Bar)，支援 18 種聚合方式</p>
+                    </div>
+                    <div class="feature-card"><span class="icon">📤</span>
+                        <h4>分發</h4>
+                        <p>根據訂閱關係，透過 MessageBus 將數據推送給需要的組件</p>
+                    </div>
+                    <div class="feature-card"><span class="icon">💾</span>
+                        <h4>緩存</h4>
+                        <p>將最新數據寫入 Cache，供其他組件隨時查詢</p>
+                    </div>
+                </div>
+
+                <h2>二、訂閱機制</h2>
+                <p>策略不是「拉取」數據，而是「訂閱」數據。數據引擎負責管理所有訂閱關係：</p>
+
+                <pre><code class="language-python"># 在策略的 on_start() 中訂閱數據
+def on_start(self):
+    # 訂閱報價 — 每次有新報價就調用 on_quote_tick
+    self.subscribe_quote_ticks(instrument_id)
+
+    # 訂閱逐筆成交
+    self.subscribe_trade_ticks(instrument_id)
+
+    # 訂閱 K 線 — 例如 1 分鐘 K 線
+    self.subscribe_bars(BarType.from_str("BTCUSDT.BINANCE-1-MINUTE-LAST"))
+
+    # 訂閱訂單簿（深度 10 檔）
+    self.subscribe_order_book_at_interval(
+        instrument_id,
+        depth=10,
+        interval_ms=1000,  # 每秒快照一次
+    )</code></pre>
+
+                <h2>三、Bar 聚合 — 18 種方式</h2>
+                <p>K 線不一定是按時間分的。NautilusTrader 支援多種聚合方式：</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>類別</th>
+                                <th>聚合方式</th>
+                                <th>說明</th>
+                                <th>適用場景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="6">⏱️ 時間</td>
+                                <td>SECOND</td>
+                                <td>N 秒</td>
+                                <td>超短線</td>
+                            </tr>
+                            <tr>
+                                <td>MINUTE</td>
+                                <td>N 分鐘</td>
+                                <td>日內交易</td>
+                            </tr>
+                            <tr>
+                                <td>HOUR</td>
+                                <td>N 小時</td>
+                                <td>波段交易</td>
+                            </tr>
+                            <tr>
+                                <td>DAY</td>
+                                <td>N 天</td>
+                                <td>中期趨勢</td>
+                            </tr>
+                            <tr>
+                                <td>WEEK</td>
+                                <td>N 週</td>
+                                <td>長期趨勢</td>
+                            </tr>
+                            <tr>
+                                <td>MONTH</td>
+                                <td>N 月</td>
+                                <td>宏觀分析</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">📊 成交量</td>
+                                <td>TICK</td>
+                                <td>每 N 筆成交</td>
+                                <td>高頻策略</td>
+                            </tr>
+                            <tr>
+                                <td>VOLUME</td>
+                                <td>每 N 單位成交量</td>
+                                <td>量價分析</td>
+                            </tr>
+                            <tr>
+                                <td>VALUE</td>
+                                <td>每 N 金額成交</td>
+                                <td>大額流動性分析</td>
+                            </tr>
+                            <tr>
+                                <td>📈 價格</td>
+                                <td>RENKO</td>
+                                <td>磚形圖</td>
+                                <td>趨勢過濾</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <pre><code class="language-python"># Bar 類型格式：{品種ID}-{數量}-{聚合方式}-{價格來源}
+bar_type_1min  = BarType.from_str("BTCUSDT.BINANCE-1-MINUTE-LAST")
+bar_type_tick  = BarType.from_str("BTCUSDT.BINANCE-100-TICK-LAST")
+bar_type_vol   = BarType.from_str("BTCUSDT.BINANCE-1000-VOLUME-LAST")
+bar_type_renko = BarType.from_str("BTCUSDT.BINANCE-50-RENKO-MID")</code></pre>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼時間以外的聚合方式很重要？</div>
+                    <p>時間 K 線在波動很低的時段會產生很多「空洞」的 K 線（幾乎沒有成交）。成交量 K 線和 Tick K 線則只在有實際交易發生時才形成，能更真實地反映市場活動。</p>
+                </div>
+
+                <h2>四、數據客戶端 (DataClient)</h2>
+                <p>DataClient 是連接外部數據源的適配器。每個交易所或數據供應商都有自己的 DataClient 實現：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart LR
+                        subgraph clients["DataClient 實現 (接入層)"]
+                        direction TB
+                        binance_dc["Binance Client"]
+                        ib_dc["IB Client"]
+                        sim_dc["Backtest Client"]
+                        end
+
+                        de["📊 DataEngine<br />數據引擎主體"]
+
+                        clients ==> de
+
+                        style de fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
+                        style clients fill:#0f1419,stroke:#ab47bc,stroke-width:1px
+                    </div>
+                    <div class="caption">圖 2：不同的 DataClient 都接入同一個 DataEngine</div>
+                </div>
+
+                <h2>五、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習：設計數據訂閱</div>
+                    <p>你的策略需要以下數據，寫出對應的訂閱代碼：</p>
+                    <ol>
+                        <li>BTC/USDT 的即時報價（用於判斷買賣價差）</li>
+                        <li>每 500 筆成交一根的 Tick K 線（用於高頻信號）</li>
+                        <li>5 分鐘 K 線（用於趨勢判斷）</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-data')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-data">def on_start(self):
+                        btc_id = InstrumentId.from_str("BTCUSDT.BINANCE")
+
+                        # 1. 即時報價
+                        self.subscribe_quote_ticks(btc_id)
+
+                        # 2. 每 500 筆成交的 Tick K 線
+                        self.subscribe_bars(
+                        BarType.from_str("BTCUSDT.BINANCE-500-TICK-LAST")
+                        )
+
+                        # 3. 5 分鐘 K 線
+                        self.subscribe_bars(
+                        BarType.from_str("BTCUSDT.BINANCE-5-MINUTE-LAST")
+                        )</div>
+                </div>
+
+                <h2>六、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>數據引擎</strong>負責接收、聚合、驗證和分發所有市場數據</li>
+                        <li><strong>訂閱模式</strong>：策略訂閱感興趣的數據，引擎自動推送</li>
+                        <li><strong>18 種 Bar 聚合</strong>：時間、成交量、Tick、Renko 等多種方式</li>
+                        <li><strong>DataClient</strong>：統一介面，不同實現連接不同數據源</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_06_Cache/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 06：緩存系統</span></a>
+                    <a href="../Module_08_ExecutionEngine/index.html" style="text-align:right;"><span
+                            class="nav-label">下一章 →</span><span class="nav-title">模組 08：執行引擎</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

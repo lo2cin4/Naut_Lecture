@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模組 14：配置系統深潛 — NautilusTrader 教材</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">第零階段：起步</div>
+                </div>
+                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第一階段：全局認識</div>
+                </div>
+                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+                    為什麼選擇 NT</a>
+                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+                    架構鳥瞰圖</a>
+                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+                    設計哲學</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第二階段：核心組件</div>
+                </div>
+                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+                    執行引擎</a>
+                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第三階段：實戰應用</div>
+                </div>
+                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+                    策略開發</a>
+                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+                    回測與實盤</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第四階段：進階擴展</div>
+                </div>
+                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+                    適配器與擴展</a>
+                <a class="nav-item active" href="index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+                <div class="nav-section">
+                    <div class="nav-section-title">第五階段：動手 Lab</div>
+                </div>
+                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <button class="menu-toggle" aria-label="開啟選單">☰</button>
+                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span
+                        class="separator">›</span>模組 14</div>
+            </div>
+            <div class="content-container">
+
+                <span class="phase-label phase-4">第四階段：進階擴展</span>
+                <h1>模組 14：配置系統深潛<span class="subtitle">掌握 NautilusTrader 的每一個配置參數，建立可重現、可調優的交易系統</span></h1>
+
+                <!-- ==================== -->
+                <h2>一、為什麼配置系統如此重要？</h2>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼不直接在代碼裡寫死參數？</div>
+                    <p><strong>❌ 如果把參數寫在策略代碼裡</strong>：每次改參數都要改代碼 → 版本管理混亂 → 回測和實盤可能用了不同參數 → 災難。</p>
+                    <p><strong>✅ 用配置系統</strong>：參數集中管理、可序列化、可版本控制。<code>NautilusConfig</code> 基於
+                        <code>msgspec</code>，所有配置都是 <strong>frozen（不可變）</strong> 的，確保運行期間不會被意外修改。</p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>二、配置層級架構</h2>
+                <p>NautilusTrader 的配置是<strong>樹狀結構</strong>，最頂層的配置包含所有子系統的配置：</p>
+
+                <div class="mermaid-wrapper">
+                    <div class="mermaid">
+                        flowchart TD
+                        root["🔧 TradingNodeConfig / BacktestEngineConfig"]
+                        kernel["NautilusKernelConfig"]
+                        cache["CacheConfig"]
+                        msgbus["MessageBusConfig"]
+                        data["DataEngineConfig"]
+                        exec["ExecEngineConfig"]
+                        risk["RiskEngineConfig"]
+                        log["LoggingConfig"]
+                        port["PortfolioConfig"]
+                        emu["OrderEmulatorConfig"]
+                        stream["StreamingConfig"]
+                        ctrl["ControllerConfig"]
+
+                        root --> kernel
+                        kernel --> cache
+                        kernel --> msgbus
+                        kernel --> data
+                        kernel --> exec
+                        kernel --> risk
+                        kernel --> log
+                        kernel --> port
+                        kernel --> emu
+                        kernel --> stream
+                        kernel --> ctrl
+
+                        style root fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
+                        style kernel fill:#0f1419,stroke:#ab47bc,stroke-width:2px
+                    </div>
+                    <div class="caption">圖 1：配置的樹狀層級 — 一個頂層配置包含所有子系統配置</div>
+                </div>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ frozen 不可變</div>
+                    <p>所有的 Config 類都標記了
+                        <code>frozen=True</code>，一旦創建就<strong>不能修改</strong>。這是刻意設計：確保在系統運行期間參數不會被意外改變。如果你需要改參數，必須重新創建配置並重啟系統。
+                    </p>
+                </div>
+
+                <!-- ==================== -->
+                <h2>三、NautilusKernelConfig — 核心配置</h2>
+                <p>這是整個系統的核心配置，所有 <code>TradingNodeConfig</code> 和 <code>BacktestEngineConfig</code> 都繼承自它。</p>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>參數</th>
+                                <th>類型</th>
+                                <th>預設值</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>environment</code></td>
+                                <td>Environment</td>
+                                <td>—</td>
+                                <td>運行環境：BACKTEST / SANDBOX / LIVE</td>
+                            </tr>
+                            <tr>
+                                <td><code>trader_id</code></td>
+                                <td>TraderId</td>
+                                <td>"TRADER-001"</td>
+                                <td>交易員 ID，格式必須是 NAME-TAG</td>
+                            </tr>
+                            <tr>
+                                <td><code>instance_id</code></td>
+                                <td>UUID4</td>
+                                <td>None (自動)</td>
+                                <td>實例 UUID，用於區分多個並行運行的實例</td>
+                            </tr>
+                            <tr>
+                                <td><code>load_state</code></td>
+                                <td>bool</td>
+                                <td>False</td>
+                                <td>啟動時是否從數據庫載入策略狀態</td>
+                            </tr>
+                            <tr>
+                                <td><code>save_state</code></td>
+                                <td>bool</td>
+                                <td>False</td>
+                                <td>停止時是否將策略狀態存入數據庫</td>
+                            </tr>
+                            <tr>
+                                <td><code>loop_debug</code></td>
+                                <td>bool</td>
+                                <td>False</td>
+                                <td>asyncio 事件循環是否開啟 debug 模式</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3>超時參數（實盤必調）</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>參數</th>
+                                <th>預設值</th>
+                                <th>說明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>timeout_connection</code></td>
+                                <td>120s</td>
+                                <td>等待所有客戶端連接並初始化的超時</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeout_reconciliation</code></td>
+                                <td>30s</td>
+                                <td>等待執行狀態對帳的超時（實盤啟動時很重要）</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeout_portfolio</code></td>
+                                <td>10s</td>
+                                <td>等待 Portfolio 初始化保證金和未實現盈虧的超時</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeout_disconnection</code></td>
+                                <td>10s</td>
+                                <td>等待所有客戶端斷開連接的超時</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeout_post_stop</code></td>
+                                <td>10s</td>
+                                <td>停止後等待殘留事件的超時</td>
+                            </tr>
+                            <tr>
+                                <td><code>timeout_shutdown</code></td>
+                                <td>5s</td>
+                                <td>最終關閉時等待待處理任務取消的超時</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>四、子系統配置詳解</h2>
+
+                <h3>4.1 CacheConfig — 緩存配置</h3>
+                <pre><code class="language-python">from nautilus_trader.cache.config import CacheConfig
+
+cache_config = CacheConfig(
+    database=DatabaseConfig(
+        type="redis",
+        host="localhost",
+        port=6379,
+    ),
+    timestamps_as_iso8601=True,   # 時間戳格式
+    buffer_interval_ms=100,       # 批量寫入間隔
+)</code></pre>
+
+                <div class="callout callout-info">
+                    <div class="callout-title">💡 為什麼需要 Redis 緩存？</div>
+                    <p><strong>❌ 不用外部緩存</strong>：程序崩潰後所有狀態丟失，重啟後策略不知道自己有多少持倉、有哪些未完成訂單。</p>
+                    <p><strong>✅ 用 Redis</strong>：狀態持久化，崩潰重啟後可以恢復 — 設定 <code>load_state=True</code> 即可自動從 Redis 載入之前的狀態。
+                    </p>
+                </div>
+
+                <h3>4.2 MessageBusConfig — 消息總線配置</h3>
+                <pre><code class="language-python">from nautilus_trader.common.config import MessageBusConfig
+
+msgbus_config = MessageBusConfig(
+    database=DatabaseConfig(
+        type="redis",
+        host="localhost",
+        port=6379,
+    ),
+    stream_per_topic=True,        # 每個主題一個 Redis Stream
+    autotrim_size=10000,          # 每個 Stream 最多保留 10000 條消息
+    types_filter=[                # 只持久化特定事件類型
+        "OrderFilled",
+        "PositionChanged",
+    ],
+)</code></pre>
+
+                <h3>4.3 LoggingConfig — 日誌配置</h3>
+                <pre><code class="language-python">from nautilus_trader.common.config import LoggingConfig
+
+logging_config = LoggingConfig(
+    log_level="INFO",              # 控制台日誌級別
+    log_level_file="DEBUG",        # 文件日誌級別（更詳細）
+    log_directory="./logs",        # 日誌文件目錄
+    log_file_name="nautilus",      # 日誌文件名
+    log_file_format=None,          # 日誌格式（None=預設）
+    log_colors=True,               # 控制台彩色輸出
+    log_component_levels={
+        # 為特定組件設定不同日誌級別
+        "RiskEngine": "WARNING",   # 風控引擎只記錄警告以上
+        "DataEngine": "INFO",      # 數據引擎記錄所有信息
+    },
+    bypass_logging=False,          # 完全跳過日誌（極致性能模式）
+)</code></pre>
+
+                <div class="callout callout-warning">
+                    <div class="callout-title">⚠️ Rust 高性能日誌</div>
+                    <p>NautilusTrader 的日誌系統<strong>底層是 Rust 實現的</strong>，這是它能在高頻場景下運行的關鍵。Python 的 logging
+                        模組在每秒數萬條日誌時會顯著拖慢系統，但 Rust 日誌器幾乎沒有性能損失。</p>
+                </div>
+
+                <h3>4.4 LiveDataEngineConfig / LiveExecEngineConfig</h3>
+                <pre><code class="language-python">from nautilus_trader.live.config import (
+    LiveDataEngineConfig,
+    LiveExecEngineConfig,
+    LiveRiskEngineConfig,
+)
+
+data_engine = LiveDataEngineConfig(
+    qos=True,                     # 數據品質保證（檢查重複、順序）
+)
+
+exec_engine = LiveExecEngineConfig(
+    reconciliation=True,          # 啟用訂單對帳（強烈建議開啟）
+    inflight_check_interval_ms=2000,  # 檢查「飛行中」訂單的間隔
+    inflight_check_threshold_ms=5000, # 訂單超過此時間未確認則告警
+)
+
+risk_engine = LiveRiskEngineConfig(
+    bypass=False,                 # 是否跳過風控（生產環境請勿設 True！）
+    max_order_submit_rate="100/00:00:01",     # 每秒最多提交 100 單
+    max_order_modify_rate="100/00:00:01",     # 每秒最多修改 100 單
+)</code></pre>
+
+                <!-- ==================== -->
+                <h2>五、完整的實盤配置範例</h2>
+                <pre><code class="language-python">"""完整的 TradingNode 配置 — 生產級別"""
+from nautilus_trader.live.node import TradingNode
+from nautilus_trader.live.config import (
+    TradingNodeConfig,
+    LiveDataEngineConfig,
+    LiveExecEngineConfig,
+    LiveRiskEngineConfig,
+)
+from nautilus_trader.cache.config import CacheConfig
+from nautilus_trader.common.config import (
+    DatabaseConfig,
+    LoggingConfig,
+    MessageBusConfig,
+)
+from nautilus_trader.adapters.binance.config import (
+    BinanceLiveDataClientConfig,
+    BinanceLiveExecClientConfig,
+)
+
+config = TradingNodeConfig(
+    trader_id="LIVE-001",
+
+    # === 緩存 ===
+    cache=CacheConfig(
+        database=DatabaseConfig(type="redis", host="localhost", port=6379),
+    ),
+
+    # === 消息總線 ===
+    message_bus=MessageBusConfig(
+        database=DatabaseConfig(type="redis", host="localhost", port=6379),
+        types_filter=["OrderFilled", "PositionChanged"],
+    ),
+
+    # === 日誌 ===
+    logging=LoggingConfig(
+        log_level="INFO",
+        log_level_file="DEBUG",
+        log_directory="./logs",
+    ),
+
+    # === 引擎配置 ===
+    data_engine=LiveDataEngineConfig(qos=True),
+    exec_engine=LiveExecEngineConfig(
+        reconciliation=True,
+        inflight_check_interval_ms=2000,
+    ),
+    risk_engine=LiveRiskEngineConfig(
+        max_order_submit_rate="50/00:00:01",
+    ),
+
+    # === 適配器 ===
+    data_clients={
+        "BINANCE": BinanceLiveDataClientConfig(
+            api_key="your-key",
+            api_secret="your-secret",
+            account_type="USDT_FUTURE",
+        ),
+    },
+    exec_clients={
+        "BINANCE": BinanceLiveExecClientConfig(
+            api_key="your-key",
+            api_secret="your-secret",
+            account_type="USDT_FUTURE",
+        ),
+    },
+
+    # === 超時 ===
+    timeout_connection=60.0,
+    timeout_reconciliation=30.0,
+
+    # === 狀態持久化 ===
+    load_state=True,
+    save_state=True,
+)
+
+node = TradingNode(config=config)
+node.trader.add_strategy(my_strategy)
+node.run()</code></pre>
+
+                <!-- ==================== -->
+                <h2>六、回測 vs 實盤 配置對比</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>項目</th>
+                                <th>BacktestEngineConfig</th>
+                                <th>TradingNodeConfig</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>環境</strong></td>
+                                <td>BACKTEST</td>
+                                <td>LIVE / SANDBOX</td>
+                            </tr>
+                            <tr>
+                                <td><strong>數據源</strong></td>
+                                <td>BacktestDataConfig (Catalog)</td>
+                                <td>LiveDataClientConfig (適配器)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>交易所</strong></td>
+                                <td>BacktestVenueConfig (模擬)</td>
+                                <td>LiveExecClientConfig (真實)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>引擎</strong></td>
+                                <td>DataEngineConfig</td>
+                                <td>LiveDataEngineConfig (多了 qos 等)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Redis</strong></td>
+                                <td>通常不需要</td>
+                                <td>強烈建議（狀態持久化）</td>
+                            </tr>
+                            <tr>
+                                <td><strong>對帳</strong></td>
+                                <td>不需要</td>
+                                <td>reconciliation=True</td>
+                            </tr>
+                            <tr>
+                                <td><strong>策略代碼</strong></td>
+                                <td colspan="2" style="text-align:center;">✅ 完全不變</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- ==================== -->
+                <h2>七、StreamingConfig — 串流數據導出</h2>
+                <pre><code class="language-python">from nautilus_trader.common.config import StreamingConfig
+
+streaming = StreamingConfig(
+    catalog_path="./catalog",    # 自動存入 DataCatalog
+    fs_protocol="file",          # 文件系統協議
+    include_types=[              # 只存這些數據類型
+        "OrderFilled",
+        "PositionChanged",
+        "Bar",
+    ],
+)
+
+# 在 TradingNodeConfig 中使用
+config = TradingNodeConfig(
+    streaming=streaming,
+    # ... 其他配置
+)</code></pre>
+                <p>這樣在實盤運行時，指定的事件和數據會<strong>自動寫入 Parquet</strong>，回頭就能用 DataCatalog 做離線分析。</p>
+
+                <!-- ==================== -->
+                <h2>八、互動練習</h2>
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 1：配置參數選擇</div>
+                    <p>你的策略連接 Binance 交易所，但啟動時經常超時。你應該調整哪個超時參數？</p>
+                    <button class="btn-run" onclick="toggleAnswer('answer-timeout')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-timeout">調整 timeout_connection（預設 120s）
+
+                        如果 120s 還不夠，可能原因：
+                        1. 網路延遲高 → 增加到 180s 或 300s
+                        2. 訂閱的品種太多 → 適配器需要更多時間初始化
+                        3. Binance API 限速 → 降低初始訂閱量
+
+                        另外要檢查：
+                        - timeout_reconciliation（對帳超時）
+                        - timeout_portfolio（Portfolio 初始化超時）
+
+                        💡 如果只是偶爾超時，優先增加 timeout_connection
+                        如果經常超時，需要檢查網路和訂閱邏輯</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 2：Redis 配置決策</div>
+                    <p>以下場景，你是否需要配置 Redis？為什麼？</p>
+                    <ol>
+                        <li>只做歷史回測</li>
+                        <li>實盤運行一個策略，白天手動重啟</li>
+                        <li>7x24 自動化運行多個策略</li>
+                    </ol>
+                    <button class="btn-run" onclick="toggleAnswer('answer-redis')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-redis">1. 只做回測 → ❌ 不需要
+                        回測是一次性運行，不需要狀態持久化
+
+                        2. 白天手動重啟 → ⚠️ 建議配置
+                        重啟後需要知道有哪些未完成訂單和持倉
+                        設定 load_state=True, save_state=True
+
+                        3. 7x24 自動化 → ✅ 必須配置
+                        - CacheConfig 用 Redis 存狀態
+                        - MessageBusConfig 用 Redis 存事件流
+                        - 崩潰重啟後自動恢復
+                        - 支持多實例分析歷史事件</div>
+                </div>
+
+                <div class="exercise-block">
+                    <div class="exercise-title">🧠 練習 3：找出配置錯誤</div>
+                    <p>以下生產配置有 3 個風險，找出來：</p>
+                    <pre><code class="language-python">config = TradingNodeConfig(
+    trader_id="LIVE-001",
+    risk_engine=LiveRiskEngineConfig(
+        bypass=True,                          # (1)
+    ),
+    exec_engine=LiveExecEngineConfig(
+        reconciliation=False,                 # (2)
+    ),
+    logging=LoggingConfig(
+        bypass_logging=True,                  # (3)
+    ),
+    load_state=False,
+    save_state=False,
+)</code></pre>
+                    <button class="btn-run" onclick="toggleAnswer('answer-find-bug')">💡 查看答案</button>
+                    <div class="exercise-output" id="answer-find-bug">三個嚴重風險：
+
+                        1. bypass=True → 🔴 完全跳過風控！
+                        生產環境絕不能跳過風控，一個 bug 可能導致無限下單
+                        修正：bypass=False
+
+                        2. reconciliation=False → 🔴 不對帳！
+                        重啟後本地訂單狀態和交易所不一致
+                        可能導致重複下單或遺失持倉追蹤
+                        修正：reconciliation=True
+
+                        3. bypass_logging=True → 🟠 完全沒有日誌！
+                        出問題時無法排查原因
+                        修正：bypass_logging=False，搭配合適的 log_level</div>
+                </div>
+
+                <h2>九、本模組重點回顧</h2>
+                <div class="card">
+                    <div class="card-title">📋 關鍵點</div>
+                    <ol>
+                        <li><strong>樹狀配置</strong>：TradingNodeConfig 包含所有子系統配置（Cache、MessageBus、引擎、日誌）</li>
+                        <li><strong>Frozen 不可變</strong>：所有 Config 都是 frozen，運行期間參數不能被修改</li>
+                        <li><strong>Redis 持久化</strong>：Cache 和 MessageBus 可配置 Redis，實現狀態恢復和事件流存儲</li>
+                        <li><strong>Rust 日誌</strong>：底層 Rust 實現，支持組件級日誌級別控制</li>
+                        <li><strong>超時參數</strong>：6 個超時參數控制系統啟動/關閉流程</li>
+                        <li><strong>StreamingConfig</strong>：實盤數據自動寫入 Parquet，事後可做離線分析</li>
+                    </ol>
+                </div>
+
+                <div class="page-nav">
+                    <a href="../Module_13_Adapters_Extensions/index.html"><span class="nav-label">← 上一章</span><span
+                            class="nav-title">模組 13：適配器與擴展</span></a>
+                    <a href="../Module_15_Live_Advanced/index.html" style="text-align:right;"><span
+                            class="nav-label">下一章 →</span><span class="nav-title">模組 15：實盤部署進階</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-to-top" aria-label="回到頂部">↑</button>
+    <script src="../assets/lecture.js"></script>
+</body>
+
+</html>

@@ -1,98 +1,147 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 03：設計哲學與品質屬性 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 03：設計哲學與品質屬性 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_03_Design_Philosophy/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
 
-        <!-- 側邊欄 -->
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<!-- 側邊欄 -->
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇 NautilusTrader</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構鳥瞰圖</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">03</span> 設計哲學與品質屬性</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<a class="nav-item active" href="index.html"><span class="nav-num">03</span> 設計哲學與品質屬性</a>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <!-- 主內容 -->
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第一階段<span
-                        class="separator">›</span>模組 03</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-1">第一階段：全局認識</span>
-                <h1>模組 03：設計哲學與品質屬性<span class="subtitle">理解每個設計決策背後的「為什麼」— 這決定了系統的靈魂</span></h1>
-
-                <p>上一個模組我們看了系統「長什麼樣」。這個模組我們要深入理解它「為什麼」要這樣做。NautilusTrader 的每一個設計選擇都不是隨便做的，都有明確的交易場景做依據。</p>
-
-                <!-- ==================== -->
-                <h2>一、五大架構設計模式</h2>
-                <p>NautilusTrader 使用了五種經過驗證的軟件工程設計模式。不用擔心，我們會用交易場景來解釋每一個。</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<!-- 主內容 -->
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第一階段<span class="separator">›</span>模組 03</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-1">第一階段：全局認識</span>
+<h1>模組 03：設計哲學與品質屬性<span class="subtitle">理解每個設計決策背後的「為什麼」— 這決定了系統的靈魂</span></h1>
+<p>上一個模組我們看了系統「長什麼樣」。這個模組我們要深入理解它「為什麼」要這樣做。NautilusTrader 的每一個設計選擇都不是隨便做的，都有明確的交易場景做依據。</p>
+<!-- ==================== -->
+<h2>一、五大架構設計模式</h2>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 進階內容 (選讀)</div>
+<p>本節涉及較深的軟體工程與系統架構概念。如果你是量化交易新手，可以先粗略瀏覽或直接跳過本節，這完全不會影響你後續學習如何撰寫策略。</p>
+</div>
+<p>NautilusTrader 使用了五種經過驗證的軟件工程設計模式。不用擔心，我們會用交易場景來解釋每一個。</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
-                        root(("🐚 NautilusTrader<br />設計哲學"))
+                        root(("🐚 NautilusTrader<br/>設計哲學"))
 
                         subgraph ddd["💎 領域驅動 (DDD)"]
                         direction TB
@@ -124,11 +173,11 @@
                         fail2["不讓壞數據擴散"]
                         end
 
-                        root ==> ddd
-                        root ==> eda
-                        root ==> hexa
-                        root ==> crash
-                        root ==> fail
+                        root ==&gt; ddd
+                        root ==&gt; eda
+                        root ==&gt; hexa
+                        root ==&gt; crash
+                        root ==&gt; fail
 
                         style root fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style ddd fill:#0f1419,stroke:#ab47bc,stroke-width:1px
@@ -137,120 +186,110 @@
                         style crash fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                         style fail fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                     </div>
-                    <div class="caption">圖 1：NautilusTrader 的五大設計哲學</div>
-                </div>
-
-                <!-- ==================== -->
-                <h3>1.1 領域驅動設計 (DDD)</h3>
-                <div class="card">
-                    <div class="card-title">📖 用交易的語言寫代碼</div>
-                    <p><strong>核心思想</strong>：代碼應該用交易員能理解的「語言」來寫，而不是用程式設計師的抽象概念。</p>
-                </div>
-
-                <p>在 NautilusTrader 中，你會看到這些名字：</p>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>交易概念</th>
-                                <th>代碼類型</th>
-                                <th>說明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>價格</td>
-                                <td><code>Price</code></td>
-                                <td>不是普通的浮點數，而是帶精度的定點數，避免 0.1 + 0.2 ≠ 0.3 的問題</td>
-                            </tr>
-                            <tr>
-                                <td>數量</td>
-                                <td><code>Quantity</code></td>
-                                <td>同樣是定點數，保證計算精確</td>
-                            </tr>
-                            <tr>
-                                <td>訂單</td>
-                                <td><code>Order</code></td>
-                                <td>完整的訂單對象，追蹤從建立到完成的每個狀態</td>
-                            </tr>
-                            <tr>
-                                <td>持倉</td>
-                                <td><code>Position</code></td>
-                                <td>由多個事件聚合而成，即時反映盈虧</td>
-                            </tr>
-                            <tr>
-                                <td>金融工具</td>
-                                <td><code>Instrument</code></td>
-                                <td>股票、期貨、期權等，每種都有專門的子類</td>
-                            </tr>
-                            <tr>
-                                <td>帳戶</td>
-                                <td><code>Account</code></td>
-                                <td>現金帳戶、保證金帳戶，各有不同的結算邏輯</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼這很重要？</div>
-                    <p>因為交易員看代碼時，能直接看懂。你不需要猜「float price」代表什麼精度。<code>Price("1.23450", precision=5)</code> 一目了然：這是一個 5
+<div class="caption">圖 1：NautilusTrader 的五大設計哲學</div>
+</div>
+<!-- ==================== -->
+<h3>1.1 領域驅動設計 (DDD)</h3>
+<div class="card">
+<div class="card-title">📖 用交易的語言寫代碼</div>
+<p><strong>核心思想</strong>：代碼應該用交易員能理解的「語言」來寫，而不是用程式設計師的抽象概念。</p>
+</div>
+<p>在 NautilusTrader 中，你會看到這些名字：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>交易概念</th>
+<th>代碼類型</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>價格</td>
+<td><code>Price</code></td>
+<td>不是普通的浮點數，而是帶精度的定點數，避免 0.1 + 0.2 ≠ 0.3 的問題</td>
+</tr>
+<tr>
+<td>數量</td>
+<td><code>Quantity</code></td>
+<td>同樣是定點數，保證計算精確</td>
+</tr>
+<tr>
+<td>訂單</td>
+<td><code>Order</code></td>
+<td>完整的訂單對象，追蹤從建立到完成的每個狀態</td>
+</tr>
+<tr>
+<td>持倉</td>
+<td><code>Position</code></td>
+<td>由多個事件聚合而成，即時反映盈虧</td>
+</tr>
+<tr>
+<td>金融工具</td>
+<td><code>Instrument</code></td>
+<td>股票、期貨、期權等，每種都有專門的子類</td>
+</tr>
+<tr>
+<td>帳戶</td>
+<td><code>Account</code></td>
+<td>現金帳戶、保證金帳戶，各有不同的結算邏輯</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼這很重要？</div>
+<p>因為交易員看代碼時，能直接看懂。你不需要猜「float price」代表什麼精度。<code>Price("1.23450", precision=5)</code> 一目了然：這是一個 5
                         位小數精度的價格。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h3>1.2 事件驅動架構</h3>
-                <div class="card">
-                    <div class="card-title">⚡ 一切皆事件</div>
-                    <p><strong>核心思想</strong>：系統不是按順序跑的，而是「有事件發生時才行動」。</p>
-                </div>
-
-                <p>想像一下兩種不同的交易方式：</p>
-
-                <div class="feature-grid">
-                    <div class="feature-card" style="border-color:var(--accent-red);">
-                        <span class="icon">❌</span>
-                        <h4>傳統方式（輪詢）</h4>
-                        <p>每秒查一次：「價格變了嗎？」「有新 K 線嗎？」「訂單成交了嗎？」<br /><br />→ 浪費大量資源在「什麼都沒發生」的時候</p>
-                    </div>
-                    <div class="feature-card" style="border-color:var(--accent-green);">
-                        <span class="icon">✅</span>
-                        <h4>事件驅動方式</h4>
-                        <p>系統告訴你：「新 K 線來了！」「你的訂單成交了！」<br /><br />→ 只在有事件時才行動，高效且即時</p>
-                    </div>
-                </div>
-
-                <p>在 NautilusTrader 中，你的策略會「訂閱」感興趣的事件，然後等系統推送：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h3>1.2 事件驅動架構</h3>
+<div class="card">
+<div class="card-title">⚡ 一切皆事件</div>
+<p><strong>核心思想</strong>：系統不是按順序跑的，而是「有事件發生時才行動」。</p>
+</div>
+<p>想像一下兩種不同的交易方式：</p>
+<div class="feature-grid">
+<div class="feature-card" style="border-color:var(--accent-red);">
+<span class="icon">❌</span>
+<h4>傳統方式（輪詢）</h4>
+<p>每秒查一次：「價格變了嗎？」「有新 K 線嗎？」「訂單成交了嗎？」<br/><br/>→ 浪費大量資源在「什麼都沒發生」的時候</p>
+</div>
+<div class="feature-card" style="border-color:var(--accent-green);">
+<span class="icon">✅</span>
+<h4>事件驅動方式</h4>
+<p>系統告訴你：「新 K 線來了！」「你的訂單成交了！」<br/><br/>→ 只在有事件時才行動，高效且即時</p>
+</div>
+</div>
+<p>在 NautilusTrader 中，你的策略會「訂閱」感興趣的事件，然後等系統推送：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         sequenceDiagram
                         participant S as 🎯 你的策略
                         participant MB as 📡 消息總線
 
                         Note over S: on_start() 啟動時
-                        S->>MB: 訂閱 BTC/USDT 的 1 分鐘 K 線
-                        S->>MB: 訂閱 BTC/USDT 的報價
+                        S-&gt;&gt;MB: 訂閱 BTC/USDT 的 1 分鐘 K 線
+                        S-&gt;&gt;MB: 訂閱 BTC/USDT 的報價
                         Note over S: 等待事件...
-                        MB->>S: on_bar(bar) — 新 K 線到了！
-                        S->>S: 計算指標、判斷信號
-                        MB->>S: on_quote_tick(tick) — 新報價到了！
-                        S->>S: 更新即時數據
-                        MB->>S: on_order_filled(event) — 訂單成交了！
-                        S->>S: 處理成交邏輯
+                        MB-&gt;&gt;S: on_bar(bar) — 新 K 線到了！
+                        S-&gt;&gt;S: 計算指標、判斷信號
+                        MB-&gt;&gt;S: on_quote_tick(tick) — 新報價到了！
+                        S-&gt;&gt;S: 更新即時數據
+                        MB-&gt;&gt;S: on_order_filled(event) — 訂單成交了！
+                        S-&gt;&gt;S: 處理成交邏輯
                     </div>
-                    <div class="caption">圖 2：事件驅動的策略運作方式</div>
-                </div>
-
-                <!-- ==================== -->
-                <h3>1.3 六角形架構（Ports and Adapters）</h3>
-                <div class="card">
-                    <div class="card-title">🔌 策略不知道自己連接的是誰</div>
-                    <p><strong>核心思想</strong>：核心業務邏輯和外部世界完全隔離。透過「端口」(Port) 和「適配器」(Adapter) 連接。</p>
-                </div>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="caption">圖 2：事件驅動的策略運作方式</div>
+</div>
+<!-- ==================== -->
+<h3>1.3 六角形架構（Ports and Adapters）</h3>
+<div class="card">
+<div class="card-title">🔌 策略不知道自己連接的是誰</div>
+<p><strong>核心思想</strong>：核心業務邏輯和外部世界完全隔離。透過「端口」(Port) 和「適配器」(Adapter) 連接。</p>
+</div>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph 外部_左["外部數據"]
                         binance_data["Binance WS"]
@@ -259,7 +298,7 @@
                         end
 
                         subgraph 端口_左["📥 數據端口"]
-                        dc["DataClient<br />(介面)"]
+                        dc["DataClient<br/>(介面)"]
                         end
 
                         subgraph 核心["🧠 核心業務邏輯"]
@@ -269,7 +308,7 @@
                         end
 
                         subgraph 端口_右["📤 執行端口"]
-                        ec["ExecutionClient<br />(介面)"]
+                        ec["ExecutionClient<br/>(介面)"]
                         end
 
                         subgraph 外部_右["外部交易所"]
@@ -278,264 +317,245 @@
                         sim_exec["模擬器"]
                         end
 
-                        binance_data --> dc
-                        ib_data --> dc
-                        file_data --> dc
-                        dc --> de --> strategy --> ee --> ec
-                        ec --> binance_exec
-                        ec --> ib_exec
-                        ec --> sim_exec
+                        binance_data --&gt; dc
+                        ib_data --&gt; dc
+                        file_data --&gt; dc
+                        dc --&gt; de --&gt; strategy --&gt; ee --&gt; ec
+                        ec --&gt; binance_exec
+                        ec --&gt; ib_exec
+                        ec --&gt; sim_exec
                     </div>
-                    <div class="caption">圖 3：六角形架構 — 核心不依賴任何特定交易所</div>
-                </div>
-
-                <div class="callout callout-success">
-                    <div class="callout-title">✅ 對你的直接好處</div>
-                    <p>這就是為什麼你的策略代碼在回測和實盤中<strong>完全一樣</strong>：策略只和「端口」互動，不知道背後是模擬器還是 Binance。換交易所只需要換一個適配器。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h3>1.4 Crash-Only 設計</h3>
-                <div class="card">
-                    <div class="card-title">💥 崩潰 = 重啟的一種方式</div>
-                    <p><strong>核心思想</strong>：與其花大量精力寫「優雅關閉」的代碼，不如確保系統能從崩潰中快速恢復。</p>
-                </div>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">🔄</span>
-                        <h4>統一恢復路徑</h4>
-                        <p>啟動和崩潰恢復走同一條代碼路徑。因為每次啟動都在「恢復」，所以這條路徑被充分測試。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">💾</span>
-                        <h4>外部化狀態</h4>
-                        <p>關鍵狀態（訂單、持倉）持久化到外部存儲（如 Redis）。崩潰也不會丟失狀態。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">⚡</span>
-                        <h4>快速重啟</h4>
-                        <p>設計為能在崩潰後毫秒級重啟，最小化停機時間。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🔁</span>
-                        <h4>冪等操作</h4>
-                        <p>操作設計為可以安全重試。重啟後重新執行不會產生副作用。</p>
-                    </div>
-                </div>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ 交易場景</div>
-                    <p>想像凌晨 3 點你的交易系統崩潰了。Crash-Only 設計意味著系統會自動重啟，從 Redis 恢復所有訂單和持倉狀態，然後繼續運行。你可能連睡夢中都不知道發生過崩潰。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h3>1.5 Fail-Fast 數據完整性策略</h3>
-                <div class="card">
-                    <div class="card-title">🚫 壞數據？立即拒絕！</div>
-                    <p><strong>核心思想</strong>：在交易系統中，<strong>腐壞的數據比沒有數據更危險</strong>。發現錯誤數據時立即停止，絕不讓它擴散。</p>
-                </div>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="caption">圖 3：六角形架構 — 核心不依賴任何特定交易所</div>
+</div>
+<div class="callout callout-success">
+<div class="callout-title">✅ 對你的直接好處</div>
+<p>這就是為什麼你的策略代碼在回測和實盤中<strong>完全一樣</strong>：策略只和「端口」互動，不知道背後是模擬器還是 Binance。換交易所只需要換一個適配器。</p>
+</div>
+<!-- ==================== -->
+<h3>1.4 Crash-Only 設計</h3>
+<div class="card">
+<div class="card-title">💥 崩潰 = 重啟的一種方式</div>
+<p><strong>核心思想</strong>：與其花大量精力寫「優雅關閉」的代碼，不如確保系統能從崩潰中快速恢復。</p>
+</div>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">🔄</span>
+<h4>統一恢復路徑</h4>
+<p>啟動和崩潰恢復走同一條代碼路徑。因為每次啟動都在「恢復」，所以這條路徑被充分測試。</p>
+</div>
+<div class="feature-card">
+<span class="icon">💾</span>
+<h4>外部化狀態</h4>
+<p>關鍵狀態（訂單、持倉）持久化到外部存儲（如 Redis）。崩潰也不會丟失狀態。</p>
+</div>
+<div class="feature-card">
+<span class="icon">⚡</span>
+<h4>快速重啟</h4>
+<p>設計為能在崩潰後毫秒級重啟，最小化停機時間。</p>
+</div>
+<div class="feature-card">
+<span class="icon">🔁</span>
+<h4>冪等操作</h4>
+<p>操作設計為可以安全重試。重啟後重新執行不會產生副作用。</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 交易場景</div>
+<p>想像凌晨 3 點你的交易系統崩潰了。Crash-Only 設計意味著系統會自動重啟，從 Redis 恢復所有訂單和持倉狀態，然後繼續運行。你可能連睡夢中都不知道發生過崩潰。</p>
+</div>
+<!-- ==================== -->
+<h3>1.5 Fail-Fast 數據完整性策略</h3>
+<div class="card">
+<div class="card-title">🚫 壞數據？立即拒絕！</div>
+<p><strong>核心思想</strong>：在交易系統中，<strong>腐壞的數據比沒有數據更危險</strong>。發現錯誤數據時立即停止，絕不讓它擴散。</p>
+</div>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph 壞數據場景["😱 如果沒有 Fail-Fast"]
-                        bad_price["收到 NaN 價格"] --> calc["計算指標"] --> signal["產生錯誤信號"] --> order["下錯誤的訂單"] --> loss["💸
+                        bad_price["收到 NaN 價格"] --&gt; calc["計算指標"] --&gt; signal["產生錯誤信號"] --&gt; order["下錯誤的訂單"] --&gt; loss["💸
                         虧損"]
                         end
                     </div>
-                </div>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph 好的場景["✅ Fail-Fast 保護"]
-                        bad_price2["收到 NaN 價格"] --> reject["❌ 立即拒絕並報錯"] --> log["記錄錯誤日誌"] --> safe["系統安全"]
+                        bad_price2["收到 NaN 價格"] --&gt; reject["❌ 立即拒絕並報錯"] --&gt; log["記錄錯誤日誌"] --&gt; safe["系統安全"]
                         end
                     </div>
-                    <div class="caption">圖 4：Fail-Fast 防止錯誤數據擴散</div>
-                </div>
-
-                <p>以下情況系統會立即停止（Panic）：</p>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>情況</th>
-                                <th>例子</th>
-                                <th>為什麼要停止</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>算術溢出</td>
-                                <td>時間戳相加超過 u64 上限</td>
-                                <td>結果會是錯誤的數值</td>
-                            </tr>
-                            <tr>
-                                <td>無效數據</td>
-                                <td>價格是 NaN 或 Infinity</td>
-                                <td>會導致後續所有計算錯誤</td>
-                            </tr>
-                            <tr>
-                                <td>類型轉換失敗</td>
-                                <td>負數量、負時間戳</td>
-                                <td>這些在物理上不可能存在</td>
-                            </tr>
-                            <tr>
-                                <td>格式錯誤</td>
-                                <td>無法解析的價格字串</td>
-                                <td>說明數據源有問題</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、品質屬性優先級</h2>
-                <p>在設計系統時，不同的需求會互相衝突。NautilusTrader 按以下優先級做取捨：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="caption">圖 4：Fail-Fast 防止錯誤數據擴散</div>
+</div>
+<p>以下情況系統會立即停止（Panic）：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>情況</th>
+<th>例子</th>
+<th>為什麼要停止</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>算術溢出</td>
+<td>時間戳相加超過 u64 上限</td>
+<td>結果會是錯誤的數值</td>
+</tr>
+<tr>
+<td>無效數據</td>
+<td>價格是 NaN 或 Infinity</td>
+<td>會導致後續所有計算錯誤</td>
+</tr>
+<tr>
+<td>類型轉換失敗</td>
+<td>負數量、負時間戳</td>
+<td>這些在物理上不可能存在</td>
+</tr>
+<tr>
+<td>格式錯誤</td>
+<td>無法解析的價格字串</td>
+<td>說明數據源有問題</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>二、品質屬性優先級</h2>
+<p>在設計系統時，不同的需求會互相衝突。NautilusTrader 按以下優先級做取捨：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
-                        r["🥇 可靠性 (可靠第一)"] ==> p["🥈 性能 (速度其次)"]
-                        p ==> m["🥉 模組化 (結構優雅)"]
-                        m ==> t["4️⃣ 其它品質屬性 (測試、維護、部署)"]
+                        r["🥇 可靠性 (可靠第一)"] ==&gt; p["🥈 性能 (速度其次)"]
+                        p ==&gt; m["🥉 模組化 (結構優雅)"]
+                        m ==&gt; t["4️⃣ 其它品質屬性 (測試、維護、部署)"]
                     </div>
-                    <div class="caption">圖 5：品質屬性優先級排序</div>
-                </div>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ 優先級取捨的實際意義</div>
-                    <p>這個排序解釋了很多設計選擇。比如：系統在遇到可疑數據時會選擇<strong>崩潰（可靠性優先）</strong>而不是嘗試修復繼續運行（可用性優先）。因為在交易中，一個錯誤的決策比短暫的停機更危險。
+<div class="caption">圖 5：品質屬性優先級排序</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 優先級取捨的實際意義</div>
+<p>這個排序解釋了很多設計選擇。比如：系統在遇到可疑數據時會選擇<strong>崩潰（可靠性優先）</strong>而不是嘗試修復繼續運行（可用性優先）。因為在交易中，一個錯誤的決策比短暫的停機更危險。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>三、組件狀態機</h2>
-                <p>NautilusTrader 中的每個組件（引擎、策略、適配器）都遵循相同的<strong>狀態機模式</strong>。這意味著它們有明確定義的「生命階段」：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h2>三、組件狀態機</h2>
+<p>NautilusTrader 中的每個組件（引擎、策略、適配器）都遵循相同的<strong>狀態機模式</strong>。這意味著它們有明確定義的「生命階段」：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         stateDiagram-v2
-                        [*] --> PRE_INITIALIZED : 剛建立
+                        [*] --&gt; PRE_INITIALIZED : 剛建立
 
-                        PRE_INITIALIZED --> READY : register() 註冊
+                        PRE_INITIALIZED --&gt; READY : register() 註冊
 
-                        READY --> STARTING : start() 啟動中
-                        STARTING --> RUNNING : 啟動完成
+                        READY --&gt; STARTING : start() 啟動中
+                        STARTING --&gt; RUNNING : 啟動完成
 
-                        RUNNING --> STOPPING : stop() 停止中
-                        STOPPING --> STOPPED : 停止完成
+                        RUNNING --&gt; STOPPING : stop() 停止中
+                        STOPPING --&gt; STOPPED : 停止完成
 
-                        STOPPED --> STARTING : start() 重新啟動
-                        STOPPED --> RESETTING : reset() 重置中
-                        RESETTING --> READY : 重置完成
+                        STOPPED --&gt; STARTING : start() 重新啟動
+                        STOPPED --&gt; RESETTING : reset() 重置中
+                        RESETTING --&gt; READY : 重置完成
 
-                        RUNNING --> DEGRADING : degrade() 降級中
-                        DEGRADING --> DEGRADED : 進入降級狀態
+                        RUNNING --&gt; DEGRADING : degrade() 降級中
+                        DEGRADING --&gt; DEGRADED : 進入降級狀態
 
-                        RUNNING --> FAULTING : fault() 故障中
-                        FAULTING --> FAULTED : 進入故障狀態
+                        RUNNING --&gt; FAULTING : fault() 故障中
+                        FAULTING --&gt; FAULTED : 進入故障狀態
 
-                        DEGRADED --> STOPPING : stop()
-                        DEGRADED --> FAULTING : fault()
+                        DEGRADED --&gt; STOPPING : stop()
+                        DEGRADED --&gt; FAULTING : fault()
 
-                        STOPPED --> DISPOSING : dispose() 釋放中
-                        FAULTED --> DISPOSING : dispose()
-                        DISPOSING --> DISPOSED : 已釋放
+                        STOPPED --&gt; DISPOSING : dispose() 釋放中
+                        FAULTED --&gt; DISPOSING : dispose()
+                        DISPOSING --&gt; DISPOSED : 已釋放
 
-                        DISPOSED --> [*]
+                        DISPOSED --&gt; [*]
                     </div>
-                    <div class="caption">圖 6：組件生命週期狀態機 — 每個方框都是一個明確的狀態</div>
-                </div>
-
-                <h3>穩定狀態 vs 過渡狀態</h3>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>狀態</th>
-                                <th>類型</th>
-                                <th>說明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:var(--accent-cyan);">PRE_INITIALIZED</td>
-                                <td>穩定</td>
-                                <td>剛建立，還沒配置好</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-cyan);">READY</td>
-                                <td>穩定</td>
-                                <td>已配置，可以啟動</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-green);">RUNNING</td>
-                                <td>穩定</td>
-                                <td>正常運行中</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-cyan);">STOPPED</td>
-                                <td>穩定</td>
-                                <td>已停止</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-orange);">DEGRADED</td>
-                                <td>穩定</td>
-                                <td>降級運行（部分功能受限）</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-red);">FAULTED</td>
-                                <td>穩定</td>
-                                <td>故障狀態</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--text-muted);">DISPOSED</td>
-                                <td>穩定</td>
-                                <td>已釋放所有資源</td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--accent-purple);">STARTING, STOPPING, ...</td>
-                                <td>過渡</td>
-                                <td>正在轉換中，不會長時間停留</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 交易場景</div>
-                    <p>當交易所的 WebSocket 斷線時，對應的適配器會從 <strong>RUNNING</strong> 轉為
+<div class="caption">圖 6：組件生命週期狀態機 — 每個方框都是一個明確的狀態</div>
+</div>
+<h3>穩定狀態 vs 過渡狀態</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>狀態</th>
+<th>類型</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="color:var(--accent-cyan);">PRE_INITIALIZED</td>
+<td>穩定</td>
+<td>剛建立，還沒配置好</td>
+</tr>
+<tr>
+<td style="color:var(--accent-cyan);">READY</td>
+<td>穩定</td>
+<td>已配置，可以啟動</td>
+</tr>
+<tr>
+<td style="color:var(--accent-green);">RUNNING</td>
+<td>穩定</td>
+<td>正常運行中</td>
+</tr>
+<tr>
+<td style="color:var(--accent-cyan);">STOPPED</td>
+<td>穩定</td>
+<td>已停止</td>
+</tr>
+<tr>
+<td style="color:var(--accent-orange);">DEGRADED</td>
+<td>穩定</td>
+<td>降級運行（部分功能受限）</td>
+</tr>
+<tr>
+<td style="color:var(--accent-red);">FAULTED</td>
+<td>穩定</td>
+<td>故障狀態</td>
+</tr>
+<tr>
+<td style="color:var(--text-muted);">DISPOSED</td>
+<td>穩定</td>
+<td>已釋放所有資源</td>
+</tr>
+<tr>
+<td style="color:var(--accent-purple);">STARTING, STOPPING, ...</td>
+<td>過渡</td>
+<td>正在轉換中，不會長時間停留</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 交易場景</div>
+<p>當交易所的 WebSocket 斷線時，對應的適配器會從 <strong>RUNNING</strong> 轉為
                         <strong>DEGRADED</strong>（降級）。系統繼續用緩存中的數據運行，同時嘗試重新連接。如果重連成功，回到
                         <strong>RUNNING</strong>。如果重連失敗，可能轉為 <strong>FAULTED</strong>。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、Actor vs Component 特性</h2>
-                <p>在 Rust 的底層實現中，系統區分了兩種「角色」：</p>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">🎭</span>
-                        <h4>Actor（演員）</h4>
-                        <p><strong>功能</strong>：接收和處理消息<br /><strong>方法</strong>：<code>handle(message)</code><br /><strong>特點</strong>：輕量、專注於消息處理<br /><strong>例子</strong>：節流器
+</div>
+<!-- ==================== -->
+<h2>四、Actor vs Component 特性</h2>
+<p>在 Rust 的底層實現中，系統區分了兩種「角色」：</p>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">🎭</span>
+<h4>Actor（演員）</h4>
+<p><strong>功能</strong>：接收和處理消息<br/><strong>方法</strong>：<code>handle(message)</code><br/><strong>特點</strong>：輕量、專注於消息處理<br/><strong>例子</strong>：節流器
                             (Throttler)</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🔧</span>
-                        <h4>Component（組件）</h4>
-                        <p><strong>功能</strong>：管理生命週期<br /><strong>方法</strong>：<code>start(), stop(), reset()</code><br /><strong>特點</strong>：有狀態機、有生命週期<br /><strong>例子</strong>：DataEngine,
+</div>
+<div class="feature-card">
+<span class="icon">🔧</span>
+<h4>Component（組件）</h4>
+<p><strong>功能</strong>：管理生命週期<br/><strong>方法</strong>：<code>start(), stop(), reset()</code><br/><strong>特點</strong>：有狀態機、有生命週期<br/><strong>例子</strong>：DataEngine,
                             ExecutionEngine</p>
-                    </div>
-                </div>
-
-                <p>有些東西同時具備兩種特性：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+</div>
+<p>有些東西同時具備兩種特性：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph actors["🎭 Actor 特性 (消息處理)"]
                         direction TB
@@ -555,93 +575,85 @@
 
                         actors --- hybrid --- components
                     </div>
-                    <div class="caption">圖 7：Actor 和 Component 特性的分離與組合</div>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼要分開？</div>
-                    <p>分離的好處是<strong>靈活組合</strong>。你的策略需要接收消息（Actor）也需要被啟動/停止（Component），所以它兩者都是。但節流器只是一個消息轉發器，它不需要複雜的生命週期管理，所以只做
+<div class="caption">圖 7：Actor 和 Component 特性的分離與組合</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼要分開？</div>
+<p>分離的好處是<strong>靈活組合</strong>。你的策略需要接收消息（Actor）也需要被啟動/停止（Component），所以它兩者都是。但節流器只是一個消息轉發器，它不需要複雜的生命週期管理，所以只做
                         Actor 就夠了。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>五、線程模型</h2>
-                <p>這是一個非常重要的技術決策，直接影響系統的性能和行為：</p>
-
-                <div class="card" style="border-color:var(--accent-cyan);">
-                    <div class="card-title">🧵 核心定律：一個線程統治一切</div>
-                    <p>NautilusTrader 的<strong>核心處理邏輯</strong>在<strong>單一線程</strong>上運行。這包括消息總線上的所有消息調度、策略邏輯、風控檢查、訂單管理。
+</div>
+<!-- ==================== -->
+<h2>五、線程模型</h2>
+<p>這是一個非常重要的技術決策，直接影響系統的性能和行為：</p>
+<div class="card" style="border-color:var(--accent-cyan);">
+<div class="card-title">🧵 核心定律：一個線程統治一切</div>
+<p>NautilusTrader 的<strong>核心處理邏輯</strong>在<strong>單一線程</strong>上運行。這包括消息總線上的所有消息調度、策略邏輯、風控檢查、訂單管理。
                     </p>
-                </div>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph single["🧵 單線程核心 (確定性執行)"]
                         direction TB
-                        logic["消息調度 / 策略邏輯<br />風控檢查 / 持倉更新"]
+                        logic["消息調度 / 策略邏輯<br/>風控檢查 / 持倉更新"]
                         end
 
                         subgraph multi["🔀 多線程 IO (高併發服務)"]
                         direction TB
-                        io["WebSocket / API / DB<br />數據持久化"]
+                        io["WebSocket / API / DB<br/>數據持久化"]
                         end
 
-                        multi ==>|"事件推送"| single
-                        single ==>|"指令下發"| multi
+                        multi ==&gt;|"事件推送"| single
+                        single ==&gt;|"指令下發"| multi
 
                         style single fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style multi fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                     </div>
-                    <div class="caption">圖 8：單線程核心 + 多線程 IO 的線程模型</div>
-                </div>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">✅</span>
-                        <h4>單線程核心的好處</h4>
-                        <p>• 事件順序<strong>確定性</strong>保證<br />• 不需要加鎖（無鎖競爭）<br />• 回測和實盤行為一致<br />• 更容易調試</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">⚡</span>
-                        <h4>多線程 IO 的好處</h4>
-                        <p>• 網絡操作不阻塞核心邏輯<br />• WebSocket 連接在獨立線程<br />• 數據庫操作不影響策略速度<br />• 充分利用多核 CPU</p>
-                    </div>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 LMAX 交易所的啟發</div>
-                    <p>這個設計靈感來自 LMAX 交易所的 Disruptor 架構。LMAX 是一家真實的外匯交易所，它用單線程處理每秒<strong>600
+<div class="caption">圖 8：單線程核心 + 多線程 IO 的線程模型</div>
+</div>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">✅</span>
+<h4>單線程核心的好處</h4>
+<p>• 事件順序<strong>確定性</strong>保證<br/>• 不需要加鎖（無鎖競爭）<br/>• 回測和實盤行為一致<br/>• 更容易調試</p>
+</div>
+<div class="feature-card">
+<span class="icon">⚡</span>
+<h4>多線程 IO 的好處</h4>
+<p>• 網絡操作不阻塞核心邏輯<br/>• WebSocket 連接在獨立線程<br/>• 數據庫操作不影響策略速度<br/>• 充分利用多核 CPU</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 LMAX 交易所的啟發</div>
+<p>這個設計靈感來自 LMAX 交易所的 Disruptor 架構。LMAX 是一家真實的外匯交易所，它用單線程處理每秒<strong>600
                             萬</strong>筆交易，證明了單線程架構在交易場景中的卓越性能。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>六、流程限制：一個進程一個節點</h2>
-                <div class="callout callout-danger">
-                    <div class="callout-title">🚨 重要限制</div>
-                    <p>不能在同一個進程中同時運行多個 <code>TradingNode</code> 或
+</div>
+<!-- ==================== -->
+<h2>六、流程限制：一個進程一個節點</h2>
+<div class="callout callout-danger">
+<div class="callout-title">🚨 重要限制</div>
+<p>不能在同一個進程中同時運行多個 <code>TradingNode</code> 或
                         <code>BacktestNode</code>。原因是系統內部有全局共享的單例資源（日誌系統、全局運行時等）。
                     </p>
-                    <p><strong>正確做法</strong>：</p>
-                    <ul>
-                        <li>在一個 TradingNode 中增加多個策略 ✅</li>
-                        <li>用多個進程分別運行不同的節點 ✅</li>
-                        <li>依次運行多個回測（先結束再開始下一個）✅</li>
-                    </ul>
-                </div>
-
-                <!-- ==================== -->
-                <h2>七、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：設計決策推理</div>
-                    <p>以下場景中，NautilusTrader 會怎麼做？請選擇並解釋原因：</p>
-                    <ol>
-                        <li>收到一個價格為 <code>-5.00</code> 的報價 → 系統會 ____<br />A) 忽略這筆數據繼續運行<br />B) 立即崩潰報錯</li>
-                        <li>WebSocket 連接斷開 3 秒 → 適配器狀態變為 ____<br />A) FAULTED<br />B) DEGRADED</li>
-                        <li>策略代碼要從 Binance 切到 OKX → 需要修改 ____<br />A) 只改配置文件<br />B) 重寫策略代碼</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-design')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-design">1. B) 立即崩潰報錯
+<p><strong>正確做法</strong>：</p>
+<ul>
+<li>在一個 TradingNode 中增加多個策略 ✅</li>
+<li>用多個進程分別運行不同的節點 ✅</li>
+<li>依次運行多個回測（先結束再開始下一個）✅</li>
+</ul>
+</div>
+<!-- ==================== -->
+<h2>七、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：設計決策推理</div>
+<p>以下場景中，NautilusTrader 會怎麼做？請選擇並解釋原因：</p>
+<ol>
+<li>收到一個價格為 <code>-5.00</code> 的報價 → 系統會 ____<br/>A) 忽略這筆數據繼續運行<br/>B) 立即崩潰報錯</li>
+<li>WebSocket 連接斷開 3 秒 → 適配器狀態變為 ____<br/>A) FAULTED<br/>B) DEGRADED</li>
+<li>策略代碼要從 Binance 切到 OKX → 需要修改 ____<br/>A) 只改配置文件<br/>B) 重寫策略代碼</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-design')">💡 查看答案</button>
+<div class="exercise-output" id="answer-design">1. B) 立即崩潰報錯
                         → Fail-Fast 策略。負數價格在物理上不可能，說明數據已損壞。
                         繼續運行會導致錯誤的交易決策。
 
@@ -653,53 +665,48 @@
                         → 六角形架構的威力。策略只和端口交互，
                         不知道背後是 Binance 還是 OKX。
                         換交易所只需要把適配器從 BinanceAdapter 換成 OKXAdapter。</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：找出設計模式</div>
-                    <p>以下 NautilusTrader 的特性分別體現了哪種設計模式？</p>
-                    <ol>
-                        <li>訂單對象叫 <code>Order</code> 而不是 <code>DataPacket</code> → ________</li>
-                        <li>策略的 <code>on_bar()</code> 回調在有新 K 線時自動觸發 → ________</li>
-                        <li>系統崩潰後從 Redis 恢復狀態 → ________</li>
-                        <li>同一策略可以切換不同交易所而不改代碼 → ________</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-pattern')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-pattern">1. 領域驅動設計 (DDD) — 用交易領域的語言命名
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：找出設計模式</div>
+<p>以下 NautilusTrader 的特性分別體現了哪種設計模式？</p>
+<ol>
+<li>訂單對象叫 <code>Order</code> 而不是 <code>DataPacket</code> → ________</li>
+<li>策略的 <code>on_bar()</code> 回調在有新 K 線時自動觸發 → ________</li>
+<li>系統崩潰後從 Redis 恢復狀態 → ________</li>
+<li>同一策略可以切換不同交易所而不改代碼 → ________</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-pattern')">💡 查看答案</button>
+<div class="exercise-output" id="answer-pattern">1. 領域驅動設計 (DDD) — 用交易領域的語言命名
                         2. 事件驅動架構 — 由事件觸發而非輪詢
                         3. Crash-Only 設計 — 統一恢復路徑、外部化狀態
                         4. 六角形架構 (Ports and Adapters) — 核心業務與外部解耦</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>八、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 你應該記住的關鍵點</div>
-                    <ol>
-                        <li><strong>五大設計模式</strong>：DDD、事件驅動、六角形架構、Crash-Only、Fail-Fast</li>
-                        <li><strong>品質優先級</strong>：可靠性 > 性能 > 模組化 > 可測試性 > 可維護性 > 可部署性</li>
-                        <li><strong>組件狀態機</strong>：有 7 個穩定狀態和 5 個過渡狀態，所有組件遵循相同規則</li>
-                        <li><strong>單線程核心</strong>：保證事件順序確定性；網絡 IO 在後台線程</li>
-                        <li><strong>Fail-Fast</strong>：壞數據立即被拒絕，不會污染系統</li>
-                        <li><strong>六角形架構</strong>：這是實現「回測 = 實盤」的核心技術手段</li>
-                    </ol>
-                </div>
-
-                <!-- 頁面導航 -->
-                <div class="page-nav">
-                    <a href="../Module_02_Architecture_Overview/index.html">
-                        <span class="nav-label">← 上一章</span><span class="nav-title">模組 02：整體架構鳥瞰圖</span>
-                    </a>
-                    <a href="../Module_04_Domain_Model/index.html" style="text-align:right;">
-                        <span class="nav-label">下一章 →</span><span class="nav-title">模組 04：領域模型 — 交易的語言</span>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+</div>
+<!-- ==================== -->
+<h2>八、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 你應該記住的關鍵點</div>
+<ol>
+<li><strong>五大設計模式</strong>：DDD、事件驅動、六角形架構、Crash-Only、Fail-Fast</li>
+<li><strong>品質優先級</strong>：可靠性 &gt; 性能 &gt; 模組化 &gt; 可測試性 &gt; 可維護性 &gt; 可部署性</li>
+<li><strong>組件狀態機</strong>：有 7 個穩定狀態和 5 個過渡狀態，所有組件遵循相同規則</li>
+<li><strong>單線程核心</strong>：保證事件順序確定性；網絡 IO 在後台線程</li>
+<li><strong>Fail-Fast</strong>：壞數據立即被拒絕，不會污染系統</li>
+<li><strong>六角形架構</strong>：這是實現「回測 = 實盤」的核心技術手段</li>
+</ol>
+</div>
+<!-- 頁面導航 -->
+<div class="page-nav">
+<a href="../Module_02_Architecture_Overview/index.html">
+<span class="nav-label">← 上一章</span><span class="nav-title">模組 02：整體架構鳥瞰圖</span>
+</a>
+<a href="../Module_04_Domain_Model/index.html" style="text-align:right;">
+<span class="nav-label">下一章 →</span><span class="nav-title">模組 04：領域模型 — 交易的語言</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

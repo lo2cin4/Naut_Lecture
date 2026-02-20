@@ -1,131 +1,166 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 02：接入 Binance 沙箱 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab 02：接入 Binance 沙箱 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <!-- ... omitted -> will be filled by script ... -->
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Lab_02_Binance_Sandbox/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<!-- ... omitted -> will be filled by script ... -->
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
                     環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇 NT</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     架構鳥瞰圖</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
                     數據管理</a>
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
                     配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
                     實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
                     會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
                     進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
                     01</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+<a class="nav-item active" href="index.html"><span class="nav-num">L2</span> Lab 02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
                     03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第五階段<span
-                        class="separator">›</span>Lab 02</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-5">第五階段：動手 Lab</span>
-                <h1>Lab 02：接入 Binance 沙箱<span class="subtitle">動手實作：連接真實交易所的測試環境，體驗「實盤」的感覺</span></h1>
-
-                <!-- ==================== -->
-                <h2>目標</h2>
-                <ol>
-                    <li>申請 Binance Testnet (Futures) API Key</li>
-                    <li>配置 <code>TradingNode</code> 連接沙箱環境</li>
-                    <li>運行簡單的策略進行模擬交易</li>
-                    <li>觀察控制台日誌和訂單狀態</li>
-                </ol>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ 前置條件</div>
-                    <p>你需要一個能訪問 Binance 測試網的網路環境（部分地區可能需 VPN）。<br>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第五階段<span class="separator">›</span>Lab 02</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-5">第五階段：動手 Lab</span>
+<h1>Lab 02：接入 Binance 沙箱<span class="subtitle">動手實作：連接真實交易所的測試環境，體驗「實盤」的感覺</span></h1>
+<!-- ==================== -->
+<h2>目標</h2>
+<ol>
+<li>申請 Binance Testnet (Futures) API Key</li>
+<li>配置 <code>TradingNode</code> 連接沙箱環境</li>
+<li>運行簡單的策略進行模擬交易</li>
+<li>觀察控制台日誌和訂單狀態</li>
+</ol>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 前置條件</div>
+<p>你需要一個能訪問 Binance 測試網的網路環境（部分地區可能需 VPN）。<br/>
                         你需要安裝 Redis（Docker 或本地安裝）。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>步驟 1：申請 API Key</h2>
-                <ol>
-                    <li>訪問 <a href="https://testnet.binancefuture.com/" target="_blank">Binance Futures Testnet</a>。
+</div>
+<!-- ==================== -->
+<h2>步驟 1：申請 API Key</h2>
+<ol>
+<li>訪問 <a href="https://testnet.binancefuture.com/" target="_blank">Binance Futures Testnet</a>。
                     </li>
-                    <li>註冊/登入帳號。</li>
-                    <li>在頁面下方找到 API Key 和 Secret Key。</li>
-                    <li><strong>保存好這兩組金鑰！</strong></li>
-                </ol>
-
-                <!-- ==================== -->
-                <h2>步驟 2：配置 .env 文件</h2>
-                <p>為了安全，我們不要把 Key 寫在代碼裡。創建一個 <code>.env</code> 文件：</p>
-                <pre><code class="language-bash">BINANCE_API_KEY=你的API_KEY
+<li>註冊/登入帳號。</li>
+<li>在頁面下方找到 API Key 和 Secret Key。</li>
+<li><strong>保存好這兩組金鑰！</strong></li>
+</ol>
+<!-- ==================== -->
+<h2>步驟 2：配置 .env 文件</h2>
+<p>為了安全，我們不要把 Key 寫在代碼裡。創建一個 <code>.env</code> 文件：</p>
+<pre><code class="language-bash">BINANCE_API_KEY=你的API_KEY
 BINANCE_API_SECRET=你的SECRET_KEY</code></pre>
-
-                <p>安裝 <code>python-dotenv</code>：</p>
-                <pre><code class="language-bash">pip install python-dotenv</code></pre>
-
-                <!-- ==================== -->
-                <h2>步驟 3：編寫啟動腳本 (run_sandbox.py)</h2>
-                <pre><code class="language-python">import os
+<p>安裝 <code>python-dotenv</code>：</p>
+<pre><code class="language-bash">pip install python-dotenv</code></pre>
+<!-- ==================== -->
+<h2>步驟 3：編寫啟動腳本 (run_sandbox.py)</h2>
+<pre><code class="language-python">import os
 from dotenv import load_dotenv
 from decimal import Decimal
 
@@ -194,11 +229,10 @@ node.trader.add_strategy(PrintBarStrategy(config))
 # 6. 運行！
 if __name__ == "__main__":
     node.run()</code></pre>
-
-                <!-- ==================== -->
-                <h2>步驟 4：運行結果</h2>
-                <p>運行腳本後，你應該會在控制台看到類似輸出：</p>
-                <pre><code class="language-text">[INFO] Node: Starting...
+<!-- ==================== -->
+<h2>步驟 4：運行結果</h2>
+<p>運行腳本後，你應該會在控制台看到類似輸出：</p>
+<pre><code class="language-text">[INFO] Node: Starting...
 [INFO] TradingNode: Connecting to data clients...
 [INFO] BinanceLiveDataClient: Connected to wss://stream.binancefuture.com...
 [INFO] TradingNode: Connecting to execution clients...
@@ -206,32 +240,27 @@ if __name__ == "__main__":
 [INFO] TradingNode: Starting strategies...
 [INFO] PrintBarStrategy: 收到 Bar: Bar(BTCUSDT-PERP.BINANCE, ...)
 ...</code></pre>
-
-                <div class="callout callout-success">
-                    <div class="callout-title">🎉 成功連接！</div>
-                    <p>這意味著你的 NautilusTrader 已經成功連上了 Binance 的服務器，並且開始接收實時數據了。這就是實盤交易的基礎！</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>作業</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">📝 挑戰任務</div>
-                    <p>1. 將 Lab 01 中的 EMA Cross 策略移過來，配置到 <code>run_sandbox.py</code> 中。</p>
-                    <p>2. 嘗試修改 <code>trade_size</code> 為 <code>0.001</code> BTC，並觀察是否能成交（注意 Binance 的最小下單數量）。</p>
-                    <p>3. 在 Binance 測試網的網頁端查看你的帳戶，確認訂單是否真的出現了。</p>
-                </div>
-
-                <div class="page-nav">
-                    <a href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">Lab 01：從零到回測</span></a>
-                    <a href="../Lab_03_Custom_Strategy/index.html" style="text-align:right;"><span class="nav-label">下一章
+<div class="callout callout-success">
+<div class="callout-title">🎉 成功連接！</div>
+<p>這意味著你的 NautilusTrader 已經成功連上了 Binance 的服務器，並且開始接收實時數據了。這就是實盤交易的基礎！</p>
+</div>
+<!-- ==================== -->
+<h2>作業</h2>
+<div class="exercise-block">
+<div class="exercise-title">📝 挑戰任務</div>
+<p>1. 將 Lab 01 中的 EMA Cross 策略移過來，配置到 <code>run_sandbox.py</code> 中。</p>
+<p>2. 嘗試修改 <code>trade_size</code> 為 <code>0.001</code> BTC，並觀察是否能成交（注意 Binance 的最小下單數量）。</p>
+<p>3. 在 Binance 測試網的網頁端查看你的帳戶，確認訂單是否真的出現了。</p>
+</div>
+<div class="page-nav">
+<a href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">Lab 01：從零到回測</span></a>
+<a href="../Lab_03_Custom_Strategy/index.html" style="text-align:right;"><span class="nav-label">下一章
                             →</span><span class="nav-title">Lab 03：自定義指標與策略</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

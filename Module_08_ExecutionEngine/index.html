@@ -1,90 +1,137 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 08：執行引擎 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 08：執行引擎 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_08_ExecutionEngine/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">08</span> 執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item active" href="index.html"><span class="nav-num">08</span> 執行引擎</a>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
-                        class="separator">›</span>模組 08</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
-                <h1>模組 08：執行引擎 — 訂單的一生<span class="subtitle">從你下達指令到收到成交回報的完整旅程</span></h1>
-
-                <h2>一、執行引擎的角色</h2>
-                <p>執行引擎是訂單管理的<strong>中央控制塔</strong>。它不直接和交易所通訊，而是透過 ExecutionClient 適配器來操作。</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span class="separator">›</span>模組 08</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+<h1>模組 08：執行引擎 — 訂單的一生<span class="subtitle">從你下達指令到收到成交回報的完整旅程</span></h1>
+<h2>一、執行引擎的角色</h2>
+<p>執行引擎是訂單管理的<strong>中央控制塔</strong>。它不直接和交易所通訊，而是透過 ExecutionClient 適配器來操作。</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph input["📝 命令輸入"]
                         direction TB
@@ -93,7 +140,7 @@
                         modify["ModifyOrder"]
                         end
 
-                        ee["⚙️ ExecutionEngine<br />執行引擎中心"]
+                        ee["⚙️ ExecutionEngine<br/>執行引擎中心"]
 
                         subgraph output["⚡ 事件輸出"]
                         direction TB
@@ -109,22 +156,20 @@
                         sim["Simulator"]
                         end
 
-                        input ==> ee
-                        ee ==> adapt
-                        adapt ==> ee
-                        ee ==> output
+                        input ==&gt; ee
+                        ee ==&gt; adapt
+                        adapt ==&gt; ee
+                        ee ==&gt; output
 
                         style ee fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style input fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                         style output fill:#0f1419,stroke:#ef5350,stroke-width:1px
                     </div>
-                    <div class="caption">圖 1：執行引擎接收命令、路由到交易所、回報事件</div>
-                </div>
-
-                <h2>二、訂單的完整生命週期</h2>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="caption">圖 1：執行引擎接收命令、路由到交易所、回報事件</div>
+</div>
+<h2>二、訂單的完整生命週期</h2>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         sequenceDiagram
                         participant S as 🎯 策略
                         participant RE as 🛡️ RiskEngine
@@ -134,31 +179,29 @@
                         participant Cache as 💾 Cache
                         participant Port as 💰 Portfolio
 
-                        S->>RE: SubmitOrder(市價買入 1 BTC)
+                        S-&gt;&gt;RE: SubmitOrder(市價買入 1 BTC)
                         Note over RE: 風控檢查通過 ✅
-                        RE->>EE: 轉發命令
-                        EE->>EE: 生成 OrderSubmitted 事件
-                        EE->>Cache: 更新狀態 → SUBMITTED
-                        EE->>EC: 路由到 Binance 適配器
-                        EC->>EX: REST API 下單
+                        RE-&gt;&gt;EE: 轉發命令
+                        EE-&gt;&gt;EE: 生成 OrderSubmitted 事件
+                        EE-&gt;&gt;Cache: 更新狀態 → SUBMITTED
+                        EE-&gt;&gt;EC: 路由到 Binance 適配器
+                        EC-&gt;&gt;EX: REST API 下單
 
-                        EX-->>EC: 訂單接受確認
-                        EC->>EE: OrderAccepted 事件
-                        EE->>Cache: 更新狀態 → ACCEPTED
+                        EX--&gt;&gt;EC: 訂單接受確認
+                        EC-&gt;&gt;EE: OrderAccepted 事件
+                        EE-&gt;&gt;Cache: 更新狀態 → ACCEPTED
 
-                        EX-->>EC: 成交回報
-                        EC->>EE: OrderFilled 事件
-                        EE->>Cache: 更新狀態 → FILLED
-                        EE->>Port: 更新持倉和盈虧
-                        EE->>S: 通知成交（透過 MessageBus）
+                        EX--&gt;&gt;EC: 成交回報
+                        EC-&gt;&gt;EE: OrderFilled 事件
+                        EE-&gt;&gt;Cache: 更新狀態 → FILLED
+                        EE-&gt;&gt;Port: 更新持倉和盈虧
+                        EE-&gt;&gt;S: 通知成交（透過 MessageBus）
                     </div>
-                    <div class="caption">圖 2：訂單從策略到交易所再回到策略的完整流程</div>
-                </div>
-
-                <h2>三、訂單命令 API</h2>
-                <p>以下是你在策略中最常使用的訂單操作：</p>
-
-                <pre><code class="language-python"># 市價訂單 — 立即執行
+<div class="caption">圖 2：訂單從策略到交易所再回到策略的完整流程</div>
+</div>
+<h2>三、訂單命令 API</h2>
+<p>以下是你在策略中最常使用的訂單操作：</p>
+<pre><code class="language-python"># 市價訂單 — 立即執行
 order = self.order_factory.market(
     instrument_id=btc_usdt_id,
     order_side=OrderSide.BUY,
@@ -193,109 +236,102 @@ self.modify_order(order, price=Price.from_str("47500.00"))
 
 # 全部取消
 self.cancel_all_orders(instrument_id=btc_usdt_id)</code></pre>
-
-                <h2>四、條件單組合 (Contingency Orders)</h2>
-                <p>NautilusTrader 支援三種訂單組合策略：</p>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">🔗</span>
-                        <h4>OTO — One Triggers Other</h4>
-                        <p>訂單 A 成交後，自動觸發訂單 B。<br /><strong>例子</strong>：買入後自動掛止損</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">⚖️</span>
-                        <h4>OCO — One Cancels Other</h4>
-                        <p>訂單 A 或 B 任一成交，自動取消另一個。<br /><strong>例子</strong>：止盈和止損只觸發一個</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🎯</span>
-                        <h4>OUO — One Updates Other</h4>
-                        <p>訂單 A 部分成交時，自動更新訂單 B 的數量。<br /><strong>例子</strong>：保持止損數量和持倉一致</p>
-                    </div>
-                </div>
-
-                <h2>五、模擬交易所 (SimulatedExchange)</h2>
-                <p>在回測和沙箱模式中，ExecutionClient 連接的是<strong>模擬交易所</strong>而非真實交易所：</p>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>特性</th>
-                                <th>模擬交易所</th>
-                                <th>真實交易所</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>撮合引擎</td>
-                                <td>內建撮合邏輯</td>
-                                <td>交易所的撮合引擎</td>
-                            </tr>
-                            <tr>
-                                <td>延遲模擬</td>
-                                <td>可配置固定延遲</td>
-                                <td>真實網絡延遲</td>
-                            </tr>
-                            <tr>
-                                <td>手續費</td>
-                                <td>按配置計算</td>
-                                <td>交易所實際收取</td>
-                            </tr>
-                            <tr>
-                                <td>滑點</td>
-                                <td>可配置滑點模型</td>
-                                <td>真實市場滑點</td>
-                            </tr>
-                            <tr>
-                                <td>部分成交</td>
-                                <td>基於訂單簿深度模擬</td>
-                                <td>真實市場深度</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>六、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習：設計訂單組合</div>
-                    <p>你想在 50,000 買入 BTC，同時設置止損在 48,000、止盈在 55,000（只觸發一個就取消另一個）。你需要用哪些訂單和什麼組合方式？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-exec')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-exec">步驟：
-                        1. 掛一個限價買入單 @ 50,000（主訂單）
-                        2. 設置 OTO 條件：主訂單成交後觸發以下兩個子訂單
-                        3. 子訂單 A：止損賣出 @ 48,000（StopMarketOrder）
-                        4. 子訂單 B：止盈賣出 @ 55,000（LimitOrder）
-                        5. 子訂單 A 和 B 之間設置 OCO：任一成交就取消另一個
-
-                        這就是經典的「進場 + 止損止盈」三合一訂單組合，
-                        也叫 Bracket Order（括號訂單）。</div>
-                </div>
-
-                <h2>七、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 關鍵點</div>
-                    <ol>
-                        <li><strong>執行引擎</strong>管理所有訂單的生命週期，不直接連接交易所</li>
-                        <li><strong>命令 → 路由 → 事件</strong>：策略發送命令，引擎路由到適配器，適配器回報事件</li>
-                        <li><strong>條件單</strong>：OTO（觸發）、OCO（取消）、OUO（更新）三種組合</li>
-                        <li><strong>模擬交易所</strong>：回測中完全模擬真實交易所行為</li>
-                        <li><strong>訂單工廠</strong>：使用 <code>self.order_factory</code> 創建訂單</li>
-                    </ol>
-                </div>
-
-                <div class="page-nav">
-                    <a href="../Module_07_DataEngine/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">模組 07：數據引擎</span></a>
-                    <a href="../Module_09_RiskEngine/index.html" style="text-align:right;"><span class="nav-label">下一章
+<h2>四、條件單組合 (Contingency Orders)</h2>
+<p>NautilusTrader 支援三種訂單組合策略：</p>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">🔗</span>
+<h4>OTO — One Triggers Other</h4>
+<p>訂單 A 成交後，自動觸發訂單 B。<br/><strong>例子</strong>：買入後自動掛止損</p>
+</div>
+<div class="feature-card">
+<span class="icon">⚖️</span>
+<h4>OCO — One Cancels Other</h4>
+<p>訂單 A 或 B 任一成交，自動取消另一個。<br/><strong>例子</strong>：止盈和止損只觸發一個</p>
+</div>
+<div class="feature-card">
+<span class="icon">🎯</span>
+<h4>OUO — One Updates Other</h4>
+<p>訂單 A 部分成交時，自動更新訂單 B 的數量。<br/><strong>例子</strong>：保持止損數量和持倉一致</p>
+</div>
+</div>
+<h2>五、模擬交易所 (SimulatedExchange)</h2>
+<p>在回測和沙箱模式中，ExecutionClient 連接的是<strong>模擬交易所</strong>而非真實交易所：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>模擬交易所</th>
+<th>真實交易所</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>撮合引擎</td>
+<td>內建撮合邏輯</td>
+<td>交易所的撮合引擎</td>
+</tr>
+<tr>
+<td>延遲模擬</td>
+<td>可配置固定延遲</td>
+<td>真實網絡延遲</td>
+</tr>
+<tr>
+<td>手續費</td>
+<td>按配置計算</td>
+<td>交易所實際收取</td>
+</tr>
+<tr>
+<td>滑點</td>
+<td>可配置滑點模型</td>
+<td>真實市場滑點</td>
+</tr>
+<tr>
+<td>部分成交</td>
+<td>基於訂單簿深度模擬</td>
+<td>真實市場深度</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>六、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習：設計訂單組合</div>
+<p>你想在 50,000 買入 BTC，同時設置止損在 48,000、止盈在 55,000（只觸發一個就取消另一個）。你需要用哪些訂單和什麼組合方式？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-exec')">💡 查看答案</button>
+<div class="exercise-output" id="answer-exec">
+<p><strong>步驟：</strong></p>
+<ol>
+<li>掛一個限價買入單 @ 50,000（主訂單）</li>
+<li>設置 <strong>OTO</strong> 條件：主訂單成交後觸發以下兩個子訂單</li>
+<li>子訂單 A：止損賣出 @ 48,000（<code>StopMarketOrder</code>）</li>
+<li>子訂單 B：止盈賣出 @ 55,000（<code>LimitOrder</code>）</li>
+<li>子訂單 A 和 B 之間設置 <strong>OCO</strong>：任一成交就取消另一個</li>
+</ol>
+<p>💡 這就是經典的「進場 + 止損止盈」三合一訂單組合，也叫 <strong>Bracket Order（括號訂單）</strong>。</p>
+</div>
+</div>
+<h2>七、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 關鍵點</div>
+<ol>
+<li><strong>執行引擎</strong>管理所有訂單的生命週期，不直接連接交易所</li>
+<li><strong>命令 → 路由 → 事件</strong>：策略發送命令，引擎路由到適配器，適配器回報事件</li>
+<li><strong>條件單</strong>：OTO（觸發）、OCO（取消）、OUO（更新）三種組合</li>
+<li><strong>模擬交易所</strong>：回測中完全模擬真實交易所行為</li>
+<li><strong>訂單工廠</strong>：使用 <code>self.order_factory</code> 創建訂單</li>
+</ol>
+</div>
+<div class="page-nav">
+<a href="../Module_07_DataEngine/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 07：數據引擎</span></a>
+<a href="../Module_09_RiskEngine/index.html" style="text-align:right;"><span class="nav-label">下一章
                             →</span><span class="nav-title">模組 09：風控引擎</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

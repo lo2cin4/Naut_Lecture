@@ -1,93 +1,139 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 04：領域模型 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 04：領域模型 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_04_Domain_Model/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇 NautilusTrader</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構鳥瞰圖</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學與品質屬性</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item active" href="index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item active" href="index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
-                        class="separator">›</span>模組 04</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
-                <h1>模組 04：領域模型 — 交易的語言<span class="subtitle">NautilusTrader 如何把交易世界的每一個概念都轉化為精確的代碼</span></h1>
-
-                <p>領域模型是整個系統的<strong>基石</strong>。它定義了「價格是什麼」、「訂單是什麼」、「持倉是什麼」。如果你理解了領域模型，就等於掌握了和系統對話的「語言」。</p>
-
-                <!-- ==================== -->
-                <h2>一、領域模型全景圖</h2>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span class="separator">›</span>模組 04</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+<h1>模組 04：領域模型 — 交易的語言<span class="subtitle">NautilusTrader 如何把交易世界的每一個概念都轉化為精確的代碼</span></h1>
+<p>領域模型是整個系統的<strong>基石</strong>。它定義了「價格是什麼」、「訂單是什麼」、「持倉是什麼」。如果你理解了領域模型，就等於掌握了和系統對話的「語言」。</p>
+<!-- ==================== -->
+<h2>一、領域模型全景圖</h2>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph layer_1["💎 基礎與標識"]
                         direction TB
@@ -106,75 +152,70 @@
                         events["事件 (OrderFilled...)"]
                         positions["持倉 (Position)"]
                         accounts["帳戶 (Account)"]
-                        events --> positions --> accounts
+                        events --&gt; positions --&gt; accounts
                         end
 
-                        layer_1 ==> layer_2 ==> layer_3
+                        layer_1 ==&gt; layer_2 ==&gt; layer_3
                     </div>
-                    <div class="caption">圖 1：領域模型全景圖 — 各概念之間的依賴關係</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、值類型 — 為什麼不能用普通數字？</h2>
-
-                <div class="callout callout-danger">
-                    <div class="callout-title">🚨 經典的浮點數陷阱</div>
-                    <p>在電腦中，<code>0.1 + 0.2 = 0.30000000000000004</code>，而不是 <code>0.3</code>。如果你的交易系統用浮點數計算價格，可能會出現：下單
+<div class="caption">圖 1：領域模型全景圖 — 各概念之間的依賴關係</div>
+</div>
+<!-- ==================== -->
+<h2>二、值類型 — 為什麼不能用普通數字？</h2>
+<div class="callout callout-danger">
+<div class="callout-title">🚨 經典的浮點數陷阱</div>
+<p>在電腦中，<code>0.1 + 0.2 = 0.30000000000000004</code>，而不是 <code>0.3</code>。如果你的交易系統用浮點數計算價格，可能會出現：下單
                         100.10 美元，到帳 100.09999999 美元。看起來差距很小，但在高頻交易中，百萬次計算後誤差會累積成巨大的金額。</p>
-                </div>
-
-                <p>NautilusTrader 使用<strong>定點數</strong>（整數 + 精度）來解決這個問題：</p>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>值類型</th>
-                                <th>內部表示</th>
-                                <th>最大精度</th>
-                                <th>範圍</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>Price</code></td>
-                                <td>i128 有符號整數</td>
-                                <td>16 位小數</td>
-                                <td>±17 萬億</td>
-                                <td>報價、成交價格</td>
-                            </tr>
-                            <tr>
-                                <td><code>Quantity</code></td>
-                                <td>u128 無符號整數</td>
-                                <td>16 位小數</td>
-                                <td>0 ~ 34 萬億</td>
-                                <td>訂單數量、持倉量</td>
-                            </tr>
-                            <tr>
-                                <td><code>Money</code></td>
-                                <td>i128 有符號整數</td>
-                                <td>16 位小數</td>
-                                <td>±17 萬億</td>
-                                <td>帳戶餘額、盈虧</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header"><span class="collapsible-arrow">▶</span> 🔍 深入理解：Price 的內部運作原理</div>
-                    <div class="collapsible-body">
-                        <p>假設你要表示 <code>1.23450</code>（5 位精度）：</p>
-                        <ul>
-                            <li>系統將其存儲為整數 <code>123450</code>，精度 <code>5</code></li>
-                            <li>顯示時，除以 10<sup>5</sup> = <code>1.23450</code></li>
-                            <li>加法：<code>1.23450 + 2.10000</code> → <code>123450 + 210000 = 333450</code> →
+</div>
+<p>NautilusTrader 使用<strong>定點數</strong>（整數 + 精度）來解決這個問題：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>值類型</th>
+<th>內部表示</th>
+<th>最大精度</th>
+<th>範圍</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Price</code></td>
+<td>i128 有符號整數</td>
+<td>16 位小數</td>
+<td>±17 萬億</td>
+<td>報價、成交價格</td>
+</tr>
+<tr>
+<td><code>Quantity</code></td>
+<td>u128 無符號整數</td>
+<td>16 位小數</td>
+<td>0 ~ 34 萬億</td>
+<td>訂單數量、持倉量</td>
+</tr>
+<tr>
+<td><code>Money</code></td>
+<td>i128 有符號整數</td>
+<td>16 位小數</td>
+<td>±17 萬億</td>
+<td>帳戶餘額、盈虧</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="collapsible">
+<div class="collapsible-header"><span class="collapsible-arrow">▶</span> 🔍 深入理解：Price 的內部運作原理</div>
+<div class="collapsible-body">
+<p>假設你要表示 <code>1.23450</code>（5 位精度）：</p>
+<ul>
+<li>系統將其存儲為整數 <code>123450</code>，精度 <code>5</code></li>
+<li>顯示時，除以 10<sup>5</sup> = <code>1.23450</code></li>
+<li>加法：<code>1.23450 + 2.10000</code> → <code>123450 + 210000 = 333450</code> →
                                 <code>3.33450</code>
-                            </li>
-                        </ul>
-                        <p><strong>好處</strong>：整數加法永遠精確，沒有浮點誤差！</p>
-                        <pre><code class="language-python"># Python 代碼範例
+</li>
+</ul>
+<p><strong>好處</strong>：整數加法永遠精確，沒有浮點誤差！</p>
+<pre><code class="language-python"># Python 代碼範例
 from nautilus_trader.model.objects import Price, Quantity, Money
 
 # 建立價格（5 位小數精度）
@@ -188,277 +229,263 @@ p1 = Price.from_str("0.10000")
 p2 = Price.from_str("0.20000")
 result = Price(p1.raw + p2.raw, precision=5)
 print(result)  # 0.30000 ✅（不是 0.30000000000000004）</code></pre>
-                    </div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>三、金融工具 — 你交易的「東西」</h2>
-                <p>每一種可以交易的東西在 NautilusTrader 中都有對應的類型：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+</div>
+<!-- ==================== -->
+<h2>三、金融工具 — 你交易的「東西」</h2>
+<p>每一種可以交易的東西在 NautilusTrader 中都有對應的類型：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph base["🏁 Instrument 基類"]
                         direction TB
-                        In["+id, +symbol, +venue<br />+price_precision, +size_precision"]
+                        In["+id, +symbol, +venue<br/>+price_precision, +size_precision"]
                         end
 
                         subgraph subs["🎻 子類實現"]
                         direction LR
-                        E["Equity<br />(股票)"]
-                        F["Futures<br />(期貨)"]
-                        O["Options<br />(期權)"]
-                        C["Crypto<br />(加密永續)"]
-                        FX["CurrencyPair<br />(外匯)"]
+                        E["Equity<br/>(股票)"]
+                        F["Futures<br/>(期貨)"]
+                        O["Options<br/>(期權)"]
+                        C["Crypto<br/>(加密永續)"]
+                        FX["CurrencyPair<br/>(外匯)"]
                         end
 
-                        base ==> subs
+                        base ==&gt; subs
 
                         style base fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style subs fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                     </div>
-                    <div class="caption">圖 2：金融工具類別層次圖</div>
-                </div>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>金融工具</th>
-                                <th>用途</th>
-                                <th>特有屬性</th>
-                                <th>例子</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>CurrencyPair</code></td>
-                                <td>外匯交易</td>
-                                <td>基礎貨幣、報價貨幣</td>
-                                <td>EUR/USD</td>
-                            </tr>
-                            <tr>
-                                <td><code>Equity</code></td>
-                                <td>股票交易</td>
-                                <td>ISIN 代碼、貨幣</td>
-                                <td>AAPL</td>
-                            </tr>
-                            <tr>
-                                <td><code>FuturesContract</code></td>
-                                <td>期貨交易</td>
-                                <td>到期日、合約大小</td>
-                                <td>ES 2024-03</td>
-                            </tr>
-                            <tr>
-                                <td><code>OptionsContract</code></td>
-                                <td>期權交易</td>
-                                <td>行權價、看漲/看跌</td>
-                                <td>AAPL C 180</td>
-                            </tr>
-                            <tr>
-                                <td><code>CryptoPerpetual</code></td>
-                                <td>加密永續合約</td>
-                                <td>是否反向合約</td>
-                                <td>BTC-USDT-PERP</td>
-                            </tr>
-                            <tr>
-                                <td><code>BettingInstrument</code></td>
-                                <td>體育博彩</td>
-                                <td>賽事類型、市場</td>
-                                <td>足球讓球盤</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼要這樣設計？</div>
-                    <p>每種金融工具的結算方式不同。股票用美元結算，期貨有合約大小和到期日，反向合約用 BTC 結算而非 USDT。把它們分成不同類型，保證每種工具的特殊規則都被正確處理。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、訂單類型 — 你下達的指令</h2>
-                <p>NautilusTrader 支援 <strong>11 種</strong>訂單類型（9 種基礎 + OrderList + 模擬訂單），覆蓋所有交易場景：</p>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼需要這麼多訂單類型？</div>
-                    <p><strong>❌ 如果只有市價單和限價單</strong>：你無法實現「當價格跌破支撐位時自動止損」或「讓止損跟著利潤上移」。你必須自己寫一個定時器不斷檢查價格，這既慢又容易出 bug。
+<div class="caption">圖 2：金融工具類別層次圖</div>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>金融工具</th>
+<th>用途</th>
+<th>特有屬性</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CurrencyPair</code></td>
+<td>外匯交易</td>
+<td>基礎貨幣、報價貨幣</td>
+<td>EUR/USD</td>
+</tr>
+<tr>
+<td><code>Equity</code></td>
+<td>股票交易</td>
+<td>ISIN 代碼、貨幣</td>
+<td>AAPL</td>
+</tr>
+<tr>
+<td><code>FuturesContract</code></td>
+<td>期貨交易</td>
+<td>到期日、合約大小</td>
+<td>ES 2024-03</td>
+</tr>
+<tr>
+<td><code>OptionsContract</code></td>
+<td>期權交易</td>
+<td>行權價、看漲/看跌</td>
+<td>AAPL C 180</td>
+</tr>
+<tr>
+<td><code>CryptoPerpetual</code></td>
+<td>加密永續合約</td>
+<td>是否反向合約</td>
+<td>BTC-USDT-PERP</td>
+</tr>
+<tr>
+<td><code>BettingInstrument</code></td>
+<td>體育博彩</td>
+<td>賽事類型、市場</td>
+<td>足球讓球盤</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼要這樣設計？</div>
+<p>每種金融工具的結算方式不同。股票用美元結算，期貨有合約大小和到期日，反向合約用 BTC 結算而非 USDT。把它們分成不同類型，保證每種工具的特殊規則都被正確處理。</p>
+</div>
+<!-- ==================== -->
+<h2>四、訂單類型 — 你下達的指令</h2>
+<p>NautilusTrader 支援 <strong>11 種</strong>訂單類型（9 種基礎 + OrderList + 模擬訂單），覆蓋所有交易場景：</p>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼需要這麼多訂單類型？</div>
+<p><strong>❌ 如果只有市價單和限價單</strong>：你無法實現「當價格跌破支撐位時自動止損」或「讓止損跟著利潤上移」。你必須自己寫一個定時器不斷檢查價格，這既慢又容易出 bug。
                     </p>
-                    <p><strong>✅ 有豐富的訂單類型</strong>：把止損/移動止損邏輯交給交易所（或 NautilusTrader 的模擬器），速度更快、更可靠。</p>
-                </div>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>訂單類型</th>
-                                <th>說明</th>
-                                <th>交易場景</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>MARKET</code></td>
-                                <td>市價單 — 立即以目前最優價成交</td>
-                                <td>需要立刻進場/出場時</td>
-                            </tr>
-                            <tr>
-                                <td><code>LIMIT</code></td>
-                                <td>限價單 — 指定最高買價或最低賣價</td>
-                                <td>想以更好的價格進場</td>
-                            </tr>
-                            <tr>
-                                <td><code>STOP_MARKET</code></td>
-                                <td>止損市價單 — 觸發價到了後以市價執行</td>
-                                <td>防止虧損擴大的止損</td>
-                            </tr>
-                            <tr>
-                                <td><code>STOP_LIMIT</code></td>
-                                <td>止損限價單 — 觸發價到了後以限價執行</td>
-                                <td>精確控制止損的執行價</td>
-                            </tr>
-                            <tr>
-                                <td><code>MARKET_TO_LIMIT</code></td>
-                                <td>市轉限 — 先以市價嘗試，未完全成交部分轉限價</td>
-                                <td>希望快速成交但不想追價</td>
-                            </tr>
-                            <tr>
-                                <td><code>MARKET_IF_TOUCHED</code></td>
-                                <td>觸價市價單 — 價格觸及指定價後以市價執行</td>
-                                <td>在特定價位入場</td>
-                            </tr>
-                            <tr>
-                                <td><code>LIMIT_IF_TOUCHED</code></td>
-                                <td>觸價限價單 — 價格觸及指定價後以限價執行</td>
-                                <td>同上但限制執行價格</td>
-                            </tr>
-                            <tr>
-                                <td><code>TRAILING_STOP_MARKET</code></td>
-                                <td>移動止損市價 — 止損價跟隨市場移動</td>
-                                <td>鎖定利潤，讓利潤奔跑</td>
-                            </tr>
-                            <tr>
-                                <td><code>TRAILING_STOP_LIMIT</code></td>
-                                <td>移動止損限價 — 同上但以限價執行</td>
-                                <td>更精確的移動止損</td>
-                            </tr>
-                            <tr>
-                                <td><code>OrderList</code></td>
-                                <td>訂單組合 — 將多個訂單綁定為一組（如 Bracket Order）</td>
-                                <td>同時設定入場、止盈、止損三個訂單</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>訂單生命週期</h3>
-                <p>每個訂單從建立到結束，會經歷一系列的狀態變化：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<p><strong>✅ 有豐富的訂單類型</strong>：把止損/移動止損邏輯交給交易所（或 NautilusTrader 的模擬器），速度更快、更可靠。</p>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>訂單類型</th>
+<th>說明</th>
+<th>交易場景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MARKET</code></td>
+<td>市價單 — 立即以目前最優價成交</td>
+<td>需要立刻進場/出場時</td>
+</tr>
+<tr>
+<td><code>LIMIT</code></td>
+<td>限價單 — 指定最高買價或最低賣價</td>
+<td>想以更好的價格進場</td>
+</tr>
+<tr>
+<td><code>STOP_MARKET</code></td>
+<td>止損市價單 — 觸發價到了後以市價執行</td>
+<td>防止虧損擴大的止損</td>
+</tr>
+<tr>
+<td><code>STOP_LIMIT</code></td>
+<td>止損限價單 — 觸發價到了後以限價執行</td>
+<td>精確控制止損的執行價</td>
+</tr>
+<tr>
+<td><code>MARKET_TO_LIMIT</code></td>
+<td>市轉限 — 先以市價嘗試，未完全成交部分轉限價</td>
+<td>希望快速成交但不想追價</td>
+</tr>
+<tr>
+<td><code>MARKET_IF_TOUCHED</code></td>
+<td>觸價市價單 — 價格觸及指定價後以市價執行</td>
+<td>在特定價位入場</td>
+</tr>
+<tr>
+<td><code>LIMIT_IF_TOUCHED</code></td>
+<td>觸價限價單 — 價格觸及指定價後以限價執行</td>
+<td>同上但限制執行價格</td>
+</tr>
+<tr>
+<td><code>TRAILING_STOP_MARKET</code></td>
+<td>移動止損市價 — 止損價跟隨市場移動</td>
+<td>鎖定利潤，讓利潤奔跑</td>
+</tr>
+<tr>
+<td><code>TRAILING_STOP_LIMIT</code></td>
+<td>移動止損限價 — 同上但以限價執行</td>
+<td>更精確的移動止損</td>
+</tr>
+<tr>
+<td><code>OrderList</code></td>
+<td>訂單組合 — 將多個訂單綁定為一組（如 Bracket Order）</td>
+<td>同時設定入場、止盈、止損三個訂單</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>訂單生命週期</h3>
+<p>每個訂單從建立到結束，會經歷一系列的狀態變化：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         stateDiagram-v2
                         direction LR
-                        [*] --> INITIALIZED
-                        INITIALIZED --> SUBMITTED : 下單
-                        SUBMITTED --> ACCEPTED : 接受
-                        ACCEPTED --> FILLED : 成交
-                        ACCEPTED --> CANCELED : 取消
-                        FILLED --> [*]
-                        CANCELED --> [*]
+                        [*] --&gt; INITIALIZED
+                        INITIALIZED --&gt; SUBMITTED : 下單
+                        SUBMITTED --&gt; ACCEPTED : 接受
+                        ACCEPTED --&gt; FILLED : 成交
+                        ACCEPTED --&gt; CANCELED : 取消
+                        FILLED --&gt; [*]
+                        CANCELED --&gt; [*]
 
                         state "其它狀態" as other
-                        SUBMITTED --> REJECTED : 拒絕
-                        ACCEPTED --> PARTIALLY_FILLED : 部分成交
-                        PARTIALLY_FILLED --> FILLED
-                        REJECTED --> [*]
+                        SUBMITTED --&gt; REJECTED : 拒絕
+                        ACCEPTED --&gt; PARTIALLY_FILLED : 部分成交
+                        PARTIALLY_FILLED --&gt; FILLED
+                        REJECTED --&gt; [*]
                     </div>
-                    <div class="caption">圖 3：訂單狀態機 — 訂單從建立到結束的所有可能路徑</div>
-                </div>
-
-                <h3>有效期類型 (Time in Force)</h3>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>代碼</th>
-                                <th>全名</th>
-                                <th>說明</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>GTC</code></td>
-                                <td>Good Till Cancel</td>
-                                <td>有效直到主動取消</td>
-                            </tr>
-                            <tr>
-                                <td><code>IOC</code></td>
-                                <td>Immediate or Cancel</td>
-                                <td>立即成交或取消（不留掛單）</td>
-                            </tr>
-                            <tr>
-                                <td><code>FOK</code></td>
-                                <td>Fill or Kill</td>
-                                <td>全部成交或全部取消</td>
-                            </tr>
-                            <tr>
-                                <td><code>GTD</code></td>
-                                <td>Good Till Date</td>
-                                <td>有效到指定日期/時間</td>
-                            </tr>
-                            <tr>
-                                <td><code>DAY</code></td>
-                                <td>Day Order</td>
-                                <td>當天有效，收盤自動取消</td>
-                            </tr>
-                            <tr>
-                                <td><code>AT_THE_OPEN</code></td>
-                                <td>開盤有效</td>
-                                <td>只在開盤時有效</td>
-                            </tr>
-                            <tr>
-                                <td><code>AT_THE_CLOSE</code></td>
-                                <td>收盤有效</td>
-                                <td>只在收盤時有效</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ==================== -->
-                <h2>五、持倉 — 事件聚合模型</h2>
-                <p>持倉 (Position) 是一個非常精妙的設計。它不是一個簡單的數據記錄，而是由<strong>一系列事件聚合</strong>而成：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="caption">圖 3：訂單狀態機 — 訂單從建立到結束的所有可能路徑</div>
+</div>
+<h3>有效期類型 (Time in Force)</h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>代碼</th>
+<th>全名</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GTC</code></td>
+<td>Good Till Cancel</td>
+<td>有效直到主動取消</td>
+</tr>
+<tr>
+<td><code>IOC</code></td>
+<td>Immediate or Cancel</td>
+<td>立即成交或取消（不留掛單）</td>
+</tr>
+<tr>
+<td><code>FOK</code></td>
+<td>Fill or Kill</td>
+<td>全部成交或全部取消</td>
+</tr>
+<tr>
+<td><code>GTD</code></td>
+<td>Good Till Date</td>
+<td>有效到指定日期/時間</td>
+</tr>
+<tr>
+<td><code>DAY</code></td>
+<td>Day Order</td>
+<td>當天有效，收盤自動取消</td>
+</tr>
+<tr>
+<td><code>AT_THE_OPEN</code></td>
+<td>開盤有效</td>
+<td>只在開盤時有效</td>
+</tr>
+<tr>
+<td><code>AT_THE_CLOSE</code></td>
+<td>收盤有效</td>
+<td>只在收盤時有效</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>五、持倉 — 事件聚合模型</h2>
+<p>持倉 (Position) 是一個非常精妙的設計。它不是一個簡單的數據記錄，而是由<strong>一系列事件聚合</strong>而成：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         sequenceDiagram
                         participant E as ⚡ 事件流
                         participant P as 📊 Position 持倉
 
                         Note over P: 持倉不存在
-                        E->>P: OrderFilled(買入 1.0 BTC @ 50,000)
-                        Note over P: 建立持倉<br />方向=LONG, 數量=1.0<br />入場均價=50,000
+                        E-&gt;&gt;P: OrderFilled(買入 1.0 BTC @ 50,000)
+                        Note over P: 建立持倉<br/>方向=LONG, 數量=1.0<br/>入場均價=50,000
 
-                        E->>P: OrderFilled(買入 0.5 BTC @ 51,000)
-                        Note over P: 加倉<br />方向=LONG, 數量=1.5<br />入場均價=50,333.33
+                        E-&gt;&gt;P: OrderFilled(買入 0.5 BTC @ 51,000)
+                        Note over P: 加倉<br/>方向=LONG, 數量=1.5<br/>入場均價=50,333.33
 
-                        E->>P: OrderFilled(賣出 1.0 BTC @ 55,000)
-                        Note over P: 部分平倉<br />方向=LONG, 數量=0.5<br />已實現盈虧=+4,666.67
+                        E-&gt;&gt;P: OrderFilled(賣出 1.0 BTC @ 55,000)
+                        Note over P: 部分平倉<br/>方向=LONG, 數量=0.5<br/>已實現盈虧=+4,666.67
 
-                        E->>P: OrderFilled(賣出 0.5 BTC @ 54,000)
-                        Note over P: 完全平倉<br />方向=FLAT, 數量=0<br />總已實現盈虧=+6,500
+                        E-&gt;&gt;P: OrderFilled(賣出 0.5 BTC @ 54,000)
+                        Note over P: 完全平倉<br/>方向=FLAT, 數量=0<br/>總已實現盈虧=+6,500
                     </div>
-                    <div class="caption">圖 4：持倉由訂單成交事件逐步聚合而成</div>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼用事件聚合而不是直接記錄最終結果？</div>
-                    <p><strong>❌ 如果只記錄最終持倉</strong>：你知道「現在持有 0.5 BTC」，但不知道它是怎麼來的。是一次買入的？還是買了 1.0 又賣了 0.5？入場均價是多少？</p>
-                    <p><strong>✅ 用事件聚合</strong>：每一次變化都有完整記錄。你可以回溯：什麼時候建倉、加倉、減倉、平倉，每一筆的價格和數量。這對交易分析和審計至關重要。</p>
-                </div>
-
-                <h3>Position 的關鍵屬性（代碼範例）</h3>
-                <pre><code class="language-python"># Position 的重要屬性（策略中可以這樣訪問）
+<div class="caption">圖 4：持倉由訂單成交事件逐步聚合而成</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼用事件聚合而不是直接記錄最終結果？</div>
+<p><strong>❌ 如果只記錄最終持倉</strong>：你知道「現在持有 0.5 BTC」，但不知道它是怎麼來的。是一次買入的？還是買了 1.0 又賣了 0.5？入場均價是多少？</p>
+<p><strong>✅ 用事件聚合</strong>：每一次變化都有完整記錄。你可以回溯：什麼時候建倉、加倉、減倉、平倉，每一筆的價格和數量。這對交易分析和審計至關重要。</p>
+</div>
+<h3>Position 的關鍵屬性（代碼範例）</h3>
+<pre><code class="language-python"># Position 的重要屬性（策略中可以這樣訪問）
 position = self.cache.position(position_id)
 
 # --- 基礎資訊 ---
@@ -489,206 +516,190 @@ position.duration_ns  # uint64_t: 持倉時長（納秒）
 # --- 事件歷史 ---
 position.events       # list: 所有相關事件
 position.trade_ids    # list: 所有成交 ID</code></pre>
-
-                <!-- ==================== -->
-                <h2>六、帳戶類型</h2>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">💵</span>
-                        <h4>CashAccount — 現金帳戶</h4>
-                        <p>用多少錢就有多少。買入股票就扣款、賣出就入帳。不能借錢交易。支援單一和多幣種。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <h4>MarginAccount — 保證金帳戶</h4>
-                        <p>只需繳納保證金即可交易更大的金額（槓桿）。期貨和外匯通常使用保證金帳戶。支援單一和多幣種。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🏇</span>
-                        <h4>BettingAccount — 博彩帳戶</h4>
-                        <p>專為 Betfair 等博彩交易所設計的帳戶類型。單一幣種。</p>
-                    </div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>七、標識符系統</h2>
-                <p>在一個同時連接多個交易所、運行多個策略的系統中，準確識別每一個對象極為重要：</p>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>標識符</th>
-                                <th>格式範例</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>InstrumentId</code></td>
-                                <td><code>BTC-USDT-PERP.BINANCE</code></td>
-                                <td>唯一標識一個金融工具（品種 + 交易所）</td>
-                            </tr>
-                            <tr>
-                                <td><code>Venue</code></td>
-                                <td><code>BINANCE</code></td>
-                                <td>交易所或數據源的名稱</td>
-                            </tr>
-                            <tr>
-                                <td><code>ClientOrderId</code></td>
-                                <td><code>O-20240105-001</code></td>
-                                <td>客戶端生成的訂單唯一 ID</td>
-                            </tr>
-                            <tr>
-                                <td><code>VenueOrderId</code></td>
-                                <td><code>123456789</code></td>
-                                <td>交易所分配的訂單 ID</td>
-                            </tr>
-                            <tr>
-                                <td><code>TradeId</code></td>
-                                <td><code>T-20240105-001</code></td>
-                                <td>成交的唯一 ID</td>
-                            </tr>
-                            <tr>
-                                <td><code>StrategyId</code></td>
-                                <td><code>EMACross-001</code></td>
-                                <td>策略實例的唯一 ID</td>
-                            </tr>
-                            <tr>
-                                <td><code>AccountId</code></td>
-                                <td><code>BINANCE-main</code></td>
-                                <td>帳戶的唯一 ID</td>
-                            </tr>
-                            <tr>
-                                <td><code>PositionId</code></td>
-                                <td><code>P-001</code></td>
-                                <td>持倉的唯一 ID</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ 注意 InstrumentId 的格式</div>
-                    <p><code>InstrumentId</code> 包含<strong>交易所名稱</strong>。所以 <code>BTC-USDT.BINANCE</code> 和
+<!-- ==================== -->
+<h2>六、帳戶類型</h2>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">💵</span>
+<h4>CashAccount — 現金帳戶</h4>
+<p>用多少錢就有多少。買入股票就扣款、賣出就入帳。不能借錢交易。支援單一和多幣種。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📊</span>
+<h4>MarginAccount — 保證金帳戶</h4>
+<p>只需繳納保證金即可交易更大的金額（槓桿）。期貨和外匯通常使用保證金帳戶。支援單一和多幣種。</p>
+</div>
+<div class="feature-card">
+<span class="icon">🏇</span>
+<h4>BettingAccount — 博彩帳戶</h4>
+<p>專為 Betfair 等博彩交易所設計的帳戶類型。單一幣種。</p>
+</div>
+</div>
+<!-- ==================== -->
+<h2>七、標識符系統</h2>
+<p>在一個同時連接多個交易所、運行多個策略的系統中，準確識別每一個對象極為重要：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>標識符</th>
+<th>格式範例</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InstrumentId</code></td>
+<td><code>BTC-USDT-PERP.BINANCE</code></td>
+<td>唯一標識一個金融工具（品種 + 交易所）</td>
+</tr>
+<tr>
+<td><code>Venue</code></td>
+<td><code>BINANCE</code></td>
+<td>交易所或數據源的名稱</td>
+</tr>
+<tr>
+<td><code>ClientOrderId</code></td>
+<td><code>O-20240105-001</code></td>
+<td>客戶端生成的訂單唯一 ID</td>
+</tr>
+<tr>
+<td><code>VenueOrderId</code></td>
+<td><code>123456789</code></td>
+<td>交易所分配的訂單 ID</td>
+</tr>
+<tr>
+<td><code>TradeId</code></td>
+<td><code>T-20240105-001</code></td>
+<td>成交的唯一 ID</td>
+</tr>
+<tr>
+<td><code>StrategyId</code></td>
+<td><code>EMACross-001</code></td>
+<td>策略實例的唯一 ID</td>
+</tr>
+<tr>
+<td><code>AccountId</code></td>
+<td><code>BINANCE-main</code></td>
+<td>帳戶的唯一 ID</td>
+</tr>
+<tr>
+<td><code>PositionId</code></td>
+<td><code>P-001</code></td>
+<td>持倉的唯一 ID</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 注意 InstrumentId 的格式</div>
+<p><code>InstrumentId</code> 包含<strong>交易所名稱</strong>。所以 <code>BTC-USDT.BINANCE</code> 和
                         <code>BTC-USDT.OKX</code> 是兩個不同的金融工具，即使它們底層都是 BTC/USDT。這確保了多交易所環境中不會混淆。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>八、時間系統 — 納秒精度</h2>
-                <p>NautilusTrader 中的所有時間戳都使用<strong>納秒精度的 UTC 時間</strong>：</p>
-
-                <div class="card">
-                    <div class="card-title">🕐 時間格式</div>
-                    <p>格式：<code>2024-01-05T15:30:45.123456789Z</code></p>
-                    <ul>
-                        <li><code>2024-01-05</code> — 日期</li>
-                        <li><code>T</code> — 日期和時間的分隔符</li>
-                        <li><code>15:30:45</code> — 時間（UTC）</li>
-                        <li><code>.123456789</code> — 9 位小數（納秒）</li>
-                        <li><code>Z</code> — UTC 時區標記</li>
-                    </ul>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼要納秒精度？</div>
-                    <p>在高頻交易中，<strong>毫秒甚至微秒</strong>的差異就決定了你是賺錢還是虧錢。納秒精度確保：事件順序精確排列、回測時每一筆成交的時間精確到十億分之一秒。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>九、數據類型 — 市場數據的分類</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>數據類型</th>
-                                <th>說明</th>
-                                <th>資訊量</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>QuoteTick</code></td>
-                                <td>報價快照（最佳買賣價 + 數量）</td>
-                                <td>4 個數值</td>
-                            </tr>
-                            <tr>
-                                <td><code>TradeTick</code></td>
-                                <td>逐筆成交（價格 + 數量 + 方向）</td>
-                                <td>3 個數值</td>
-                            </tr>
-                            <tr>
-                                <td><code>Bar</code></td>
-                                <td>K 線（開高低收 + 成交量）</td>
-                                <td>5 個數值</td>
-                            </tr>
-                            <tr>
-                                <td><code>OrderBookDelta</code></td>
-                                <td>訂單簿增量更新</td>
-                                <td>單層變化</td>
-                            </tr>
-                            <tr>
-                                <td><code>OrderBookDepth10</code></td>
-                                <td>訂單簿快照（買賣各 10 檔）</td>
-                                <td>40 個數值</td>
-                            </tr>
-                            <tr>
-                                <td><code>InstrumentStatus</code></td>
-                                <td>金融工具狀態變更</td>
-                                <td>狀態枚舉</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ==================== -->
-                <h2>十、互動練習</h2>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：浮點數 vs 定點數</div>
-                    <p>假設你的策略計算一個價格：<code>0.1 + 0.2</code>。在普通 Python 和 NautilusTrader 中的結果分別是什麼？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-fp')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-fp">普通 Python (float)：
-                        >>> 0.1 + 0.2
-                        0.30000000000000004 ❌ 精度丟失！
-
-                        NautilusTrader (Price)：
-                        >>> Price.from_str("0.1") + Price.from_str("0.2")
-                        等效於整數運算 1000... + 2000... = 3000...
-                        顯示結果：0.3 ✅ 精確！
-
-                        結論：在交易系統中，永遠不要用 float 表示價格。</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：訂單選擇</div>
-                    <p>以下交易場景，你應該用哪種訂單類型？</p>
-                    <ol>
-                        <li>BTC 目前價格 50,000，你想在跌到 45,000 時止損出場</li>
-                        <li>你想以不超過 49,500 的價格買入 BTC</li>
-                        <li>BTC 正在上漲，你想鎖定利潤，讓止損價跟著價格上移</li>
-                        <li>你需要立刻買入 BTC，不管什麼價格</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-orders')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-orders">1. STOP_MARKET（止損市價單）
-                        → 當價格跌到 45,000 時觸發，以市價賣出
-
-                        2. LIMIT（限價單）
-                        → 掛一個 49,500 的買入限價單，只在 49,500 或更低時成交
-
-                        3. TRAILING_STOP_MARKET（移動止損市價單）
-                        → 止損價會跟著最高價上移，保護已有利潤
-
-                        4. MARKET（市價單）
-                        → 立即以當前最優價成交，速度最快</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 3：找出代碼錯誤</div>
-                    <p>以下代碼嘗試建立一個限價單，有 <strong>2 個錯誤</strong>：</p>
-                    <pre><code class="language-python">from nautilus_trader.model.orders import LimitOrder
+</div>
+<!-- ==================== -->
+<h2>八、時間系統 — 納秒精度</h2>
+<p>NautilusTrader 中的所有時間戳都使用<strong>納秒精度的 UTC 時間</strong>：</p>
+<div class="card">
+<div class="card-title">🕐 時間格式</div>
+<p>格式：<code>2024-01-05T15:30:45.123456789Z</code></p>
+<ul>
+<li><code>2024-01-05</code> — 日期</li>
+<li><code>T</code> — 日期和時間的分隔符</li>
+<li><code>15:30:45</code> — 時間（UTC）</li>
+<li><code>.123456789</code> — 9 位小數（納秒）</li>
+<li><code>Z</code> — UTC 時區標記</li>
+</ul>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼要納秒精度？</div>
+<p>在高頻交易中，<strong>毫秒甚至微秒</strong>的差異就決定了你是賺錢還是虧錢。納秒精度確保：事件順序精確排列、回測時每一筆成交的時間精確到十億分之一秒。</p>
+</div>
+<!-- ==================== -->
+<h2>九、數據類型 — 市場數據的分類</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>數據類型</th>
+<th>說明</th>
+<th>資訊量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>QuoteTick</code></td>
+<td>報價快照（最佳買賣價 + 數量）</td>
+<td>4 個數值</td>
+</tr>
+<tr>
+<td><code>TradeTick</code></td>
+<td>逐筆成交（價格 + 數量 + 方向）</td>
+<td>3 個數值</td>
+</tr>
+<tr>
+<td><code>Bar</code></td>
+<td>K 線（開高低收 + 成交量）</td>
+<td>5 個數值</td>
+</tr>
+<tr>
+<td><code>OrderBookDelta</code></td>
+<td>訂單簿增量更新</td>
+<td>單層變化</td>
+</tr>
+<tr>
+<td><code>OrderBookDepth10</code></td>
+<td>訂單簿快照（買賣各 10 檔）</td>
+<td>40 個數值</td>
+</tr>
+<tr>
+<td><code>InstrumentStatus</code></td>
+<td>金融工具狀態變更</td>
+<td>狀態枚舉</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>十、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：浮點數 vs 定點數</div>
+<p>假設你的策略計算一個價格：<code>0.1 + 0.2</code>。在普通 Python 和 NautilusTrader 中的結果分別是什麼？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-fp')">💡 查看答案</button>
+<div class="exercise-output" id="answer-fp">
+<p><strong>普通 Python (float)</strong>：</p>
+<pre><code class="language-python">&gt;&gt;&gt; 0.1 + 0.2
+0.30000000000000004 ❌ 精度丟失！</code></pre>
+<p><strong>NautilusTrader (Price)</strong>：</p>
+<pre><code class="language-python">&gt;&gt;&gt; Price.from_str("0.1") + Price.from_str("0.2")</code></pre>
+<p>等效於整數運算 <code>1000... + 2000... = 3000...</code></p>
+<p>顯示結果：<code>0.3</code> ✅ 精確！</p>
+<p><strong>結論</strong>：在交易系統中，永遠不要用 <code>float</code> 表示價格。</p>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：訂單選擇</div>
+<p>以下交易場景，你應該用哪種訂單類型？</p>
+<ol>
+<li>BTC 目前價格 50,000，你想在跌到 45,000 時止損出場</li>
+<li>你想以不超過 49,500 的價格買入 BTC</li>
+<li>BTC 正在上漲，你想鎖定利潤，讓止損價跟著價格上移</li>
+<li>你需要立刻買入 BTC，不管什麼價格</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-orders')">💡 查看答案</button>
+<div class="exercise-output" id="answer-orders">
+<ol>
+<li><strong><code>STOP_MARKET</code>（止損市價單）</strong><br/>當價格跌到 45,000 時觸發，以市價賣出</li>
+<li><strong><code>LIMIT</code>（限價單）</strong><br/>掛一個 49,500 的買入限價單，只在 49,500 或更低時成交</li>
+<li><strong><code>TRAILING_STOP_MARKET</code>（移動止損市價單）</strong><br/>止損價會跟著最高價上移，保護已有利潤</li>
+<li><strong><code>MARKET</code>（市價單）</strong><br/>立即以當前最優價成交，速度最快</li>
+</ol>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 3：找出代碼錯誤</div>
+<p>以下代碼嘗試建立一個限價單，有 <strong>2 個錯誤</strong>：</p>
+<pre><code class="language-python">from nautilus_trader.model.orders import LimitOrder
 from nautilus_trader.model.enums import OrderSide, TimeInForce
 
 order = LimitOrder(
@@ -698,45 +709,44 @@ order = LimitOrder(
     price=Price.from_str("50000.00"),
     time_in_force=TimeInForce.GTC,
 )</code></pre>
-                    <button class="btn-run" onclick="toggleAnswer('answer-code')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-code">錯誤 1: instrument_id 需要 InstrumentId 對象，不是字串
-                        → 正確: instrument_id=InstrumentId.from_str("BTC-USDT-PERP.BINANCE")
-
-                        錯誤 2: quantity 需要 Quantity 對象，不是 float
-                        → 正確: quantity=Quantity.from_str("1.5")
-
-                        💡 教訓：NautilusTrader 的 Fail-Fast 哲學
-                        它使用強類型（Price, Quantity, InstrumentId）而非原始類型（float, str）
-                        這確保你在編碼階段就發現錯誤，而不是在實盤交易時</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>十一、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 你應該記住的關鍵點</div>
-                    <ol>
-                        <li><strong>值類型</strong>：Price/Quantity/Money 用定點數（整數 + 精度），避免浮點誤差</li>
-                        <li><strong>金融工具</strong>：6 種子類覆蓋所有資產類別，各有特定屬性</li>
-                        <li><strong>11 種訂單類型</strong>：從市價單到移動止損再到 OrderList（Bracket Order），覆蓋所有交易場景</li>
-                        <li><strong>訂單狀態機</strong>：明確的生命週期，每種轉換都有相應的事件</li>
-                        <li><strong>持倉 = 事件聚合</strong>：由 OrderFilled 事件逐步構建，保留完整歷史</li>
-                        <li><strong>標識符系統</strong>：InstrumentId 包含交易所名稱，防止多交易所混淆</li>
-                        <li><strong>納秒精度</strong>：所有時間戳精確到十億分之一秒</li>
-                    </ol>
-                </div>
-
-                <!-- 頁面導航 -->
-                <div class="page-nav">
-                    <a href="../Module_03_Design_Philosophy/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">模組 03：設計哲學與品質屬性</span></a>
-                    <a href="../Module_05_MessageBus/index.html" style="text-align:right;"><span class="nav-label">下一章
+<button class="btn-run" onclick="toggleAnswer('answer-code')">💡 查看答案</button>
+<div class="exercise-output" id="answer-code">
+<ul>
+<li><strong>錯誤 1</strong>: <code>instrument_id</code> 需要 <code>InstrumentId</code>
+                                對象，不是字串<br/>→ 正確:
+                                <code>instrument_id=InstrumentId.from_str("BTC-USDT-PERP.BINANCE")</code></li>
+<li><strong>錯誤 2</strong>: <code>quantity</code> 需要 <code>Quantity</code> 對象，不是 float<br/>→
+                                正確: <code>quantity=Quantity.from_str("1.5")</code></li>
+</ul>
+<p>💡 <strong>教訓：NautilusTrader 的 Fail-Fast 哲學</strong></p>
+<p>它使用強類型（<code>Price</code>, <code>Quantity</code>, <code>InstrumentId</code>）而非原始類型（float,
+                            str）。這確保你在編碼階段就發現錯誤，而不是在實盤交易時。</p>
+</div>
+</div>
+<!-- ==================== -->
+<h2>十一、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 你應該記住的關鍵點</div>
+<ol>
+<li><strong>值類型</strong>：Price/Quantity/Money 用定點數（整數 + 精度），避免浮點誤差</li>
+<li><strong>金融工具</strong>：6 種子類覆蓋所有資產類別，各有特定屬性</li>
+<li><strong>9 種訂單類型</strong>：從市價單到移動止損再到 OrderList（Bracket Order），覆蓋所有交易場景</li>
+<li><strong>訂單狀態機</strong>：明確的生命週期，每種轉換都有相應的事件</li>
+<li><strong>持倉 = 事件聚合</strong>：由 OrderFilled 事件逐步構建，保留完整歷史</li>
+<li><strong>標識符系統</strong>：InstrumentId 包含交易所名稱，防止多交易所混淆</li>
+<li><strong>納秒精度</strong>：所有時間戳精確到十億分之一秒</li>
+</ol>
+</div>
+<!-- 頁面導航 -->
+<div class="page-nav">
+<a href="../Module_03_Design_Philosophy/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 03：設計哲學與品質屬性</span></a>
+<a href="../Module_05_MessageBus/index.html" style="text-align:right;"><span class="nav-label">下一章
                             →</span><span class="nav-title">模組 05：消息總線 — 系統的神經網絡</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

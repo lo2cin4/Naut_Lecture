@@ -253,8 +253,8 @@
         var modalTitle = overlay.querySelector('.modal-title');
         var modalBody = overlay.querySelector('.modal-body');
 
-        modalTitle.textContent = title || '參考解答';
-        modalBody.textContent = content.trim();
+        modalTitle.innerHTML = title || '參考解答';
+        modalBody.innerHTML = content.trim();
 
         document.body.style.overflow = 'hidden';
         overlay.classList.add('active');
@@ -277,7 +277,7 @@
     window.toggleAnswer = function (id) {
         var el = document.getElementById(id);
         if (el) {
-            var content = el.innerText || el.textContent;
+            var content = el.innerHTML;
             window.showModal('🐚 參考解答', content.trim());
         }
     };

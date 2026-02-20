@@ -1,150 +1,189 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 16：會計與風控深潛 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 16：會計與風控深潛 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_16_Accounting_Risk/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
                     環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇 NT</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     架構鳥瞰圖</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
                     數據管理</a>
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
                     配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
                     實盤部署進階</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+<a class="nav-item active" href="index.html"><span class="nav-num">16</span> 會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
                     進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span
-                        class="separator">›</span>模組 16</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-4">第四階段：進階擴展</span>
-                <h1>模組 16：會計與風控深潛<span class="subtitle">理解帳戶模型、保證金計算、手續費結構 — 你的錢到底是怎麼算的</span></h1>
-
-                <!-- ==================== -->
-                <h2>一、為什麼需要理解會計系統？</h2>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 會計不只是「算帳」</div>
-                    <p><strong>❌ 常見誤解</strong>：「我只要知道盈虧就好，會計是交易所的事」。</p>
-                    <p><strong>✅ 真相</strong>：如果回測中的保證金計算和真實交易所不同，你的策略可能在回測中能開 10 倍槓桿，實盤卻只能開 3 倍 —
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span class="separator">›</span>模組 16</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-4">第四階段：進階擴展</span>
+<h1>模組 16：會計與風控深潛<span class="subtitle">理解帳戶模型、保證金計算、手續費結構 — 你的錢到底是怎麼算的</span></h1>
+<!-- ==================== -->
+<h2>一、為什麼需要理解會計系統？</h2>
+<div class="callout callout-info">
+<div class="callout-title">💡 會計不只是「算帳」</div>
+<p><strong>❌ 常見誤解</strong>：「我只要知道盈虧就好，會計是交易所的事」。</p>
+<p><strong>✅ 真相</strong>：如果回測中的保證金計算和真實交易所不同，你的策略可能在回測中能開 10 倍槓桿，實盤卻只能開 3 倍 —
                         回測結果完全不具參考價值。NautilusTrader 的 <code>accounting/</code> 模組就是為了確保<strong>回測和實盤的帳戶行為一致</strong>。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、CashAccount vs MarginAccount</h2>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>特徵</th>
-                                <th>CashAccount 現貨帳戶</th>
-                                <th>MarginAccount 保證金帳戶</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>槓桿</strong></td>
-                                <td>1x（無槓桿）</td>
-                                <td>可達 125x（依交易所）</td>
-                            </tr>
-                            <tr>
-                                <td><strong>下單前檢查</strong></td>
-                                <td>現金餘額 ≥ 訂單成本</td>
-                                <td>可用保證金 ≥ 初始保證金</td>
-                            </tr>
-                            <tr>
-                                <td><strong>做空</strong></td>
-                                <td>❌ 不能</td>
-                                <td>✅ 可以</td>
-                            </tr>
-                            <tr>
-                                <td><strong>強制平倉</strong></td>
-                                <td>❌ 不會</td>
-                                <td>✅ 保證金不足時觸發</td>
-                            </tr>
-                            <tr>
-                                <td><strong>適用場景</strong></td>
-                                <td>股票現貨、加密貨幣現貨</td>
-                                <td>期貨、加密貨幣合約、外匯</td>
-                            </tr>
-                            <tr>
-                                <td><strong>NautilusTrader 類</strong></td>
-                                <td><code>CashAccount</code></td>
-                                <td><code>MarginAccount</code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h3>帳戶餘額結構</h3>
-                <pre><code class="language-python"># CashAccount 的餘額
+</div>
+<!-- ==================== -->
+<h2>二、CashAccount vs MarginAccount</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>特徵</th>
+<th>CashAccount 現貨帳戶</th>
+<th>MarginAccount 保證金帳戶</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>槓桿</strong></td>
+<td>1x（無槓桿）</td>
+<td>可達 125x（依交易所）</td>
+</tr>
+<tr>
+<td><strong>下單前檢查</strong></td>
+<td>現金餘額 ≥ 訂單成本</td>
+<td>可用保證金 ≥ 初始保證金</td>
+</tr>
+<tr>
+<td><strong>做空</strong></td>
+<td>❌ 不能</td>
+<td>✅ 可以</td>
+</tr>
+<tr>
+<td><strong>強制平倉</strong></td>
+<td>❌ 不會</td>
+<td>✅ 保證金不足時觸發</td>
+</tr>
+<tr>
+<td><strong>適用場景</strong></td>
+<td>股票現貨、加密貨幣現貨</td>
+<td>期貨、加密貨幣合約、外匯</td>
+</tr>
+<tr>
+<td><strong>NautilusTrader 類</strong></td>
+<td><code>CashAccount</code></td>
+<td><code>MarginAccount</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3>帳戶餘額結構</h3>
+<pre><code class="language-python"># CashAccount 的餘額
 account.balance_total(Currency.from_str("USDT"))    # 總餘額
 account.balance_free(Currency.from_str("USDT"))     # 可用餘額
 account.balance_locked(Currency.from_str("USDT"))   # 凍結餘額（掛單佔用）
@@ -155,13 +194,11 @@ margin_account.maintenance_margins()  # 各品種的維持保證金
 
 # ❗ 重要概念
 # 可用保證金 = 總餘額 - 凍結 - 初始保證金
-# 如果 總餘額 < 維持保證金 → 強制平倉！</code></pre>
-
-                <!-- ==================== -->
-                <h2>三、保證金模型（MarginModel）</h2>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+# 如果 總餘額 &lt; 維持保證金 → 強制平倉！</code></pre>
+<!-- ==================== -->
+<h2>三、保證金模型（MarginModel）</h2>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         order["📝 下單請求"]
                         calc["💰 計算初始保證金"]
@@ -169,19 +206,18 @@ margin_account.maintenance_margins()  # 各品種的維持保證金
                         submit["➡️ 提交訂單"]
                         reject["❌ 拒絕訂單"]
 
-                        order --> calc
-                        calc --> check
-                        check -->|是| submit
-                        check -->|否| reject
+                        order --&gt; calc
+                        calc --&gt; check
+                        check --&gt;|是| submit
+                        check --&gt;|否| reject
 
                         style order fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style reject fill:#0f1419,stroke:#f44336,stroke-width:2px
                         style submit fill:#0f1419,stroke:#4caf50,stroke-width:2px
                     </div>
-                    <div class="caption">圖 1：保證金檢查流程</div>
-                </div>
-
-                <pre><code class="language-python"># 回測中配置保證金
+<div class="caption">圖 1：保證金檢查流程</div>
+</div>
+<pre><code class="language-python"># 回測中配置保證金
 from nautilus_trader.backtest.engine import BacktestEngine
 from nautilus_trader.model.enums import AccountType
 
@@ -199,19 +235,16 @@ engine.add_venue(
     },
     default_leverage=Decimal("1"),      # 預設槓桿
 )</code></pre>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ OMS Type 很重要</div>
-                    <p><strong>HEDGING（對沖模式）</strong>：同一品種可以同時持有多空倉位（如外匯 MT4），每次開倉都是獨立持倉。<br>
-                        <strong>NETTING（淨倉模式）</strong>：同一品種只有一個淨持倉（如 Binance 合約），買1手再賣1手 = 平倉。<br>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ OMS Type 很重要</div>
+<p><strong>HEDGING（對沖模式）</strong>：同一品種可以同時持有多空倉位（如外匯 MT4），每次開倉都是獨立持倉。<br/>
+<strong>NETTING（淨倉模式）</strong>：同一品種只有一個淨持倉（如 Binance 合約），買1手再賣1手 = 平倉。<br/>
                         選錯模式會導致回測行為和實盤不一致！
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、手續費結構（FeeModel）</h2>
-
-                <pre><code class="language-python">from nautilus_trader.backtest.models import FeeModel, MakerTakerFeeModel
+</div>
+<!-- ==================== -->
+<h2>四、手續費結構（FeeModel）</h2>
+<pre><code class="language-python">from nautilus_trader.backtest.models import FeeModel, MakerTakerFeeModel
 
 # 方法 1：使用內建的 Maker/Taker 模型
 fee_model = MakerTakerFeeModel(
@@ -225,19 +258,16 @@ engine.add_venue(
     fee_model=fee_model,
     # ...
 )</code></pre>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 Maker vs Taker 手續費</div>
-                    <p><strong>Maker（掛單）</strong>：你掛限價單等待成交，為市場提供流動性 → 手續費低甚至返佣。<br>
-                        <strong>Taker（吃單）</strong>：你直接市價成交或「穿過」掛單吃單 → 手續費高。<br><br>
-                        <strong>❌ 常見錯誤</strong>：回測時只用 Taker 費率，但策略大量使用限價單 → 高估了交易成本 → 可能放棄了本該盈利的策略。
+<div class="callout callout-info">
+<div class="callout-title">💡 Maker vs Taker 手續費</div>
+<p><strong>Maker（掛單）</strong>：你掛限價單等待成交，為市場提供流動性 → 手續費低甚至返佣。<br/>
+<strong>Taker（吃單）</strong>：你直接市價成交或「穿過」掛單吃單 → 手續費高。<br/><br/>
+<strong>❌ 常見錯誤</strong>：回測時只用 Taker 費率，但策略大量使用限價單 → 高估了交易成本 → 可能放棄了本該盈利的策略。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>五、多幣種 Portfolio</h2>
-
-                <pre><code class="language-python"># NautilusTrader 原生支持多幣種
+</div>
+<!-- ==================== -->
+<h2>五、多幣種 Portfolio</h2>
+<pre><code class="language-python"># NautilusTrader 原生支持多幣種
 engine.add_venue(
     venue=Venue("BINANCE"),
     starting_balances=[
@@ -262,13 +292,11 @@ class MyStrategy(Strategy):
         unrealized = self.portfolio.unrealized_pnl(self.instrument_id)
         self.log.info(f"未實現 PnL: {unrealized}")
 </code></pre>
-
-                <!-- ==================== -->
-                <h2>六、風控引擎進階</h2>
-                <p>模組 09 介紹了風控的基礎。這裡深入進階配置：</p>
-
-                <h3>6.1 組件級風控規則</h3>
-                <pre><code class="language-python">from nautilus_trader.risk.engine import RiskEngine
+<!-- ==================== -->
+<h2>六、風控引擎進階</h2>
+<p>模組 09 介紹了風控的基礎。這裡深入進階配置：</p>
+<h3>6.1 組件級風控規則</h3>
+<pre><code class="language-python">from nautilus_trader.risk.engine import RiskEngine
 
 # 風控規則示例
 risk_config = LiveRiskEngineConfig(
@@ -283,31 +311,30 @@ risk_config = LiveRiskEngineConfig(
         "BTCUSDT-PERP.BINANCE": 100_000,      # 單筆最多 10 萬 USDT
     },
 )</code></pre>
-
-                <h3>6.2 自定義風控規則</h3>
-                <pre><code class="language-python">from nautilus_trader.trading.strategy import Strategy
+<h3>6.2 自定義風控規則</h3>
+<pre><code class="language-python">from nautilus_trader.trading.strategy import Strategy
 
 class RiskManagedStrategy(Strategy):
     """在策略層面加入額外風控"""
 
-    def _check_risk_limits(self) -> bool:
+    def _check_risk_limits(self) -&gt; bool:
         """檢查是否允許繼續交易"""
 
         # 1. 當日虧損上限
         account = self.portfolio.account(self.instrument_id.venue)
-        if self._daily_pnl < Money(-5000, USD):
+        if self._daily_pnl &lt; Money(-5000, USD):
             self.log.warning("當日虧損超過 $5000，停止交易")
             return False
 
         # 2. 最大持倉數量
         positions = self.cache.positions(venue=self.instrument_id.venue)
-        if len(positions) >= 5:
+        if len(positions) &gt;= 5:
             self.log.warning("已達最大持倉數量 5")
             return False
 
         # 3. 最大相關性（同方向持倉）
         long_count = sum(1 for p in positions if p.is_long)
-        if long_count >= 3:
+        if long_count &gt;= 3:
             self.log.warning("太多同向持倉，風險集中")
             return False
 
@@ -318,109 +345,127 @@ class RiskManagedStrategy(Strategy):
             return
         # 正常交易邏輯...
 </code></pre>
-
-                <!-- ==================== -->
-                <h2>七、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：帳戶類型選擇</div>
-                    <p>你要交易以下品種，應該用什麼帳戶類型和 OMS？</p>
-                    <ol>
-                        <li>Binance BTCUSDT 現貨</li>
-                        <li>Binance BTCUSDT 永續合約</li>
-                        <li>Interactive Brokers 美股</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-account')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-account">1. Binance BTCUSDT 現貨
-                        帳戶：CashAccount（無槓桿）
-                        OMS：NETTING（加密現貨通常是淨倉）
-
-                        2. Binance BTCUSDT 永續合約
-                        帳戶：MarginAccount（有槓桿）
-                        OMS：NETTING（Binance 合約是淨倉）
-                        槓桿：自行設定（1x-125x）
-
-                        3. Interactive Brokers 美股
-                        帳戶：MarginAccount（IB 提供融資）
-                        OMS：NETTING（美股是淨倉）
-                        注意：IB 保證金計算複雜，需要熟悉 Reg-T 規則</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：手續費計算</div>
-                    <p>Maker 0.02%, Taker 0.05%。你用限價單買入 1 BTC @ $60,000，再用市價單賣出：</p>
-                    <ol>
-                        <li>買入手續費是多少 USDT？</li>
-                        <li>賣出手續費是多少 USDT？</li>
-                        <li>如果 BTC 漲到 $60,100 時賣出，扣除手續費後實際盈虧？</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-fee')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-fee">1. 買入（限價單 = Maker）：
-                        $60,000 × 0.02% = $12 USDT
-
-                        2. 賣出（市價單 = Taker）：
-                        $60,100 × 0.05% = $30.05 USDT
-
-                        3. 實際盈虧：
-                        毛利：$60,100 - $60,000 = $100
-                        手續費：$12 + $30.05 = $42.05
-                        淨利：$100 - $42.05 = $57.95 USDT
-
-                        💡 如果回測沒模擬手續費，會以為賺了 $100！
-                        實際只賺 $57.95 — 差了 42%</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 3：設計風控規則</div>
-                    <p>你管理 $100,000 的帳戶，設計合理的風控參數（每日虧損上限、單筆最大金額、最大持倉數量、每秒最大下單數）。</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-risk')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-risk">保守型風控設計（$100,000 帳戶）：
-
-                        1. 每日虧損上限：$2,000 (2%)
-                        理由：超常虧損通常意味著市場異常或策略失效
-                        設定後當日不再開新倉
-
-                        2. 單筆最大金額：$10,000 (10%)
-                        理由：避免單一交易承擔過大風險
-
-                        3. 最大持倉數量：5 個品種
-                        理由：分散風險，但不要太多導致管理困難
-
-                        4. 每秒最大下單：10 單
-                        理由：正常策略不需要每秒下很多單
-                        如果超過 → 可能是代碼 bug
-
-                        5. 最大槓桿：3x
-                        理由：3x 已經意味著 30% 的反向波動會清零
-
-                        附加規則：
-                        - 同向持倉不超過 3 個（避免風險集中）
-                        - 新策略上線第一週限制為一半倉位</div>
-                </div>
-
-                <h2>八、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 關鍵點</div>
-                    <ol>
-                        <li><strong>CashAccount vs MarginAccount</strong>：現貨用 Cash，合約/期貨用 Margin</li>
-                        <li><strong>OMS 類型</strong>：NETTING（淨倉）和 HEDGING（對沖），選錯會導致回測不準</li>
-                        <li><strong>保證金三層</strong>：總餘額 > 初始保證金 > 維持保證金，低於維持 → 強制平倉</li>
-                        <li><strong>Maker/Taker 手續費</strong>：正確模擬手續費對回測準確性至關重要</li>
-                        <li><strong>多幣種</strong>：Portfolio 原生支持多幣種餘額和盈虧計算</li>
-                        <li><strong>策略級風控</strong>：可以在 Strategy 中加入自定義風控規則作為額外保護層</li>
-                    </ol>
-                </div>
-
-                <div class="page-nav">
-                    <a href="../Module_15_Live_Advanced/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">模組 15：實盤部署進階</span></a>
-                    <a href="../Module_17_Advanced_Topics/index.html" style="text-align:right;"><span
-                            class="nav-label">下一章 →</span><span class="nav-title">模組 17：進階主題</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+<!-- ==================== -->
+<h2>七、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：帳戶類型選擇</div>
+<p>你要交易以下品種，應該用什麼帳戶類型和 OMS？</p>
+<ol>
+<li>Binance BTCUSDT 現貨</li>
+<li>Binance BTCUSDT 永續合約</li>
+<li>Interactive Brokers 美股</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-account')">💡 查看答案</button>
+<div class="exercise-output" id="answer-account">
+<ol>
+<li><strong>Binance BTCUSDT 現貨</strong>
+<ul>
+<li>帳戶：<code>CashAccount</code>（無槓桿）</li>
+<li>OMS：<code>NETTING</code>（加密現貨通常是淨倉）</li>
+</ul>
+</li>
+<li style="margin-top:0.8rem;"><strong>Binance BTCUSDT 永續合約</strong>
+<ul>
+<li>帳戶：<code>MarginAccount</code>（有槓桿）</li>
+<li>OMS：<code>NETTING</code>（Binance 合約是淨倉）</li>
+<li>槓桿：自行設定（1x-125x）</li>
+</ul>
+</li>
+<li style="margin-top:0.8rem;"><strong>Interactive Brokers 美股</strong>
+<ul>
+<li>帳戶：<code>MarginAccount</code>（IB 提供融資）</li>
+<li>OMS：<code>NETTING</code>（美股是淨倉）</li>
+<li><strong style="color:var(--accent-red);">注意：</strong>IB 保證金計算複雜，需要熟悉 Reg-T 規則
+                                    </li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：手續費計算</div>
+<p>Maker 0.02%, Taker 0.05%。你用限價單買入 1 BTC @ $60,000，再用市價單賣出：</p>
+<ol>
+<li>買入手續費是多少 USDT？</li>
+<li>賣出手續費是多少 USDT？</li>
+<li>如果 BTC 漲到 $60,100 時賣出，扣除手續費後實際盈虧？</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-fee')">💡 查看答案</button>
+<div class="exercise-output" id="answer-fee">
+<ol>
+<li><strong>買入（限價單 = Maker）：</strong><br/>
+                                $60,000 × 0.02% = <strong>$12 USDT</strong>
+</li>
+<li style="margin-top:0.8rem;"><strong>賣出（市價單 = Taker）：</strong><br/>
+                                $60,100 × 0.05% = <strong>$30.05 USDT</strong>
+</li>
+<li style="margin-top:0.8rem;"><strong>實際盈虧：</strong>
+<ul>
+<li>毛利：$60,100 - $60,000 = $100</li>
+<li>手續費：$12 + $30.05 = $42.05</li>
+<li>淨利：$100 - $42.05 = <strong style="color:var(--accent-green);">$57.95
+                                            USDT</strong></li>
+</ul>
+</li>
+</ol>
+<div class="callout callout-info" style="margin:0;">
+<div class="callout-title">💡 結論</div>
+<p style="margin-bottom:0;">如果回測沒模擬手續費，會以為賺了 $100！<br/>實際只賺 $57.95 — <strong>差了 42%</strong>
+</p>
+</div>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 3：設計風控規則</div>
+<p>你管理 $100,000 的帳戶，設計合理的風控參數（每日虧損上限、單筆最大金額、最大持倉數量、每秒最大下單數）。</p>
+<button class="btn-run" onclick="toggleAnswer('answer-risk')">💡 查看答案</button>
+<div class="exercise-output" id="answer-risk">
+<p>保守型風控設計（$100,000 帳戶）：</p>
+<ol>
+<li><strong>每日虧損上限：$2,000 (2%)</strong><br/>
+                                理由：超常虧損通常意味著市場異常或策略失效。設定後當日不再開新倉。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>單筆最大金額：$10,000 (10%)</strong><br/>
+                                理由：避免單一交易承擔過大風險。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>最大持倉數量：5 個品種</strong><br/>
+                                理由：分散風險，但不要太多導致管理困難。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>每秒最大下單：10 單</strong><br/>
+                                理由：正常策略不需要每秒下很多單。如果超過 → 可能是代碼 bug。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>最大槓桿：3x</strong><br/>
+                                理由：3x 已經意味著 30% 的反向波動會讓保證金大幅縮水。
+                            </li>
+</ol>
+<hr style="margin: 1rem 0;"/>
+<p><strong>附加規則：</strong></p>
+<ul>
+<li>同向持倉不超過 3 個（避免風險集中）</li>
+<li>新策略上線第一週限制為一半倉位</li>
+</ul>
+</div>
+</div>
+<h2>八、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 關鍵點</div>
+<ol>
+<li><strong>CashAccount vs MarginAccount</strong>：現貨用 Cash，合約/期貨用 Margin</li>
+<li><strong>OMS 類型</strong>：NETTING（淨倉）和 HEDGING（對沖），選錯會導致回測不準</li>
+<li><strong>保證金三層</strong>：總餘額 &gt; 初始保證金 &gt; 維持保證金，低於維持 → 強制平倉</li>
+<li><strong>Maker/Taker 手續費</strong>：正確模擬手續費對回測準確性至關重要</li>
+<li><strong>多幣種</strong>：Portfolio 原生支持多幣種餘額和盈虧計算</li>
+<li><strong>策略級風控</strong>：可以在 Strategy 中加入自定義風控規則作為額外保護層</li>
+</ol>
+</div>
+<div class="page-nav">
+<a href="../Module_15_Live_Advanced/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 15：實盤部署進階</span></a>
+<a href="../Module_17_Advanced_Topics/index.html" style="text-align:right;"><span class="nav-label">下一章 →</span><span class="nav-title">模組 17：進階主題</span></a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

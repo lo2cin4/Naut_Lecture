@@ -1,193 +1,228 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>附錄 B：API 速查表 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>附錄 B：API 速查表 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Appendix/api_reference.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">附錄</div>
-                </div>
-                <a class="nav-item" href="glossary.html"><span class="nav-num">A</span> 術語表</a>
-                <a class="nav-item active" href="api_reference.html"><span class="nav-num">B</span> API 速查表</a>
-                <a class="nav-item" href="code_patterns.html"><span class="nav-num">C</span> 代碼模式</a>
-                <a class="nav-item" href="../index.html">🏠 回到首頁</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>附錄<span
-                        class="separator">›</span>API 速查表</div>
-            </div>
-            <div class="content-container">
-
-                <h1>附錄 B：API 速查表<span class="subtitle">策略開發中最常用的函數與對象方法參考</span></h1>
-
-                <h2>1. 數據訂閱 (Data Subscriptions)</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>方法</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>self.subscribe_quote_ticks(instrument_id)</code></td>
-                                <td>訂閱最佳買賣價報價</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.subscribe_trade_ticks(instrument_id)</code></td>
-                                <td>訂閱逐筆成交數據</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.subscribe_bars(bar_type)</code></td>
-                                <td>訂閱 K 線數據 (Bar)</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.subscribe_order_book_at_interval(instrument_id, depth, interval_ms)</code>
-                                </td>
-                                <td>定時獲取訂單簿快照</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>2. 訂單管理 (Order Management)</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>方法</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>self.order_factory.market(...)</code></td>
-                                <td>創建市價訂單</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.order_factory.limit(...)</code></td>
-                                <td>創建限價訂單</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.order_factory.stop_market(...)</code></td>
-                                <td>創建止損市價單</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.submit_order(order)</code></td>
-                                <td>提交訂單到執行引擎</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cancel_order(order)</code></td>
-                                <td>取消特定訂單</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cancel_all_orders(instrument_id)</code></td>
-                                <td>取消特定品種的所有掛單</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>3. 緩存查詢 (Cache Queries)</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>方法</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>self.cache.instrument(instrument_id)</code></td>
-                                <td>獲取金融工具定義</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cache.orders_open(instrument_id)</code></td>
-                                <td>查詢當前所有掛單</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cache.positions_open(instrument_id)</code></td>
-                                <td>查詢當前品種持倉</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cache.quote_tick(instrument_id)</code></td>
-                                <td>獲取最新報價快照</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cache.bar(bar_type)</code></td>
-                                <td>獲取最新一根 Bar</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.cache.account(account_id)</code></td>
-                                <td>查詢帳戶餘額和狀態</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>4. 投資組合 (Portfolio)</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>方法</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>self.portfolio.unrealized_pnl(instrument_id)</code></td>
-                                <td>獲取特定品種未實現盈虧</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.portfolio.realized_pnl()</code></td>
-                                <td>獲取總已實現盈虧</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.portfolio.is_flat(instrument_id)</code></td>
-                                <td>判斷特定品種是否無持倉</td>
-                            </tr>
-                            <tr>
-                                <td><code>self.portfolio.is_net_long(instrument_id)</code></td>
-                                <td>判斷是否持有多頭部位</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <script src="../assets/lecture.js"></script>
+<div class="nav-section">
+<div class="nav-section-title">附錄</div>
+</div>
+<a class="nav-item" href="glossary.html"><span class="nav-num">A</span> 術語表</a>
+<a class="nav-item active" href="api_reference.html"><span class="nav-num">B</span> API 速查表</a>
+<a class="nav-item" href="code_patterns.html"><span class="nav-num">C</span> 代碼模式</a>
+<a class="nav-item" href="../index.html">🏠 回到首頁</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>附錄<span class="separator">›</span>API 速查表</div>
+</div>
+<div class="content-container">
+<h1>附錄 B：API 速查表<span class="subtitle">策略開發中最常用的函數與對象方法參考</span></h1>
+<h2>1. 數據訂閱 (Data Subscriptions)</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>self.subscribe_quote_ticks(instrument_id)</code></td>
+<td>訂閱最佳買賣價報價</td>
+</tr>
+<tr>
+<td><code>self.subscribe_trade_ticks(instrument_id)</code></td>
+<td>訂閱逐筆成交數據</td>
+</tr>
+<tr>
+<td><code>self.subscribe_bars(bar_type)</code></td>
+<td>訂閱 K 線數據 (Bar)</td>
+</tr>
+<tr>
+<td><code>self.subscribe_order_book_at_interval(instrument_id, depth, interval_ms)</code>
+</td>
+<td>定時獲取訂單簿快照</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>2. 訂單管理 (Order Management)</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>self.order_factory.market(...)</code></td>
+<td>創建市價訂單</td>
+</tr>
+<tr>
+<td><code>self.order_factory.limit(...)</code></td>
+<td>創建限價訂單</td>
+</tr>
+<tr>
+<td><code>self.order_factory.stop_market(...)</code></td>
+<td>創建止損市價單</td>
+</tr>
+<tr>
+<td><code>self.submit_order(order)</code></td>
+<td>提交訂單到執行引擎</td>
+</tr>
+<tr>
+<td><code>self.cancel_order(order)</code></td>
+<td>取消特定訂單</td>
+</tr>
+<tr>
+<td><code>self.cancel_all_orders(instrument_id)</code></td>
+<td>取消特定品種的所有掛單</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>3. 緩存查詢 (Cache Queries)</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>self.cache.instrument(instrument_id)</code></td>
+<td>獲取金融工具定義</td>
+</tr>
+<tr>
+<td><code>self.cache.orders_open(instrument_id)</code></td>
+<td>查詢當前所有掛單</td>
+</tr>
+<tr>
+<td><code>self.cache.positions_open(instrument_id)</code></td>
+<td>查詢當前品種持倉</td>
+</tr>
+<tr>
+<td><code>self.cache.quote_tick(instrument_id)</code></td>
+<td>獲取最新報價快照</td>
+</tr>
+<tr>
+<td><code>self.cache.bar(bar_type)</code></td>
+<td>獲取最新一根 Bar</td>
+</tr>
+<tr>
+<td><code>self.cache.account(account_id)</code></td>
+<td>查詢帳戶餘額和狀態</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>4. 投資組合 (Portfolio)</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>self.portfolio.unrealized_pnl(instrument_id)</code></td>
+<td>獲取特定品種未實現盈虧</td>
+</tr>
+<tr>
+<td><code>self.portfolio.realized_pnl()</code></td>
+<td>獲取總已實現盈虧</td>
+</tr>
+<tr>
+<td><code>self.portfolio.is_flat(instrument_id)</code></td>
+<td>判斷特定品種是否無持倉</td>
+</tr>
+<tr>
+<td><code>self.portfolio.is_net_long(instrument_id)</code></td>
+<td>判斷是否持有多頭部位</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

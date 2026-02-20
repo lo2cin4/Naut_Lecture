@@ -1202,14 +1202,33 @@ tr:hover td {
 }
 
 .modal-body {
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   overflow-y: auto;
   color: var(--text-primary);
   font-size: 0.95rem;
   line-height: 1.8;
-  white-space: pre-wrap;
-  font-family: var(--font-mono);
   background: var(--bg-code);
+}
+
+.modal-body p {
+  margin-bottom: 0.8rem;
+}
+
+.modal-body ul,
+.modal-body ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.modal-body li {
+  margin-bottom: 0.4rem;
+}
+
+.modal-body code {
+  font-size: 0.9em;
+  padding: 0.15em 0.4em;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
 }
 
 .modal-footer {
@@ -1233,4 +1252,30 @@ tr:hover td {
 .btn-secondary:hover {
   background: var(--bg-hover);
   border-color: var(--text-muted);
+}
+
+/* Language Toggle global styles */
+.lang-toggle {
+  margin-left: auto;
+  padding: 6px 12px;
+  background: rgba(30, 34, 45, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.lang-toggle:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.lang-toggle .active {
+  color: var(--primary-color);
+  font-weight: 700;
 }

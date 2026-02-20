@@ -1,92 +1,138 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 13：適配器與擴展 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 13：適配器與擴展 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_13_Adapters_Extensions/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
                     環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item active" href="index.html"><span class="nav-num">13</span> 適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span
-                        class="separator">›</span>模組 13</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-4">第四階段：進階擴展</span>
-                <h1>模組 13：適配器與擴展<span class="subtitle">如何連接新的交易所、數據源以及擴展系統功能</span></h1>
-
-                <!-- ==================== -->
-                <h2>一、適配器架構</h2>
-                <p>適配器 (Adapter) 是系統與外部世界的橋樑。遵循<strong>六角架構</strong>（模組 03），核心系統不依賴任何具體的交易所或數據源。</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item active" href="index.html"><span class="nav-num">13</span> 適配器與擴展</a>
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span class="separator">›</span>模組 13</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-4">第四階段：進階擴展</span>
+<h1>模組 13：適配器與擴展<span class="subtitle">如何連接新的交易所、數據源以及擴展系統功能</span></h1>
+<!-- ==================== -->
+<h2>一、適配器架構</h2>
+<p>適配器 (Adapter) 是系統與外部世界的橋樑。遵循<strong>六角架構</strong>（模組 03），核心系統不依賴任何具體的交易所或數據源。</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph core["🔷 NautilusTrader 核心"]
                         direction TB
@@ -101,151 +147,146 @@
                         custom["Custom Adapter"]
                         end
 
-                        core ==> ports
+                        core ==&gt; ports
 
                         style core fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                         style ports fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                     </div>
-                    <div class="caption">圖 1：端口和適配器架構 — 核心不依賴具體適配器</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、官方支援的適配器（16 個）</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>適配器</th>
-                                <th>類型</th>
-                                <th>支援功能</th>
-                                <th>備注</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>Binance</strong></td>
-                                <td>加密貨幣</td>
-                                <td>現貨 + 期貨，數據 + 執行</td>
-                                <td>最成熟的適配器之一</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>Bybit</strong></td>
-                                <td>加密貨幣</td>
-                                <td>現貨 + 永續合約</td>
-                                <td>支援統一帳戶</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>OKX</strong></td>
-                                <td>加密貨幣</td>
-                                <td>現貨 + 合約 + 期權</td>
-                                <td>支援多種帳戶模式</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>Kraken</strong></td>
-                                <td>加密貨幣</td>
-                                <td>現貨 + 合約</td>
-                                <td>歐洲合規交易所</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>Coinbase INTX</strong></td>
-                                <td>加密貨幣</td>
-                                <td>機構級交易</td>
-                                <td>原 Coinbase Pro 升級版</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>BitMEX</strong></td>
-                                <td>加密貨幣</td>
-                                <td>永續合約 + 期貨</td>
-                                <td>永續合約先驅</td>
-                            </tr>
-                            <tr style="border-left: 3px solid var(--accent-cyan);">
-                                <td><strong>Deribit</strong></td>
-                                <td>加密貨幣</td>
-                                <td>期權 + 期貨</td>
-                                <td>最大的加密期權交易所</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ab47bc;">
-                                <td><strong>dYdX v4</strong></td>
-                                <td>DeFi</td>
-                                <td>去中心化永續合約</td>
-                                <td>基於 Cosmos 鏈</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ab47bc;">
-                                <td><strong>Hyperliquid</strong></td>
-                                <td>DeFi</td>
-                                <td>去中心化永續合約</td>
-                                <td>高效能 L1 鏈上 DEX</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ab47bc;">
-                                <td><strong>Polymarket</strong></td>
-                                <td>預測市場</td>
-                                <td>事件合約交易</td>
-                                <td>基於以太坊</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #4caf50;">
-                                <td><strong>Interactive Brokers</strong></td>
-                                <td>傳統金融</td>
-                                <td>股票、期貨、期權、外匯</td>
-                                <td>覆蓋最廣的傳統券商</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #4caf50;">
-                                <td><strong>Architect AX</strong></td>
-                                <td>傳統金融</td>
-                                <td>多市場執行</td>
-                                <td>機構級多資產執行</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ff9800;">
-                                <td><strong>Databento</strong></td>
-                                <td>數據供應</td>
-                                <td>美股/期貨歷史+即時數據</td>
-                                <td>專業級數據（僅數據）</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ff9800;">
-                                <td><strong>Tardis</strong></td>
-                                <td>數據供應</td>
-                                <td>加密貨幣歷史 Tick 數據</td>
-                                <td>覆蓋 30+ 個交易所（僅數據）</td>
-                            </tr>
-                            <tr style="border-left: 3px solid #ff9800;">
-                                <td><strong>Betfair</strong></td>
-                                <td>博彩</td>
-                                <td>體育博弩交易</td>
-                                <td>獨特的 BettingInstrument</td>
-                            </tr>
-                            <tr style="border-left: 3px solid gray;">
-                                <td><strong>Sandbox</strong></td>
-                                <td>內建</td>
-                                <td>模擬交易所</td>
-                                <td>用於沙箱模式測試</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 適配器的三種類型</div>
-                    <p>上表中的適配器分三類：<br>
-                        <span
-                            style="border-left:3px solid var(--accent-cyan); padding-left:6px;"><strong>加密貨幣</strong></span>：提供數據
-                        + 執行，可以直接交易<br>
-                        <span style="border-left:3px solid #ab47bc; padding-left:6px;"><strong>DeFi /
-                                預測市場</strong></span>：去中心化交易，需要錢包<br>
-                        <span style="border-left:3px solid #ff9800; padding-left:6px;"><strong>數據供應 /
+<div class="caption">圖 1：端口和適配器架構 — 核心不依賴具體適配器</div>
+</div>
+<!-- ==================== -->
+<h2>二、官方支援的適配器（16 個）</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>適配器</th>
+<th>類型</th>
+<th>支援功能</th>
+<th>備注</th>
+</tr>
+</thead>
+<tbody>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>Binance</strong></td>
+<td>加密貨幣</td>
+<td>現貨 + 期貨，數據 + 執行</td>
+<td>最成熟的適配器之一</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>Bybit</strong></td>
+<td>加密貨幣</td>
+<td>現貨 + 永續合約</td>
+<td>支援統一帳戶</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>OKX</strong></td>
+<td>加密貨幣</td>
+<td>現貨 + 合約 + 期權</td>
+<td>支援多種帳戶模式</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>Kraken</strong></td>
+<td>加密貨幣</td>
+<td>現貨 + 合約</td>
+<td>歐洲合規交易所</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>Coinbase INTX</strong></td>
+<td>加密貨幣</td>
+<td>機構級交易</td>
+<td>原 Coinbase Pro 升級版</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>BitMEX</strong></td>
+<td>加密貨幣</td>
+<td>永續合約 + 期貨</td>
+<td>永續合約先驅</td>
+</tr>
+<tr style="border-left: 3px solid var(--accent-cyan);">
+<td><strong>Deribit</strong></td>
+<td>加密貨幣</td>
+<td>期權 + 期貨</td>
+<td>最大的加密期權交易所</td>
+</tr>
+<tr style="border-left: 3px solid #ab47bc;">
+<td><strong>dYdX v4</strong></td>
+<td>DeFi</td>
+<td>去中心化永續合約</td>
+<td>基於 Cosmos 鏈</td>
+</tr>
+<tr style="border-left: 3px solid #ab47bc;">
+<td><strong>Hyperliquid</strong></td>
+<td>DeFi</td>
+<td>去中心化永續合約</td>
+<td>高效能 L1 鏈上 DEX</td>
+</tr>
+<tr style="border-left: 3px solid #ab47bc;">
+<td><strong>Polymarket</strong></td>
+<td>預測市場</td>
+<td>事件合約交易</td>
+<td>基於以太坊</td>
+</tr>
+<tr style="border-left: 3px solid #4caf50;">
+<td><strong>Interactive Brokers</strong></td>
+<td>傳統金融</td>
+<td>股票、期貨、期權、外匯</td>
+<td>覆蓋最廣的傳統券商</td>
+</tr>
+<tr style="border-left: 3px solid #4caf50;">
+<td><strong>Architect AX</strong></td>
+<td>傳統金融</td>
+<td>多市場執行</td>
+<td>機構級多資產執行</td>
+</tr>
+<tr style="border-left: 3px solid #ff9800;">
+<td><strong>Databento</strong></td>
+<td>數據供應</td>
+<td>美股/期貨歷史+即時數據</td>
+<td>專業級數據（僅數據）</td>
+</tr>
+<tr style="border-left: 3px solid #ff9800;">
+<td><strong>Tardis</strong></td>
+<td>數據供應</td>
+<td>加密貨幣歷史 Tick 數據</td>
+<td>覆蓋 30+ 個交易所（僅數據）</td>
+</tr>
+<tr style="border-left: 3px solid #ff9800;">
+<td><strong>Betfair</strong></td>
+<td>博彩</td>
+<td>體育博弩交易</td>
+<td>獨特的 BettingInstrument</td>
+</tr>
+<tr style="border-left: 3px solid gray;">
+<td><strong>Sandbox</strong></td>
+<td>內建</td>
+<td>模擬交易所</td>
+<td>用於沙箱模式測試</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 適配器的三種類型</div>
+<p>上表中的適配器分三類：<br/>
+<span style="border-left:3px solid var(--accent-cyan); padding-left:6px;"><strong>加密貨幣</strong></span>：提供數據
+                        + 執行，可以直接交易<br/>
+<span style="border-left:3px solid #ab47bc; padding-left:6px;"><strong>DeFi /
+                                預測市場</strong></span>：去中心化交易，需要錢包<br/>
+<span style="border-left:3px solid #ff9800; padding-left:6px;"><strong>數據供應 /
                                 其他</strong></span>：僅提供數據或特殊交易類型
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>三、適配器的內部結構</h2>
-                <p>每個適配器通常包含以下組件：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h2>三、適配器的內部結構</h2>
+<p>每個適配器通常包含以下組件：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph clients["🔌 客戶端實現"]
                         direction TB
-                        dc["BinanceDataClient<br />(WebSocket)"]
-                        ec["BinanceExecClient<br />(REST API)"]
+                        dc["BinanceDataClient<br/>(WebSocket)"]
+                        ec["BinanceExecClient<br/>(REST API)"]
                         end
 
                         subgraph internal["🧩 內部機制"]
@@ -254,42 +295,39 @@
                         parsers["數據解析器"]
                         end
 
-                        clients ==> internal
+                        clients ==&gt; internal
 
                         style clients fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
                         style internal fill:#0f1419,stroke:#ab47bc,stroke-width:1px
                     </div>
-                    <div class="caption">圖 2：一個完整適配器的內部組件</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、自定義 Actor 和 組件</h2>
-                <p>除了策略之外，你可以用 <strong>Actor</strong> 來擴展系統功能：</p>
-
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <h4>數據收集器</h4>
-                        <p>建立自定義 Actor 從第三方 API（如新聞、社交媒體）收集數據並發布到 MessageBus。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📧</span>
-                        <h4>通知服務</h4>
-                        <p>建立 Actor 監聽交易事件，在成交或觸發止損時發送 Telegram/Email 通知。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📈</span>
-                        <h4>績效監控</h4>
-                        <p>建立 Actor 訂閱所有訂單事件，即時計算和展示策略績效。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🔧</span>
-                        <h4>自定義指標</h4>
-                        <p>當內建指標不夠用時，可以繼承 <code>Indicator</code> 基類建立自定義指標。</p>
-                    </div>
-                </div>
-
-                <pre><code class="language-python">from nautilus_trader.common.actor import Actor
+<div class="caption">圖 2：一個完整適配器的內部組件</div>
+</div>
+<!-- ==================== -->
+<h2>四、自定義 Actor 和 組件</h2>
+<p>除了策略之外，你可以用 <strong>Actor</strong> 來擴展系統功能：</p>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">📊</span>
+<h4>數據收集器</h4>
+<p>建立自定義 Actor 從第三方 API（如新聞、社交媒體）收集數據並發布到 MessageBus。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📧</span>
+<h4>通知服務</h4>
+<p>建立 Actor 監聽交易事件，在成交或觸發止損時發送 Telegram/Email 通知。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📈</span>
+<h4>績效監控</h4>
+<p>建立 Actor 訂閱所有訂單事件，即時計算和展示策略績效。</p>
+</div>
+<div class="feature-card">
+<span class="icon">🔧</span>
+<h4>自定義指標</h4>
+<p>當內建指標不夠用時，可以繼承 <code>Indicator</code> 基類建立自定義指標。</p>
+</div>
+</div>
+<pre><code class="language-python">from nautilus_trader.common.actor import Actor
 from nautilus_trader.config import ActorConfig
 
 
@@ -311,155 +349,165 @@ class AlertActor(Actor):
         self.subscribe_quote_ticks(self.instrument_id)
 
     def on_quote_tick(self, tick):
-        if tick.ask_price.as_double() > self.threshold:
+        if tick.ask_price.as_double() &gt; self.threshold:
             self.log.warning(f"⚠️ 價格突破 {self.threshold}!")
             # 這裡可以加入 Telegram/Email 通知邏輯
 </code></pre>
-
-                <!-- ==================== -->
-                <h2>五、擴展點一覽</h2>
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>擴展點</th>
-                                <th>基類</th>
-                                <th>用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>交易策略</td>
-                                <td><code>Strategy</code></td>
-                                <td>實現交易邏輯</td>
-                            </tr>
-                            <tr>
-                                <td>通用組件</td>
-                                <td><code>Actor</code></td>
-                                <td>不涉及下單的通用邏輯（監控、通知、數據收集）</td>
-                            </tr>
-                            <tr>
-                                <td>數據客戶端</td>
-                                <td><code>DataClient</code></td>
-                                <td>連接新的數據源</td>
-                            </tr>
-                            <tr>
-                                <td>執行客戶端</td>
-                                <td><code>ExecutionClient</code></td>
-                                <td>連接新的交易所</td>
-                            </tr>
-                            <tr>
-                                <td>技術指標</td>
-                                <td><code>Indicator</code></td>
-                                <td>自定義技術指標計算</td>
-                            </tr>
-                            <tr>
-                                <td>撮合模型</td>
-                                <td><code>FillModel</code></td>
-                                <td>自定義回測撮合邏輯</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ==================== -->
-                <h2>六、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：設計一個通知 Actor</div>
-                    <p>設計一個 Actor，當你的策略的持倉盈虧超過帳戶的 5% 時，發出警告日誌。你需要訂閱什麼數據？讀取什麼緩存？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-actor13')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-actor13">設計思路：
-
-                        1. on_start:
-                        - self.subscribe_quote_ticks(instrument_id) # 訂閱報價更新
-
-                        2. on_quote_tick:
-                        - unrealized = self.portfolio.unrealized_pnl(instrument_id)
-                        - account = self.cache.account(account_id)
-                        - balance = account.balance_total(Currency.from_str("USDT"))
-                        - pnl_ratio = abs(unrealized / balance)
-                        - if pnl_ratio > 0.05:
-                        self.log.warning(f"⚠️ 持倉盈虧超過 5%: {pnl_ratio:.1%}")
-
-                        關鍵點：
-                        - Actor 不能下單，所以它只負責監控和通知
-                        - 如果需要自動平倉，應該在 Strategy 中實現
-                        - 可以加入冷卻期，避免重複報警</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：選擇適配器</div>
-                    <p>以下場景，你會選擇哪個適配器？</p>
-                    <ol>
-                        <li>你想交易美股和期貨</li>
-                        <li>你想交易 BTC 永續合約，且費率要低</li>
-                        <li>你想用歷史的加密 Tick 數據做回測</li>
-                        <li>你想交易 BTC 期權</li>
-                    </ol>
-                    <button class="btn-run" onclick="toggleAnswer('answer-choose')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-choose">1. Interactive Brokers ← 覆蓋最廣的傳統市場
-                        2. Bybit 或 Binance ← 兩者都支援永續合約，費率具競爭力
-                        3. Tardis ← 專注加密歷史數據，覆蓋 30+ 交易所
-                        4. Deribit ← 最大的加密期權交易所
-
-                        💡 也可以組合使用：
-                        Tardis (數據) + Deribit (執行) = 用歷史數據回測 + 實盤交易</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 3：自定義指標設計</div>
-                    <p>你想建立一個「VWAP 偏離度」指標：計算當前價格距 VWAP 的百分比偏差。想想你需要繼承哪個基類，實現哪些方法？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-indicator')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-indicator">設計：
-
-                        1. 繼承 Indicator 基類
-                        2. 實現 handle_bar(bar) 方法
-                        3. 內部維護：
-                        - cumulative_volume += bar.volume
-                        - cumulative_value += bar.close * bar.volume
-                        - vwap = cumulative_value / cumulative_volume
-                        - self.value = (bar.close - vwap) / vwap * 100
-
-                        4. 重置方法：reset() 清零累計值
-
-                        💡 自定義指標很強大：
-                        你可以建立任何指標，然後在策略中像用內建指標一樣使用它</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>七、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 關鍵點</div>
-                    <ol>
-                        <li><strong>六角架構</strong>使得添加新適配器不需要修改核心代碼</li>
-                        <li><strong>16 個官方適配器</strong>覆蓋加密貨幣、傳統金融、DeFi、博彩、預測市場、數據供應</li>
-                        <li><strong>Actor</strong>：不涉及下單的通用邏輯組件</li>
-                        <li><strong>6 個擴展點</strong>：Strategy、Actor、DataClient、ExecutionClient、Indicator、FillModel</li>
-                        <li>每個適配器包含配置、數據客戶端、執行客戶端、解析器</li>
-                    </ol>
-                </div>
-
-                <div class="card" style="border-color:var(--accent-gold);">
-                    <div class="card-title">🎉 恭喜！你已完成所有 13 個模組</div>
-                    <p>你現在對 NautilusTrader 的架構、組件、策略開發和部署有了全面的理解。<br />下一步建議：</p>
-                    <ol>
-                        <li>從 <code>ema_cross.py</code> 範例開始動手實踐</li>
-                        <li>用回測系統測試你的第一個策略</li>
-                        <li>加入 NautilusTrader 社區，閱讀官方文檔的進階內容</li>
-                    </ol>
-                </div>
-
-                <div class="page-nav">
-                    <a href="../Module_12_Backtest_And_Live/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">模組 12：回測系統與實盤部署</span></a>
-                    <a href="../index.html" style="text-align:right;"><span class="nav-label">回到首頁 →</span><span
-                            class="nav-title">NautilusTrader 完整教材</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+<!-- ==================== -->
+<h2>五、擴展點一覽</h2>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>擴展點</th>
+<th>基類</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>交易策略</td>
+<td><code>Strategy</code></td>
+<td>實現交易邏輯</td>
+</tr>
+<tr>
+<td>通用組件</td>
+<td><code>Actor</code></td>
+<td>不涉及下單的通用邏輯（監控、通知、數據收集）</td>
+</tr>
+<tr>
+<td>數據客戶端</td>
+<td><code>DataClient</code></td>
+<td>連接新的數據源</td>
+</tr>
+<tr>
+<td>執行客戶端</td>
+<td><code>ExecutionClient</code></td>
+<td>連接新的交易所</td>
+</tr>
+<tr>
+<td>技術指標</td>
+<td><code>Indicator</code></td>
+<td>自定義技術指標計算</td>
+</tr>
+<tr>
+<td>撮合模型</td>
+<td><code>FillModel</code></td>
+<td>自定義回測撮合邏輯</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>六、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：設計一個通知 Actor</div>
+<p>設計一個 Actor，當你的策略的持倉盈虧超過帳戶的 5% 時，發出警告日誌。你需要訂閱什麼數據？讀取什麼緩存？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-actor13')">💡 查看答案</button>
+<div class="exercise-output" id="answer-actor13">
+<p><strong>設計思路：</strong></p>
+<ol>
+<li><code>on_start</code>:
+                                <ul>
+<li><code>self.subscribe_quote_ticks(instrument_id)</code> # 訂閱報價更新</li>
+</ul>
+</li>
+<li><code>on_quote_tick</code>:
+                                <ul>
+<li><code>unrealized = self.portfolio.unrealized_pnl(instrument_id)</code></li>
+<li><code>account = self.cache.account(account_id)</code></li>
+<li><code>balance = account.balance_total(Currency.from_str("USDT"))</code></li>
+<li><code>pnl_ratio = abs(unrealized / balance)</code></li>
+<li><code>if pnl_ratio &gt; 0.05:</code><br/>
+<code>    self.log.warning(f"⚠️ 持倉盈虧超過 5%: {pnl_ratio:.1%}")</code>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>💡 關鍵點：</strong></p>
+<ul>
+<li>Actor 不能下單，所以它只負責監控和通知</li>
+<li>如果需要自動平倉，應該在 Strategy 中實現</li>
+<li>可以加入冷卻期，避免重複報警</li>
+</ul>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：選擇適配器</div>
+<p>以下場景，你會選擇哪個適配器？</p>
+<ol>
+<li>你想交易美股和期貨</li>
+<li>你想交易 BTC 永續合約，且費率要低</li>
+<li>你想用歷史的加密 Tick 數據做回測</li>
+<li>你想交易 BTC 期權</li>
+</ol>
+<button class="btn-run" onclick="toggleAnswer('answer-choose')">💡 查看答案</button>
+<div class="exercise-output" id="answer-choose">
+<ol>
+<li><strong>Interactive Brokers</strong> ← 覆蓋最廣的傳統市場</li>
+<li><strong>Bybit 或 Binance</strong> ← 兩者都支援永續合約，費率具競爭力</li>
+<li><strong>Tardis</strong> ← 專注加密歷史數據，覆蓋 30+ 交易所</li>
+<li><strong>Deribit</strong> ← 最大的加密期權交易所</li>
+</ol>
+<br/>
+<div class="callout callout-info" style="margin:0;">
+<div class="callout-title">💡 也可以組合使用：</div>
+<p style="margin-bottom:0;"><strong>Tardis (數據) + Deribit (執行)</strong> = 用歷史數據回測 + 實盤交易</p>
+</div>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 3：自定義指標設計</div>
+<p>你想建立一個「VWAP 偏離度」指標：計算當前價格距 VWAP 的百分比偏差。想想你需要繼承哪個基類，實現哪些方法？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-indicator')">💡 查看答案</button>
+<div class="exercise-output" id="answer-indicator">
+<p><strong>設計：</strong></p>
+<ol>
+<li>繼承 <code>Indicator</code> 基類</li>
+<li>實現 <code>handle_bar(bar)</code> 方法</li>
+<li>內部維護：
+                                <ul>
+<li><code>cumulative_volume += bar.volume</code></li>
+<li><code>cumulative_value += bar.close * bar.volume</code></li>
+<li><code>vwap = cumulative_value / cumulative_volume</code></li>
+<li><code>self.value = (bar.close - vwap) / vwap * 100</code></li>
+</ul>
+</li>
+<li>重置方法：<code>reset()</code> 清零累計值</li>
+</ol>
+<p><strong>💡 自定義指標很強大：</strong><br/>
+                            你可以建立任何指標，然後在策略中像用內建指標一樣使用它</p>
+</div>
+</div>
+<!-- ==================== -->
+<h2>七、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 關鍵點</div>
+<ol>
+<li><strong>六角架構</strong>使得添加新適配器不需要修改核心代碼</li>
+<li><strong>16 個官方適配器</strong>覆蓋加密貨幣、傳統金融、DeFi、博彩、預測市場、數據供應</li>
+<li><strong>Actor</strong>：不涉及下單的通用邏輯組件</li>
+<li><strong>6 個擴展點</strong>：Strategy、Actor、DataClient、ExecutionClient、Indicator、FillModel</li>
+<li>每個適配器包含配置、數據客戶端、執行客戶端、解析器</li>
+</ol>
+</div>
+<div class="card" style="border-color:var(--accent-gold);">
+<div class="card-title">🎉 恭喜！你已完成所有 13 個模組</div>
+<p>你現在對 NautilusTrader 的架構、組件、策略開發和部署有了全面的理解。<br/>下一步建議：</p>
+<ol>
+<li>從 <code>ema_cross.py</code> 範例開始動手實踐</li>
+<li>用回測系統測試你的第一個策略</li>
+<li>加入 NautilusTrader 社區，閱讀官方文檔的進階內容</li>
+</ol>
+</div>
+<div class="page-nav">
+<a href="../Module_12_Backtest_And_Live/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 12：回測系統與實盤部署</span></a>
+<a href="../index.html" style="text-align:right;"><span class="nav-label">回到首頁 →</span><span class="nav-title">NautilusTrader 完整教材</span></a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

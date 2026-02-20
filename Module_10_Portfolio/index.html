@@ -1,91 +1,138 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 10：投資組合 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 10：投資組合 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_10_Portfolio/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+                    環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item active" href="index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span
-                        class="separator">›</span>模組 10</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
-                <h1>模組 10：投資組合 — 資金的全局視角<span class="subtitle">跨帳戶、跨策略地管理盈虧、持倉和績效</span></h1>
-
-                <h2>一、Portfolio 的角色</h2>
-                <p>Portfolio 提供了整個交易系統的<strong>「財務總管」視角</strong>。它不是單一策略的帳本，而是所有帳戶、所有持倉的<strong>匯總</strong>。</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第二階段<span class="separator">›</span>模組 10</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-2">第二階段：核心組件深度解讀</span>
+<h1>模組 10：投資組合 — 資金的全局視角<span class="subtitle">跨帳戶、跨策略地管理盈虧、持倉和績效</span></h1>
+<h2>一、Portfolio 的角色</h2>
+<p>Portfolio 提供了整個交易系統的<strong>「財務總管」視角</strong>。它不是單一策略的帳本，而是所有帳戶、所有持倉的<strong>匯總</strong>。</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph srcs["📥 全局輸入"]
                         direction TB
@@ -94,7 +141,7 @@
                         market["📈 市場數據"]
                         end
 
-                        portfolio["💰 Portfolio<br />投資組合匯總"]
+                        portfolio["💰 Portfolio<br/>投資組合匯總"]
 
                         subgraph outputs["📤 輸出指標"]
                         direction TB
@@ -103,39 +150,37 @@
                         margin["保證金率"]
                         end
 
-                        srcs ==> portfolio ==> outputs
+                        srcs ==&gt; portfolio ==&gt; outputs
 
                         style portfolio fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
                     </div>
-                    <div class="caption">圖 1：Portfolio 匯總所有帳戶和持倉的信息</div>
-                </div>
-
-                <h2>二、核心功能</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">💵</span>
-                        <h4>帳戶匯總</h4>
-                        <p>跨多個交易所帳戶匯總餘額、可用資金、保證金使用。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <h4>持倉管理</h4>
-                        <p>追蹤所有開倉持倉，計算各自的未實現盈虧和整體風險暴露。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📈</span>
-                        <h4>盈虧計算</h4>
-                        <p>即時計算已實現盈虧（平倉部分）和未實現盈虧（按市價盯市）。</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📋</span>
-                        <h4>績效報告</h4>
-                        <p>回測結束後生成完整的績效分析報告：收益率、夏普比率、最大回撤等。</p>
-                    </div>
-                </div>
-
-                <h2>三、API 查詢</h2>
-                <pre><code class="language-python"># 在策略中查詢投資組合信息
+<div class="caption">圖 1：Portfolio 匯總所有帳戶和持倉的信息</div>
+</div>
+<h2>二、核心功能</h2>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">💵</span>
+<h4>帳戶匯總</h4>
+<p>跨多個交易所帳戶匯總餘額、可用資金、保證金使用。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📊</span>
+<h4>持倉管理</h4>
+<p>追蹤所有開倉持倉，計算各自的未實現盈虧和整體風險暴露。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📈</span>
+<h4>盈虧計算</h4>
+<p>即時計算已實現盈虧（平倉部分）和未實現盈虧（按市價盯市）。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📋</span>
+<h4>績效報告</h4>
+<p>回測結束後生成完整的績效分析報告：收益率、夏普比率、最大回撤等。</p>
+</div>
+</div>
+<h2>三、API 查詢</h2>
+<pre><code class="language-python"># 在策略中查詢投資組合信息
 
 # 淨資產價值（所有帳戶 + 未實現盈虧）
 nav = self.portfolio.net_exposures(venue)
@@ -151,101 +196,93 @@ balances = self.portfolio.balances_locked(venue)
 
 # 是否完全平倉
 is_flat = self.portfolio.is_completely_flat()</code></pre>
-
-                <h2>四、回測績效分析</h2>
-                <p>回測結束後，Portfolio 會生成詳細的績效指標：</p>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>指標</th>
-                                <th>說明</th>
-                                <th>你應該關注什麼</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>總收益率</td>
-                                <td>策略的整體回報</td>
-                                <td>是否為正，是否跑贏基準</td>
-                            </tr>
-                            <tr>
-                                <td>年化收益率</td>
-                                <td>換算為年度的收益率</td>
-                                <td>和其他投資機會比較</td>
-                            </tr>
-                            <tr>
-                                <td>夏普比率 (Sharpe)</td>
-                                <td>風險調整後收益</td>
-                                <td>&gt; 1 不錯，&gt; 2 很好</td>
-                            </tr>
-                            <tr>
-                                <td>最大回撤 (Max DD)</td>
-                                <td>從峰值到谷底的最大虧損</td>
-                                <td>你能承受的最大跌幅</td>
-                            </tr>
-                            <tr>
-                                <td>勝率</td>
-                                <td>盈利交易的比例</td>
-                                <td>需要和盈虧比一起看</td>
-                            </tr>
-                            <tr>
-                                <td>盈虧比</td>
-                                <td>平均盈利 / 平均虧損</td>
-                                <td>&gt; 1.5 比較健康</td>
-                            </tr>
-                            <tr>
-                                <td>最大連續虧損</td>
-                                <td>連續虧損的最多次數</td>
-                                <td>考驗心理承受能力</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <h2>五、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習：績效評估</div>
-                    <p>策略 A 的回測結果：年化收益 80%，夏普比率 0.5，最大回撤 60%。<br />策略 B 的回測結果：年化收益 25%，夏普比率 2.1，最大回撤
-                        12%。<br />哪個策略更好？為什麼？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-perf')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-perf">策略 B 更好。原因：
-
-                        1. 策略 A 的夏普比率只有 0.5，說明收益大部分來自承擔了巨大風險
-                        2. 策略 A 的 60% 最大回撤意味著你的帳戶可能從 100 萬跌到 40 萬
-                        3. 策略 B 的夏普 2.1 說明風險調整後收益優秀
-                        4. 策略 B 的 12% 最大回撤在可控範圍
-                        5. 通過加槓桿，策略 B 可以放到和 A 相似的收益水平，
-                        但風險仍然可控
-
-                        結論：永遠優先看風險調整後的指標（夏普比率），
-                        而不是只看絕對收益。</div>
-                </div>
-
-                <h2>六、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 關鍵點</div>
-                    <ol>
-                        <li><strong>Portfolio</strong> 是跨帳戶、跨策略的財務總管</li>
-                        <li><strong>即時盯市</strong>：根據市場數據即時更新未實現盈虧</li>
-                        <li><strong>績效指標</strong>：夏普比率比絕對收益更重要</li>
-                        <li><strong>最大回撤</strong>：決定了你能用多大的資金運行策略</li>
-                        <li>回測結束後會自動生成完整的績效分析報告</li>
-                    </ol>
-                </div>
-
-                <div class="page-nav">
-                    <a href="../Module_09_RiskEngine/index.html"><span class="nav-label">← 上一章</span><span
-                            class="nav-title">模組 09：風控引擎</span></a>
-                    <a href="../Module_11_Strategy_Development/index.html" style="text-align:right;"><span
-                            class="nav-label">下一章 →</span><span class="nav-title">模組 11：策略開發完全指南</span></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+<h2>四、回測績效分析</h2>
+<p>回測結束後，Portfolio 會生成詳細的績效指標：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>指標</th>
+<th>說明</th>
+<th>你應該關注什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總收益率</td>
+<td>策略的整體回報</td>
+<td>是否為正，是否跑贏基準</td>
+</tr>
+<tr>
+<td>年化收益率</td>
+<td>換算為年度的收益率</td>
+<td>和其他投資機會比較</td>
+</tr>
+<tr>
+<td>夏普比率 (Sharpe)</td>
+<td>風險調整後收益</td>
+<td>&gt; 1 不錯，&gt; 2 很好</td>
+</tr>
+<tr>
+<td>最大回撤 (Max DD)</td>
+<td>從峰值到谷底的最大虧損</td>
+<td>你能承受的最大跌幅</td>
+</tr>
+<tr>
+<td>勝率</td>
+<td>盈利交易的比例</td>
+<td>需要和盈虧比一起看</td>
+</tr>
+<tr>
+<td>盈虧比</td>
+<td>平均盈利 / 平均虧損</td>
+<td>&gt; 1.5 比較健康</td>
+</tr>
+<tr>
+<td>最大連續虧損</td>
+<td>連續虧損的最多次數</td>
+<td>考驗心理承受能力</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2>五、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習：績效評估</div>
+<p>策略 A 的回測結果：年化收益 80%，夏普比率 0.5，最大回撤 60%。<br/>策略 B 的回測結果：年化收益 25%，夏普比率 2.1，最大回撤
+                        12%。<br/>哪個策略更好？為什麼？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-perf')">💡 查看答案</button>
+<div class="exercise-output" id="answer-perf">
+<p><strong>策略 B 更好。原因：</strong></p>
+<ol>
+<li>策略 A 的夏普比率只有 0.5，說明收益大部分來自承擔了巨大風險</li>
+<li>策略 A 的 60% 最大回撤意味著你的帳戶可能從 100 萬跌到 40 萬</li>
+<li>策略 B 的夏普 2.1 說明風險調整後收益優秀</li>
+<li>策略 B 的 12% 最大回撤在可控範圍</li>
+<li>通過加槓桿，策略 B 可以放到和 A 相似的收益水平，但風險仍然可控</li>
+</ol>
+<p>💡 <strong>結論</strong>：永遠優先看風險調整後的指標（<strong>夏普比率</strong>），而不是只看絕對收益。</p>
+</div>
+</div>
+<h2>六、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 關鍵點</div>
+<ol>
+<li><strong>Portfolio</strong> 是跨帳戶、跨策略的財務總管</li>
+<li><strong>即時盯市</strong>：根據市場數據即時更新未實現盈虧</li>
+<li><strong>績效指標</strong>：夏普比率比絕對收益更重要</li>
+<li><strong>最大回撤</strong>：決定了你能用多大的資金運行策略</li>
+<li>回測結束後會自動生成完整的績效分析報告</li>
+</ol>
+</div>
+<div class="page-nav">
+<a href="../Module_09_RiskEngine/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 09：風控引擎</span></a>
+<a href="../Module_11_Strategy_Development/index.html" style="text-align:right;"><span class="nav-label">下一章 →</span><span class="nav-title">模組 11：策略開發完全指南</span></a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

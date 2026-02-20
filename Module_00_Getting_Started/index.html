@@ -1,97 +1,141 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 00：環境安裝與第一次運行 — NautilusTrader 教材</title>
-    <meta name="description" content="從零開始安裝 NautilusTrader，寫出你的第一個回測策略">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 00：環境安裝與第一次運行 — NautilusTrader 教材</title>
+<meta content="從零開始安裝 NautilusTrader，寫出你的第一個回測策略" name="description"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_00_Getting_Started/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
 
-        <!-- 側邊欄 -->
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item active" href="index.html"><span class="nav-num">00</span> 環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<!-- 側邊欄 -->
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item active" href="index.html"><span class="nav-num">00</span> 環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     整體架構</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+                    數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <!-- 主內容 -->
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第零階段<span
-                        class="separator">›</span>模組 00</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-1">第零階段：起步</span>
-                <h1>模組 00：環境安裝與第一次運行<span class="subtitle">從零開始，30 分鐘內跑出你的第一個回測結果</span></h1>
-
-                <p>這個模組會帶你安裝所有需要的工具，然後用一個最簡單的策略跑出第一個回測。<strong>不用寫任何策略邏輯</strong>，先確保你的環境跑得通。</p>
-
-                <!-- ==================== -->
-                <h2>一、需要安裝什麼？</h2>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+                    配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+                    實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+                    會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span>
+                    進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<!-- 主內容 -->
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第零階段<span class="separator">›</span>模組 00</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-1">第零階段：起步</span>
+<h1>模組 00：環境安裝與第一次運行<span class="subtitle">從零開始，30 分鐘內跑出你的第一個回測結果</span></h1>
+<p>這個模組會帶你安裝所有需要的工具，然後用一個最簡單的策略跑出第一個回測。<strong>不用寫任何策略邏輯</strong>，先確保你的環境跑得通。</p>
+<!-- ==================== -->
+<h2>一、需要安裝什麼？</h2>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph os["💻 作業系統"]
                         direction TB
@@ -112,52 +156,47 @@
                         source["或從源碼編譯"]
                         end
 
-                        os ==> tools ==> nautilus
+                        os ==&gt; tools ==&gt; nautilus
                     </div>
-                    <div class="caption">圖 1：安裝的三層依賴關係</div>
-                </div>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ Windows 用戶必讀：如何安裝？</div>
-                    <p>NautilusTrader <strong>不支援 Windows 原生環境</strong>（因為它依賴 Unix 工具鏈編譯 Rust/Cython）。</p>
-                    <p>但別擔心！Windows 10/11 內建的 <strong>WSL2 (Windows Subsystem for Linux)</strong> 讓你可以在 Windows 裡跑一個完整的
+<div class="caption">圖 1：安裝的三層依賴關係</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ Windows 用戶必讀：如何安裝？</div>
+<p>NautilusTrader <strong>不支援 Windows 原生環境</strong>（因為它依賴 Unix 工具鏈編譯 Rust/Cython）。</p>
+<p>但別擔心！Windows 10/11 內建的 <strong>WSL2 (Windows Subsystem for Linux)</strong> 讓你可以在 Windows 裡跑一個完整的
                         Linux，而且體驗和原生一樣好。</p>
-                </div>
-
-                <div class="collapsible">
-                    <div class="collapsible-header"><span class="collapsible-arrow">▶</span> 🪟 Windows (WSL2) 詳細安裝步驟
+</div>
+<div class="collapsible">
+<div class="collapsible-header"><span class="collapsible-arrow">▶</span> 🪟 Windows (WSL2) 詳細安裝步驟
                     </div>
-                    <div class="collapsible-body">
-                        <ol style="margin-left: 1.5rem;">
-                            <li><strong>啟用 WSL</strong>
-                                <p>以管理員身分打開 PowerShell，輸入：<br><code>wsl --install</code><br>然後<strong>重啟電腦</strong>。</p>
-                            </li>
-                            <li><strong>安裝 Ubuntu</strong>
-                                <p>重啟後，Ubuntu 安裝視窗通常會自動彈出。如果沒有，去 Microsoft Store 搜尋 "Ubuntu"
-                                    並安裝。<br>裝好後打開它，設定你的使用者名稱和密碼。</p>
-                            </li>
-                            <li><strong>安裝 VS Code 與插件</strong>
-                                <p>在 Windows 下載並安裝 <a href="https://code.visualstudio.com/" target="_blank">Visual
-                                        Studio Code</a>。<br>打開 VS Code，去擴展區 (Extensions) 安裝 <strong>"WSL"</strong> 插件。
+<div class="collapsible-body">
+<ol style="margin-left: 1.5rem;">
+<li><strong>啟用 WSL</strong>
+<p>以管理員身分打開 PowerShell，輸入：<br/><code>wsl --install</code><br/>然後<strong>重啟電腦</strong>。</p>
+</li>
+<li><strong>安裝 Ubuntu</strong>
+<p>重啟後，Ubuntu 安裝視窗通常會自動彈出。如果沒有，去 Microsoft Store 搜尋 "Ubuntu"
+                                    並安裝。<br/>裝好後打開它，設定你的使用者名稱和密碼。</p>
+</li>
+<li><strong>安裝 VS Code 與插件</strong>
+<p>在 Windows 下載並安裝 <a href="https://code.visualstudio.com/" target="_blank">Visual
+                                        Studio Code</a>。<br/>打開 VS Code，去擴展區 (Extensions) 安裝 <strong>"WSL"</strong> 插件。
                                 </p>
-                            </li>
-                            <li><strong>連接到 WSL</strong>
-                                <p>在 Ubuntu 終端機裡輸入：<br><code>code .</code><br>這會打開 VS Code 並自動連接到你的 WSL 環境。左下角會顯示 <span
-                                        style="background:#0f7bda; color:white; padding:2px 6px; border-radius:4px;">WSL:
+</li>
+<li><strong>連接到 WSL</strong>
+<p>在 Ubuntu 終端機裡輸入：<br/><code>code .</code><br/>這會打開 VS Code 並自動連接到你的 WSL 環境。左下角會顯示 <span style="background:#0f7bda; color:white; padding:2px 6px; border-radius:4px;">WSL:
                                         Ubuntu</span>。</p>
-                            </li>
-                            <li><strong>開始安裝 NautilusTrader</strong>
-                                <p>現在你可以在 VS Code 的終端機 (Terminal) 裡，像在 Linux 一樣執行下面的 pip install 命令了。</p>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、Step-by-Step 安裝</h2>
-
-                <h3>Step 1：確認 Python 版本</h3>
-                <pre><code class="language-bash"># 檢查 Python 版本（需要 3.11 或更高）
+</li>
+<li><strong>開始安裝 NautilusTrader</strong>
+<p>現在你可以在 VS Code 的終端機 (Terminal) 裡，像在 Linux 一樣執行下面的 pip install 命令了。</p>
+</li>
+</ol>
+</div>
+</div>
+<!-- ==================== -->
+<h2>二、Step-by-Step 安裝</h2>
+<h3>Step 1：確認 Python 版本</h3>
+<pre><code class="language-bash"># 檢查 Python 版本（需要 3.11 或更高）
 python3 --version
 # 輸出應為：Python 3.11.x 或 3.12.x
 
@@ -169,10 +208,9 @@ python3 --version
 
 # ❌ 如果用 Python 3.9：
 #   pip install nautilus_trader
-#   → ERROR: Requires-Python >=3.11</code></pre>
-
-                <h3>Step 2：安裝 NautilusTrader</h3>
-                <pre><code class="language-bash"># 方法一：用 pip（最簡單）
+#   → ERROR: Requires-Python &gt;=3.11</code></pre>
+<h3>Step 2：安裝 NautilusTrader</h3>
+<pre><code class="language-bash"># 方法一：用 pip（最簡單）
 pip install -U nautilus_trader
 
 # 方法二：用 uv（更快，推薦）
@@ -183,9 +221,8 @@ uv pip install nautilus_trader
 # uv 是 Rust 寫的 Python 套件管理器，速度比 pip 快 10-100 倍
 # ❌ pip install nautilus_trader → 可能需要 2-5 分鐘
 # ✅ uv pip install nautilus_trader → 通常 10-30 秒</code></pre>
-
-                <h3>Step 3：驗證安裝</h3>
-                <pre><code class="language-python"># 在 Python 中驗證
+<h3>Step 3：驗證安裝</h3>
+<pre><code class="language-python"># 在 Python 中驗證
 import nautilus_trader
 print(nautilus_trader.__version__)
 # 應該輸出類似：1.208.0
@@ -195,30 +232,26 @@ from nautilus_trader.backtest.node import BacktestNode
 from nautilus_trader.model.data import QuoteTick, Bar
 from nautilus_trader.trading.strategy import Strategy
 print("✅ 所有核心組件載入成功！")</code></pre>
-
-                <div class="callout callout-danger">
-                    <div class="callout-title">🚨 常見安裝錯誤</div>
-                    <p>如果遇到 <code>ImportError: libpython3.11.so</code>，你需要安裝 Python 開發檔案：</p>
-                    <pre><code class="language-bash"># Ubuntu/Debian
+<div class="callout callout-danger">
+<div class="callout-title">🚨 常見安裝錯誤</div>
+<p>如果遇到 <code>ImportError: libpython3.11.so</code>，你需要安裝 Python 開發檔案：</p>
+<pre><code class="language-bash"># Ubuntu/Debian
 sudo apt install python3.11-dev
 
 # 如果遇到 Rust 相關錯誤（從源碼編譯時）
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh</code></pre>
-                </div>
-
-                <!-- ==================== -->
-                <h2>三、第一個回測：Hello NautilusTrader</h2>
-                <p>下面是一個<strong>最簡單的回測範例</strong>。它不做任何交易，只是證明你的環境能跑。</p>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼要先跑一個「什麼都不做」的策略？</div>
-                    <p>因為你需要先確認 <strong>數據載入 → 引擎初始化 → 策略運行 → 結果輸出</strong> 這整條管線是通的。<br />
-                        <strong>❌ 如果直接寫複雜策略</strong>：出錯時你不知道是策略邏輯有問題，還是環境配置有問題。<br />
-                        <strong>✅ 先跑空策略</strong>：如果失敗，100% 是環境問題。
+</div>
+<!-- ==================== -->
+<h2>三、第一個回測：Hello NautilusTrader</h2>
+<p>下面是一個<strong>最簡單的回測範例</strong>。它不做任何交易，只是證明你的環境能跑。</p>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼要先跑一個「什麼都不做」的策略？</div>
+<p>因為你需要先確認 <strong>數據載入 → 引擎初始化 → 策略運行 → 結果輸出</strong> 這整條管線是通的。<br/>
+<strong>❌ 如果直接寫複雜策略</strong>：出錯時你不知道是策略邏輯有問題，還是環境配置有問題。<br/>
+<strong>✅ 先跑空策略</strong>：如果失敗，100% 是環境問題。
                     </p>
-                </div>
-
-                <pre><code class="language-python">"""
+</div>
+<pre><code class="language-python">"""
 你的第一個 NautilusTrader 回測 — Hello World
 把這段代碼存為 hello_nautilus.py，然後用 python hello_nautilus.py 運行
 """
@@ -291,11 +324,10 @@ print("✅ 恭喜！你的 NautilusTrader 環境正常運作！")
 
 # 清理
 engine.dispose()</code></pre>
-
-                <div class="callout callout-success">
-                    <div class="callout-title">✅ 預期輸出</div>
-                    <p>如果一切正常，你會看到類似以下的輸出：</p>
-                    <pre><code>INFO  DoNothingStrategy: 🚀 策略啟動了！環境正常！
+<div class="callout callout-success">
+<div class="callout-title">✅ 預期輸出</div>
+<p>如果一切正常，你會看到類似以下的輸出：</p>
+<pre><code>INFO  DoNothingStrategy: 🚀 策略啟動了！環境正常！
 INFO  DoNothingStrategy: 🛑 策略停止了。恭喜，你的第一個回測成功了！
 
 ============================================================
@@ -306,21 +338,19 @@ INFO  DoNothingStrategy: 🛑 策略停止了。恭喜，你的第一個回測�
 總成交數: 0
 ============================================================
 ✅ 恭喜！你的 NautilusTrader 環境正常運作！</code></pre>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、代碼逐行解析</h2>
-                <p>剛才的代碼雖然是「什麼都不做」的策略，但它已經展示了 NautilusTrader 的<strong>核心運作模式</strong>：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h2>四、代碼逐行解析</h2>
+<p>剛才的代碼雖然是「什麼都不做」的策略，但它已經展示了 NautilusTrader 的<strong>核心運作模式</strong>：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         flowchart LR
                         subgraph setup["⚙️ 配置階段"]
                         direction TB
                         config_engine["1. 配置引擎"]
                         add_venue["2. 添加交易場所"]
                         add_strategy["3. 添加策略"]
-                        config_engine --> add_venue --> add_strategy
+                        config_engine --&gt; add_venue --&gt; add_strategy
                         end
 
                         subgraph run["▶️ 運行階段"]
@@ -329,7 +359,7 @@ INFO  DoNothingStrategy: 🛑 策略停止了。恭喜，你的第一個回測�
                         start["調用策略的 on_start()"]
                         process["處理數據事件"]
                         stop["調用策略的 on_stop()"]
-                        init --> start --> process --> stop
+                        init --&gt; start --&gt; process --&gt; stop
                         end
 
                         subgraph result["📊 分析階段"]
@@ -339,75 +369,72 @@ INFO  DoNothingStrategy: 🛑 策略停止了。恭喜，你的第一個回測�
                         tearsheet["生成績效報表"]
                         end
 
-                        setup ==> run ==> result
+                        setup ==&gt; run ==&gt; result
                     </div>
-                    <div class="caption">圖 2：NautilusTrader 回測的三個階段</div>
-                </div>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>代碼部分</th>
-                                <th>做了什麼</th>
-                                <th>對應架構組件</th>
-                                <th>後續哪個模組會深入</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><code>BacktestEngine</code></td>
-                                <td>創建回測引擎</td>
-                                <td>系統核心 (Kernel)</td>
-                                <td>模組 12</td>
-                            </tr>
-                            <tr>
-                                <td><code>add_venue()</code></td>
-                                <td>定義模擬交易所</td>
-                                <td>適配器 (Adapter)</td>
-                                <td>模組 13</td>
-                            </tr>
-                            <tr>
-                                <td><code>OmsType.NETTING</code></td>
-                                <td>訂單管理系統類型</td>
-                                <td>執行引擎</td>
-                                <td>模組 08</td>
-                            </tr>
-                            <tr>
-                                <td><code>Strategy</code></td>
-                                <td>策略基類</td>
-                                <td>策略開發</td>
-                                <td>模組 11</td>
-                            </tr>
-                            <tr>
-                                <td><code>Money(100_000, USD)</code></td>
-                                <td>定義資金（定點數）</td>
-                                <td>領域模型</td>
-                                <td>模組 04</td>
-                            </tr>
-                            <tr>
-                                <td><code>engine.portfolio</code></td>
-                                <td>查詢投資組合</td>
-                                <td>Portfolio</td>
-                                <td>模組 10</td>
-                            </tr>
-                            <tr>
-                                <td><code>engine.cache</code></td>
-                                <td>查詢緩存</td>
-                                <td>Cache</td>
-                                <td>模組 06</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- ==================== -->
-                <h2>五、Python 生存指南</h2>
-                <p>如果你是 Python 初學者，以下是 NautilusTrader 中最常遇到的 Python 語法。<strong>你不需要先學完整個 Python</strong>，只要懂以下 7 點就夠了：
+<div class="caption">圖 2：NautilusTrader 回測的三個階段</div>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>代碼部分</th>
+<th>做了什麼</th>
+<th>對應架構組件</th>
+<th>後續哪個模組會深入</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BacktestEngine</code></td>
+<td>創建回測引擎</td>
+<td>系統核心 (Kernel)</td>
+<td>模組 12</td>
+</tr>
+<tr>
+<td><code>add_venue()</code></td>
+<td>定義模擬交易所</td>
+<td>適配器 (Adapter)</td>
+<td>模組 13</td>
+</tr>
+<tr>
+<td><code>OmsType.NETTING</code></td>
+<td>訂單管理系統類型</td>
+<td>執行引擎</td>
+<td>模組 08</td>
+</tr>
+<tr>
+<td><code>Strategy</code></td>
+<td>策略基類</td>
+<td>策略開發</td>
+<td>模組 11</td>
+</tr>
+<tr>
+<td><code>Money(100_000, USD)</code></td>
+<td>定義資金（定點數）</td>
+<td>領域模型</td>
+<td>模組 04</td>
+</tr>
+<tr>
+<td><code>engine.portfolio</code></td>
+<td>查詢投資組合</td>
+<td>Portfolio</td>
+<td>模組 10</td>
+</tr>
+<tr>
+<td><code>engine.cache</code></td>
+<td>查詢緩存</td>
+<td>Cache</td>
+<td>模組 06</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>五、Python 生存指南</h2>
+<p>如果你是 Python 初學者，以下是 NautilusTrader 中最常遇到的 Python 語法。<strong>你不需要先學完整個 Python</strong>，只要懂以下 7 點就夠了：
                 </p>
-
-                <!-- 改用垂直列表樣式，增加可讀性 -->
-                <style>
+<!-- 改用垂直列表樣式，增加可讀性 -->
+<style>
                     .feature-list {
                         display: flex;
                         flex-direction: column;
@@ -447,108 +474,98 @@ INFO  DoNothingStrategy: 🛑 策略停止了。恭喜，你的第一個回測�
                         background: var(--bg-primary);
                     }
                 </style>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">1️⃣</div>
-                        <div class="feature-content">
-                            <h4>類和繼承 (Class & Inheritance)</h4>
-                            <p>你的策略需要「繼承」NautilusTrader 的 <code>Strategy</code> 基類，這樣你才能獲得系統賦予的能力（如
-                                <code>self.cache</code>）。</p>
-                            <pre><code class="language-python">class MyStrategy(Strategy):
+<div class="feature-list">
+<div class="feature-item">
+<div class="feature-icon">1️⃣</div>
+<div class="feature-content">
+<h4>類和繼承 (Class &amp; Inheritance)</h4>
+<p>你的策略需要「繼承」NautilusTrader 的 <code>Strategy</code> 基類，這樣你才能獲得系統賦予的能力（如
+                                <code>self.cache</code>）。
+                            </p>
+<pre><code class="language-python">class MyStrategy(Strategy):
     # 你的策略繼承自 Strategy
     # 這代表它自動擁有了 Strategy 的所有功能</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">2️⃣</div>
-                        <div class="feature-content">
-                            <h4>__init__ 構造器</h4>
-                            <p>這是類的初始化方法。記得這句咒語：<code>super().__init__(config)</code>。它確保父類也被正確初始化。</p>
-                            <pre><code class="language-python">def __init__(self, config):
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">2️⃣</div>
+<div class="feature-content">
+<h4>__init__ 構造器</h4>
+<p>這是類的初始化方法。記得這句咒語：<code>super().__init__(config)</code>。它確保父類也被正確初始化。</p>
+<pre><code class="language-python">def __init__(self, config):
     super().__init__(config)  # 先讓父類把該準備的都準備好
     self.my_var = 0           # 然後再定義你自己的變數</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">3️⃣</div>
-                        <div class="feature-content">
-                            <h4>self 就是「自己」</h4>
-                            <p>在類的方法裡，變數前都要加 <code>self.</code>。這代表這個變數屬於這個策略實例，而不是臨時變數。</p>
-                            <pre><code class="language-python">def on_start(self):
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">3️⃣</div>
+<div class="feature-content">
+<h4>self 就是「自己」</h4>
+<p>在類的方法裡，變數前都要加 <code>self.</code>。這代表這個變數屬於這個策略實例，而不是臨時變數。</p>
+<pre><code class="language-python">def on_start(self):
     self.log.info("...")      # 調用自己的日誌器
     self.count = 1            # 設置自己的計數器</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">4️⃣</div>
-                        <div class="feature-content">
-                            <h4>Type Hints (型別提示)</h4>
-                            <p>變數後面的 <code>: Bar</code> 不是賦值，而是告訴讀代碼的人（和 IDE）這個變數是什麼類型。這對自動補全非常有幫助。</p>
-                            <pre><code class="language-python">def on_bar(self, bar: Bar):
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">4️⃣</div>
+<div class="feature-content">
+<h4>Type Hints (型別提示)</h4>
+<p>變數後面的 <code>: Bar</code> 不是賦值，而是告訴讀代碼的人（和 IDE）這個變數是什麼類型。這對自動補全非常有幫助。</p>
+<pre><code class="language-python">def on_bar(self, bar: Bar):
     # IDE 現在知道 bar 有 open, high, low, close 屬性了
     print(bar.close)</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">5️⃣</div>
-                        <div class="feature-content">
-                            <h4>frozen=True (不可變配置)</h4>
-                            <p>配置類一旦建立就不應修改。<code>frozen=True</code> 鎖定了它，防止你在代碼運行中不小心改了配置。</p>
-                            <pre><code class="language-python">class MyConfig(StrategyConfig, frozen=True):
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">5️⃣</div>
+<div class="feature-content">
+<h4>frozen=True (不可變配置)</h4>
+<p>配置類一旦建立就不應修改。<code>frozen=True</code> 鎖定了它，防止你在代碼運行中不小心改了配置。</p>
+<pre><code class="language-python">class MyConfig(StrategyConfig, frozen=True):
     symbol: str = "BTC-USDT"
     # c = MyConfig(...)
     # c.symbol = "ETH"  # ❌ 報錯！無法修改</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">6️⃣</div>
-                        <div class="feature-content">
-                            <h4>f-string (格式化字串)</h4>
-                            <p>最方便的字串拼接方式。在字串前加 <code>f</code>，就可以用 <code>{變數}</code> 直接插入值。</p>
-                            <pre><code class="language-python">price = 100
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">6️⃣</div>
+<div class="feature-content">
+<h4>f-string (格式化字串)</h4>
+<p>最方便的字串拼接方式。在字串前加 <code>f</code>，就可以用 <code>{變數}</code> 直接插入值。</p>
+<pre><code class="language-python">price = 100
 self.log.info(f"當前價格是 {price}")  # 輸出: 當前價格是 100</code></pre>
-                        </div>
-                    </div>
-
-                    <div class="feature-item">
-                        <div class="feature-icon">7️⃣</div>
-                        <div class="feature-content">
-                            <h4>Decimal (精確小數)</h4>
-                            <p>NautilusTrader 為了精度，有時會用 Python 的 <code>Decimal</code> 而不是 <code>float</code>。記得：字串轉
+</div>
+</div>
+<div class="feature-item">
+<div class="feature-icon">7️⃣</div>
+<div class="feature-content">
+<h4>Decimal (精確小數)</h4>
+<p>NautilusTrader 為了精度，有時會用 Python 的 <code>Decimal</code> 而不是 <code>float</code>。記得：字串轉
                                 Decimal 最安全。</p>
-                            <pre><code class="language-python">from decimal import Decimal
+<pre><code class="language-python">from decimal import Decimal
 qty = Decimal("0.1")  # ✅ 精確
 # qty = Decimal(0.1)  # ❌ 危險！可能有浮點誤差</code></pre>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 不需要害怕看不懂的語法</div>
-                    <p>NautilusTrader 的 Python 代碼遵循一個固定模式：<strong>配置類 + 策略類 + 回調方法</strong>。99%
+</div>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 不需要害怕看不懂的語法</div>
+<p>NautilusTrader 的 Python 代碼遵循一個固定模式：<strong>配置類 + 策略類 + 回調方法</strong>。99%
                         的情況下你只需要修改回調方法裡的邏輯，不需要理解底層的 Cython/Rust 代碼。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>六、專案目錄結構</h2>
-                <p>了解 NautilusTrader 的原始碼目錄結構可以幫助你在需要時找到正確的參數和邏輯。</p>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">📂 專案根目錄說明</div>
-                    <p>如果你下載了整個源碼包，你會看到很多檔案。我們主要關注 <code>nautilus_trader/</code> 資料夾，這是核心代碼所在。其他檔案（如
-                        <code>.cargo</code>, <code>poetry.lock</code>, <code>Makefile</code>）主要是給開發者編譯和構建用的，你可以暫時忽略。</p>
-                </div>
-
-                <pre><code class="language-text">nautilus_trader/
+</div>
+<!-- ==================== -->
+<h2>六、專案目錄結構</h2>
+<p>了解 NautilusTrader 的原始碼目錄結構可以幫助你在需要時找到正確的參數和邏輯。</p>
+<div class="callout callout-info">
+<div class="callout-title">📂 專案根目錄說明</div>
+<p>如果你下載了整個源碼包，你會看到很多檔案。我們主要關注 <code>nautilus_trader/</code> 資料夾，這是核心代碼所在。其他檔案（如
+                        <code>.cargo</code>, <code>poetry.lock</code>, <code>Makefile</code>）主要是給開發者編譯和構建用的，你可以暫時忽略。
+                    </p>
+</div>
+<pre><code class="language-text">nautilus_trader/
 ├── model/           # 💎 領域模型（價格、訂單、持倉、金融工具）
-│   ├── orders/      #     11 種訂單類型
+│   ├── orders/      #     9 種訂單類型
 │   ├── instruments/ #     金融工具定義（股票、期貨、期權...）
 │   ├── data.pyx     #     市場數據類型（QuoteTick, Bar...）
 │   └── position.pyx #     持倉計算
@@ -568,7 +585,7 @@ qty = Decimal("0.1")  # ✅ 精確
 ├── common/          # 🔧 通用組件（Actor, MessageBus, 日誌...）
 │
 ├── backtest/        # 🔬 回測引擎
-│   ├── engine.pyx   #     BacktestEngine（275K 行！）
+│   ├── engine.pyx   #     BacktestEngine 核心引擎
 │   └── models/      #     FillModel, FeeModel, LatencyModel
 │
 ├── live/            # 🚀 實盤引擎
@@ -576,26 +593,24 @@ qty = Decimal("0.1")  # ✅ 精確
 │   ├── reconciliation.py  # 訂單對帳
 │   └── retry.py     #     自動重試
 │
-├── adapters/        # 🔌 14+ 個交易所適配器
+├── adapters/        # 🔌 16+ 個交易所適配器
 ├── indicators/      # 📈 內建技術指標
 ├── accounting/      # 💰 會計與保證金
-├── analysis/        # 📋 績效分析 & Tearsheet
+├── analysis/        # 📋 績效分析 &amp; Tearsheet
 ├── persistence/     # 💿 數據持久化（Parquet/Catalog）
 ├── serialization/   # 📦 序列化（Arrow/MsgPack）
 ├── system/          # ⚡ 系統核心（Kernel）
 └── config/          # ⚙️ 所有配置類</code></pre>
-
-                <div class="callout callout-success">
-                    <div class="callout-title">✅ 每個目錄都會在後續模組中詳細講解</div>
-                    <p>現在你不需要記住所有目錄。這張地圖的作用是：<strong>當你未來遇到問題時，知道去哪裡找答案</strong>。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>七、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：安裝診斷</div>
-                    <p>執行以下代碼。如果全部輸出 ✅，代表你的環境完全正常：</p>
-                    <pre><code class="language-python">checks = {
+<div class="callout callout-success">
+<div class="callout-title">✅ 每個目錄都會在後續模組中詳細講解</div>
+<p>現在你不需要記住所有目錄。這張地圖的作用是：<strong>當你未來遇到問題時，知道去哪裡找答案</strong>。</p>
+</div>
+<!-- ==================== -->
+<h2>七、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：安裝診斷</div>
+<p>執行以下代碼。如果全部輸出 ✅，代表你的環境完全正常：</p>
+<pre><code class="language-python">checks = {
     "nautilus_trader": True,
     "BacktestEngine": True,
     "Strategy": True,
@@ -612,12 +627,11 @@ else:
     for name in checks:
         print(f"  ✅ {name}")
     print(f"\n版本: {nautilus_trader.__version__}")</code></pre>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：找出錯誤</div>
-                    <p>以下代碼有 <strong>3 個錯誤</strong>，你能找到嗎？</p>
-                    <pre><code class="language-python">from nautilus_trader.backtest.engine import BacktestEngine
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：找出錯誤</div>
+<p>以下代碼有 <strong>3 個錯誤</strong>，你能找到嗎？</p>
+<pre><code class="language-python">from nautilus_trader.backtest.engine import BacktestEngine
 from nautilus_trader.model.currencies import USD
 
 engine = BacktestEngine()  # 錯誤 1: ???
@@ -628,8 +642,8 @@ engine.add_venue(
     base_currency=USD,
     starting_balances=[100000],
 )</code></pre>
-                    <button class="btn-run" onclick="toggleAnswer('answer-bugs')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-bugs">錯誤 1: BacktestEngine 需要 BacktestEngineConfig 參數
+<button class="btn-run" onclick="toggleAnswer('answer-bugs')">💡 查看答案</button>
+<div class="exercise-output" id="answer-bugs">錯誤 1: BacktestEngine 需要 BacktestEngineConfig 參數
                         → 正確: engine = BacktestEngine(config=BacktestEngineConfig())
 
                         錯誤 2: venue 需要 Venue 對象，不是字串
@@ -641,13 +655,12 @@ engine.add_venue(
                         💡 教訓：NautilusTrader 使用強類型設計（Fail-Fast 哲學）
                         它不接受「差不多」的數據，必須用正確的類型。
                         這是模組 03 設計哲學中 Fail-Fast 的具體體現。</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 3：設計題</div>
-                    <p>如果你想在 DoNothingStrategy 中加一個功能：<strong>策略啟動時印出系統所有可用的金融工具列表</strong>。你覺得應該在哪個方法中實現？需要調用什麼？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-design')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-design">應該在 on_start() 中實現：
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 3：設計題</div>
+<p>如果你想在 DoNothingStrategy 中加一個功能：<strong>策略啟動時印出系統所有可用的金融工具列表</strong>。你覺得應該在哪個方法中實現？需要調用什麼？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-design')">💡 查看答案</button>
+<div class="exercise-output" id="answer-design">應該在 on_start() 中實現：
 
                         def on_start(self):
                         instruments = self.cache.instruments()
@@ -664,42 +677,37 @@ engine.add_venue(
                         - 因為 Strategy 繼承了 Actor
                         - Actor 有直接訪問 Cache 的權限
                         - 這就是模組 06（緩存系統）會詳細講的內容</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>八、本模組重點回顧</h2>
-                <div class="card">
-                    <div class="card-title">📋 你應該記住的關鍵點</div>
-                    <ol>
-                        <li><strong>環境要求</strong>：Python 3.11+，推薦 Linux/macOS/WSL2</li>
-                        <li><strong>安裝方式</strong>：<code>pip install nautilus_trader</code> 或用 <code>uv</code></li>
-                        <li><strong>回測三階段</strong>：配置 → 運行 → 分析</li>
-                        <li><strong>策略模式</strong>：配置類(Config) + 策略類(Strategy) + 回調方法(on_xxx)</li>
-                        <li><strong>強類型</strong>：NautilusTrader 不接受字串代替枚舉/對象</li>
-                        <li><strong>21 個子系統</strong>：每個目錄都有明確職責，後續模組會逐個深入</li>
-                    </ol>
-                </div>
-
-                <div class="card" style="border-color:var(--accent-green);">
-                    <div class="card-title">🎯 下一步</div>
-                    <p>你的環境已經跑起來了。下一個模組會解答一個關鍵問題：<strong>在這麼多量化交易框架中，為什麼要選 NautilusTrader？</strong></p>
-                </div>
-
-                <!-- 頁面導航 -->
-                <div class="page-nav">
-                    <a href="../index.html">
-                        <span class="nav-label">← 首頁</span><span class="nav-title">NautilusTrader 完整教材</span>
-                    </a>
-                    <a href="../Module_01_Why_NautilusTrader/index.html" style="text-align:right;">
-                        <span class="nav-label">下一章 →</span><span class="nav-title">模組 01：為什麼選擇 NautilusTrader</span>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <button class="back-to-top" aria-label="回到頂部">↑</button>
-    <script src="../assets/lecture.js"></script>
+</div>
+<!-- ==================== -->
+<h2>八、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 你應該記住的關鍵點</div>
+<ol>
+<li><strong>環境要求</strong>：Python 3.11+，推薦 Linux/macOS/WSL2</li>
+<li><strong>安裝方式</strong>：<code>pip install nautilus_trader</code> 或用 <code>uv</code></li>
+<li><strong>回測三階段</strong>：配置 → 運行 → 分析</li>
+<li><strong>策略模式</strong>：配置類(Config) + 策略類(Strategy) + 回調方法(on_xxx)</li>
+<li><strong>強類型</strong>：NautilusTrader 不接受字串代替枚舉/對象</li>
+<li><strong>21 個子系統</strong>：每個目錄都有明確職責，後續模組會逐個深入</li>
+</ol>
+</div>
+<div class="card" style="border-color:var(--accent-green);">
+<div class="card-title">🎯 下一步</div>
+<p>你的環境已經跑起來了。下一個模組會解答一個關鍵問題：<strong>在這麼多量化交易框架中，為什麼要選 NautilusTrader？</strong></p>
+</div>
+<!-- 頁面導航 -->
+<div class="page-nav">
+<a href="../index.html">
+<span class="nav-label">← 首頁</span><span class="nav-title">NautilusTrader 完整教材</span>
+</a>
+<a href="../Module_01_Why_NautilusTrader/index.html" style="text-align:right;">
+<span class="nav-label">下一章 →</span><span class="nav-title">模組 01：為什麼選擇 NautilusTrader</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

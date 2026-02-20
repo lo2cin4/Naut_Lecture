@@ -1,168 +1,205 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模組 17：進階主題 — NautilusTrader 教材</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../assets/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 17：進階主題 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-section">
-                    <div class="nav-section-title">第零階段：起步</div>
-                </div>
-                <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_17_Advanced_Topics/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
+
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span>
                     環境安裝</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第一階段：全局認識</div>
-                </div>
-                <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span>
                     為什麼選擇 NT</a>
-                <a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
+<a class="nav-item" href="../Module_02_Architecture_Overview/index.html"><span class="nav-num">02</span>
                     架構鳥瞰圖</a>
-                <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
                     設計哲學</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第二階段：核心組件</div>
-                </div>
-                <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-                <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-                <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span>
                     數據管理</a>
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-                <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-                <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span>
                     執行引擎</a>
-                <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-                <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第三階段：實戰應用</div>
-                </div>
-                <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span>
                     策略開發</a>
-                <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span>
                     回測與實盤</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第四階段：進階擴展</div>
-                </div>
-                <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
                     適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span>
                     配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span>
                     實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span>
                     會計與風控</a>
-                <a class="nav-item active" href="index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-            </div>
-        </nav>
-
-        <div class="main-content">
-            <div class="top-bar">
-                <button class="menu-toggle" aria-label="開啟選單">☰</button>
-                <div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span
-                        class="separator">›</span>模組 17</div>
-            </div>
-            <div class="content-container">
-
-                <span class="phase-label phase-4">第四階段：進階擴展</span>
-                <h1>模組 17：進階主題<span class="subtitle">序列化、核心底層、期權定價 — 為專家準備的最後拼圖</span></h1>
-
-                <!-- ==================== -->
-                <h2>一、高效序列化 (Serialization)</h2>
-                <p>NautilusTrader 對性能的極致追求不僅體現在計算上，也體現在數據存儲和傳輸上。框架支持多種序列化格式：</p>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>格式</th>
-                                <th>特點</th>
-                                <th>適用場景</th>
-                                <th>Nautilus 用途</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>msgspec (JSON)</strong></td>
-                                <td>極快、人類可讀</td>
-                                <td>配置文件、API 接口</td>
-                                <td><code>config.py</code> 中的配置對象</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Parquet / Arrow</strong></td>
-                                <td>列式存儲、壓縮率極高</td>
-                                <td>海量歷史數據</td>
-                                <td>DataCatalog、行情數據存儲</td>
-                            </tr>
-                            <tr>
-                                <td><strong>MessagePack</strong></td>
-                                <td>二進制 JSON、緊湊</td>
-                                <td>即時通訊</td>
-                                <td>Redis 消息總線傳輸</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="callout callout-info">
-                    <div class="callout-title">💡 為什麼不用 Python 的 pickle？</div>
-                    <p><strong>❌ pickle</strong>：慢、不安全（可執行任意代碼）、跨語言支持差。</p>
-                    <p><strong>✅ msgspec / Arrow</strong>：比 pickle 快 10-100 倍，且支持 Rust/C++ 互操作，完美契合 Nautilus 的 Rust 內核。
+<a class="nav-item active" href="index.html"><span class="nav-num">17</span> 進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab
+                    01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab
+                    02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab
+                    03</a>
+</div>
+</nav>
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb"><a href="../index.html">首頁</a><span class="separator">›</span>第四階段<span class="separator">›</span>模組 17</div>
+</div>
+<div class="content-container">
+<span class="phase-label phase-4">第四階段：進階擴展</span>
+<h1>模組 17：進階主題<span class="subtitle">序列化、核心底層、期權定價 — 為專家準備的最後拼圖</span></h1>
+<!-- ==================== -->
+<h2>一、高效序列化 (Serialization)</h2>
+<p>NautilusTrader 對性能的極致追求不僅體現在計算上，也體現在數據存儲和傳輸上。框架支持多種序列化格式：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>特點</th>
+<th>適用場景</th>
+<th>Nautilus 用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>msgspec (JSON)</strong></td>
+<td>極快、人類可讀</td>
+<td>配置文件、API 接口</td>
+<td><code>config.py</code> 中的配置對象</td>
+</tr>
+<tr>
+<td><strong>Parquet / Arrow</strong></td>
+<td>列式存儲、壓縮率極高</td>
+<td>海量歷史數據</td>
+<td>DataCatalog、行情數據存儲</td>
+</tr>
+<tr>
+<td><strong>MessagePack</strong></td>
+<td>二進制 JSON、緊湊</td>
+<td>即時通訊</td>
+<td>Redis 消息總線傳輸</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 為什麼不用 Python 的 pickle？</div>
+<p><strong>❌ pickle</strong>：慢、不安全（可執行任意代碼）、跨語言支持差。</p>
+<p><strong>✅ msgspec / Arrow</strong>：比 pickle 快 10-100 倍，且支持 Rust/C++ 互操作，完美契合 Nautilus 的 Rust 內核。
                     </p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>二、系統核心 (System Kernel)</h2>
-                <p>Module 02 介紹過架構，這裡我們深入 <code>kernel.py</code> 的啟動流程：</p>
-
-                <div class="mermaid-wrapper">
-                    <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h2>二、系統核心 (System Kernel)</h2>
+<p>Module 02 介紹過架構，這裡我們深入 <code>kernel.py</code> 的啟動流程：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
                         sequenceDiagram
                         participant User
                         participant Node as TradingNode
                         participant Kernel
                         participant Engines
 
-                        User->>Node: node.run()
-                        Node->>Kernel: kernel.run()
-                        Kernel->>Engines: 1. 啟動所有 Engines (Data/Exec/Risk)
-                        Kernel->>Engines: 2. 連接適配器 (Connect)
-                        Kernel->>Engines: 3. 初始化緩存 (Initialize Cache)
-                        Kernel->>Engines: 4. 恢復狀態 (Load State)
-                        Kernel->>Engines: 5. 啟動策略 (Start Strategies)
+                        User-&gt;&gt;Node: node.run()
+                        Node-&gt;&gt;Kernel: kernel.run()
+                        Kernel-&gt;&gt;Engines: 1. 啟動所有 Engines (Data/Exec/Risk)
+                        Kernel-&gt;&gt;Engines: 2. 連接適配器 (Connect)
+                        Kernel-&gt;&gt;Engines: 3. 初始化緩存 (Initialize Cache)
+                        Kernel-&gt;&gt;Engines: 4. 恢復狀態 (Load State)
+                        Kernel-&gt;&gt;Engines: 5. 啟動策略 (Start Strategies)
                         Note over Kernel: 進入事件循環 (Event Loop)
-                        User->>Node: node.stop()
-                        Kernel->>Engines: 6. 停止策略
-                        Kernel->>Engines: 7. 保存狀態
-                        Kernel->>Engines: 8. 斷開連接
-                        Kernel->>Engines: 9. 關閉引擎
+                        User-&gt;&gt;Node: node.stop()
+                        Kernel-&gt;&gt;Engines: 6. 停止策略
+                        Kernel-&gt;&gt;Engines: 7. 保存狀態
+                        Kernel-&gt;&gt;Engines: 8. 斷開連接
+                        Kernel-&gt;&gt;Engines: 9. 關閉引擎
                     </div>
-                    <div class="caption">圖 1：Kernel 的完整生命週期</div>
-                </div>
-
-                <!-- ==================== -->
-                <h2>三、Tick Scheme — 最小跳動規則</h2>
-                <p>不同交易所對價格和數量有嚴格的限制。<code>TickScheme</code> 類負責處理這些規則：</p>
-
-                <pre><code class="language-python">from nautilus_trader.model.instruments import Instrument
+<div class="caption">圖 1：Kernel 的完整生命週期</div>
+</div>
+<!-- ==================== -->
+<h2>三、Tick Scheme — 最小跳動規則</h2>
+<p>不同交易所對價格和數量有嚴格的限制。<code>TickScheme</code> 類負責處理這些規則：</p>
+<pre><code class="language-python">from nautilus_trader.model.instruments import Instrument
 from nautilus_trader.model.identifiers import InstrumentId
 from nautilus_trader.model.objects import Price, Quantity
 
@@ -183,18 +220,15 @@ valid_qty = tick_scheme.round_quantity(raw_qty)
 # 3. 檢查是否有效
 if not tick_scheme.is_valid_price(raw_price):
     print("價格無效！請修正")</code></pre>
-
-                <div class="callout callout-warning">
-                    <div class="callout-title">⚠️ 實盤拒單常見原因</div>
-                    <p>很多「Invalid Order」錯誤都是因為價格或數量沒有符合 Tick Scheme。NautilusTrader 的 <code>OrderFactory</code>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 實盤拒單常見原因</div>
+<p>很多「Invalid Order」錯誤都是因為價格或數量沒有符合 Tick Scheme。NautilusTrader 的 <code>OrderFactory</code>
                         通常會自動處理這些，但如果你手動構建訂單，務必使用 <code>round_price</code> / <code>round_quantity</code>。</p>
-                </div>
-
-                <!-- ==================== -->
-                <h2>四、Greeks — 期權定價</h2>
-                <p>NautilusTrader 內置了 Black-Scholes 模型用於計算期權的理論價格和 Greeks：</p>
-
-                <pre><code class="language-python">from nautilus_trader.model.greeks import calculate_greeks
+</div>
+<!-- ==================== -->
+<h2>四、Greeks — 期權定價</h2>
+<p>NautilusTrader 內置了 Black-Scholes 模型用於計算期權的理論價格和 Greeks：</p>
+<pre><code class="language-python">from nautilus_trader.model.greeks import calculate_greeks
 from nautilus_trader.model.enums import OptionType
 
 # 計算 Greeks
@@ -212,13 +246,11 @@ print(f"Gamma: {greeks.gamma}")
 print(f"Theta: {greeks.theta}")
 print(f"Vega:  {greeks.vega}")
 print(f"Rho:   {greeks.rho}")</code></pre>
-
-                <!-- ==================== -->
-                <h2>五、Custom Data Types — 自定義數據流</h2>
-                <p>除了標準的 Bar 和 Quote，你還可以定義自己的數據類型（如鏈上數據、社交情緒數據）：</p>
-
-                <h3>1. 定義數據類</h3>
-                <pre><code class="language-python">from dataclasses import dataclass
+<!-- ==================== -->
+<h2>五、Custom Data Types — 自定義數據流</h2>
+<p>除了標準的 Bar 和 Quote，你還可以定義自己的數據類型（如鏈上數據、社交情緒數據）：</p>
+<h3>1. 定義數據類</h3>
+<pre><code class="language-python">from dataclasses import dataclass
 from nautilus_trader.model.data import Data
 
 @dataclass(frozen=True)
@@ -227,15 +259,14 @@ class SentimentData(Data):
     source: str
 
     @property
-    def ts_event(self) -> int:
+    def ts_event(self) -&gt; int:
         return self._ts_event
 
     @property
-    def ts_init(self) -> int:
+    def ts_init(self) -&gt; int:
         return self._ts_init</code></pre>
-
-                <h3>2. 在策略中訂閱</h3>
-                <pre><code class="language-python">class SentimentStrategy(Strategy):
+<h3>2. 在策略中訂閱</h3>
+<pre><code class="language-python">class SentimentStrategy(Strategy):
     def on_start(self):
         # 訂閱自定義數據類型
         self.subscribe_data(
@@ -246,85 +277,98 @@ class SentimentData(Data):
     def on_data(self, data: Data):
         if isinstance(data, SentimentData):
             self.log.info(f"收到情緒數據: {data.sentiment_score}")
-            if data.sentiment_score > 0.8:
+            if data.sentiment_score &gt; 0.8:
                 self.buy()</code></pre>
-
-                <!-- ==================== -->
-                <h2>六、互動練習</h2>
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 1：Tick Size 陷阱</div>
-                    <p>某品種 tick_size = 0.5。你計算出的掛單價格是 100.2。直接下單會發生什麼？你應該如何修正？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-tick')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-tick">直接下單後果：
-                        ❌ 交易所會拒絕訂單（REJECTED），錯誤信息可能是 "Invalid Price Precision" 或 "Price not multiple of tick size"。
-
-                        修正方法：
-                        ✅ 使用 tick_scheme.round_price(Price(100.2))
-                        結果會是 100.0 (向下取整) 或 100.5 (向上取整)，取決於 rounding 規則。
-
-                        在策略中：
-                        price = self.instrument.tick_scheme.round_price(calculated_price)
-                        self.order_factory.limit(...)</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 2：Kernel 啟動順序</div>
-                    <p>為什麼 Kernel 必須先 "Connect" 再 "Load State" 最後才 "Start Strategies"？</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-kernel')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-kernel">1. Connect (連接適配器)：
-                        必須先連上交易所/數據源，才能接收後續的數據。
-
-                        2. Load State (恢復狀態)：
-                        必須在策略啟動前恢復之前的持倉和訂單。如果在策略啟動後才恢復，策略可能會根據錯誤的（空的）狀態做出交易決策。
-
-                        3. Start Strategies (啟動策略)：
-                        最後一步。確保所有連接就緒、狀態已恢復、緩存已預熱，策略一旦啟動就能立即處理實時數據，不會因為狀態缺失而出錯。</div>
-                </div>
-
-                <div class="exercise-block">
-                    <div class="exercise-title">🧠 練習 3：自定義數據應用</div>
-                    <p>你想用「Google 搜索趨勢」來做 BTC 交易。請描述需要的組件。</p>
-                    <button class="btn-run" onclick="toggleAnswer('answer-data')">💡 查看答案</button>
-                    <div class="exercise-output" id="answer-data">架構設計：
-
-                        1. 數據類型 (Data Type)：
-                        定義 GoogleTrendData(keyword, index, ts_event)
-
-                        2. 數據適配器 (Data Client)：
-                        寫一個 CustomDataClient，定期調用 Google Trends API
-                        將 API 返回的 JSON 轉換為 GoogleTrendData 對象
-                        發送到 MessageBus
-
-                        3. 策略 (Strategy)：
-                        subscribe_data(GoogleTrendData)
-                        在 on_data 中處理：
-                        if index > 80: buy()
-                        elif index < 20: sell()</div>
-                    </div>
-
-                    <h2>七、Phase 2 總結</h2>
-                    <p>恭喜完成 Phase 2！你現在已經掌握了 NautilusTrader 的深層機制：</p>
-                    <div class="card">
-                        <div class="card-title">🎉 你學會了什麼</div>
-                        <ol>
-                            <li><strong>配置系統</strong>：如何精確控制系統的每一個參數</li>
-                            <li><strong>實盤穩健性</strong>：用對帳、重試、控制器打造不倒翁系統</li>
-                            <li><strong>資金與風控</strong>：精確計算每一分錢，設置多層風控網</li>
-                            <li><strong>底層機制</strong>：序列化、內核流程、Greeks、自定義數據擴展</li>
-                        </ol>
-                    </div>
-
-                    <div class="page-nav">
-                        <a href="../Module_16_Accounting_Risk/index.html"><span class="nav-label">← 上一章</span><span
-                                class="nav-title">模組 16：會計與風控深潛</span></a>
-                        <a href="../index.html" style="text-align:right;"><span class="nav-label">回到首頁</span><span
-                                class="nav-title">完結撒花 🎉</span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <button class="back-to-top" aria-label="回到頂部">↑</button>
-        <script src="../assets/lecture.js"></script>
+<!-- ==================== -->
+<h2>六、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：Tick Size 陷阱</div>
+<p>某品種 tick_size = 0.5。你計算出的掛單價格是 100.2。直接下單會發生什麼？你應該如何修正？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-tick')">💡 查看答案</button>
+<div class="exercise-output" id="answer-tick">
+<p><strong>直接下單後果：</strong></p>
+<ul>
+<li>❌ 交易所會拒絕訂單（<code>REJECTED</code>），錯誤信息可能是 "Invalid Price Precision" 或 "Price not
+                                multiple of tick size"。</li>
+</ul>
+<hr style="margin: 1rem 0;"/>
+<p><strong>修正方法：</strong></p>
+<ul>
+<li>✅ 使用 <code>tick_scheme.round_price(Price(100.2))</code><br/>
+                                結果會是 100.0 (向下取整) 或 100.5 (向上取整)，取決於 rounding 規則。
+                            </li>
+</ul>
+<p><strong>在策略中：</strong></p>
+<pre><code class="language-python">price = self.instrument.tick_scheme.round_price(calculated_price)
+self.order_factory.limit(...)</code></pre>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：Kernel 啟動順序</div>
+<p>為什麼 Kernel 必須先 "Connect" 再 "Load State" 最後才 "Start Strategies"？</p>
+<button class="btn-run" onclick="toggleAnswer('answer-kernel')">💡 查看答案</button>
+<div class="exercise-output" id="answer-kernel">
+<ol>
+<li><strong>Connect (連接適配器)：</strong><br/>
+                                必須先連上交易所/數據源，才能接收後續的數據。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>Load State (恢復狀態)：</strong><br/>
+                                必須在策略啟動前恢復之前的持倉和訂單。如果在策略啟動後才恢復，策略可能會根據錯誤的（空的）狀態做出交易決策。
+                            </li>
+<li style="margin-top:0.8rem;"><strong>Start Strategies (啟動策略)：</strong><br/>
+                                最後一步。確保所有連接就緒、狀態已恢復、緩存已預熱，策略一旦啟動就能立即處理實時數據，不會因為狀態缺失而出錯。
+                            </li>
+</ol>
+</div>
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 3：自定義數據應用</div>
+<p>你想用「Google 搜索趨勢」來做 BTC 交易。請描述需要的組件。</p>
+<button class="btn-run" onclick="toggleAnswer('answer-data')">💡 查看答案</button>
+<div class="exercise-output" id="answer-data">
+<p><strong>架構設計：</strong></p>
+<ol>
+<li><strong>數據類型 (Data Type)：</strong><br/>
+                                定義 <code>GoogleTrendData(keyword, index, ts_event)</code>
+</li>
+<li style="margin-top:0.8rem;"><strong>數據適配器 (Data Client)：</strong>
+<ul>
+<li>寫一個 <code>CustomDataClient</code>，定期調用 Google Trends API</li>
+<li>將 API 返回的 JSON 轉換為 <code>GoogleTrendData</code> 對象</li>
+<li>發送到 <code>MessageBus</code></li>
+</ul>
+</li>
+<li style="margin-top:0.8rem;"><strong>策略 (Strategy)：</strong>
+<ul>
+<li><code>subscribe_data(GoogleTrendData)</code></li>
+<li>在 <code>on_data</code> 中處理：
+                                        <pre><code class="language-python">if index &gt; 80: buy()
+elif index &lt; 20: sell()</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+<h2>七、Phase 2 總結</h2>
+<p>恭喜完成 Phase 2！你現在已經掌握了 NautilusTrader 的深層機制：</p>
+<div class="card">
+<div class="card-title">🎉 你學會了什麼</div>
+<ol>
+<li><strong>配置系統</strong>：如何精確控制系統的每一個參數</li>
+<li><strong>實盤穩健性</strong>：用對帳、重試、控制器打造不倒翁系統</li>
+<li><strong>資金與風控</strong>：精確計算每一分錢，設置多層風控網</li>
+<li><strong>底層機制</strong>：序列化、內核流程、Greeks、自定義數據擴展</li>
+</ol>
+</div>
+<div class="page-nav">
+<a href="../Module_16_Accounting_Risk/index.html"><span class="nav-label">← 上一章</span><span class="nav-title">模組 16：會計與風控深潛</span></a>
+<a href="../index.html" style="text-align:right;"><span class="nav-label">回到首頁</span><span class="nav-title">完結撒花 🎉</span></a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>

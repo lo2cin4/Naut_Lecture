@@ -1,350 +1,380 @@
 <!DOCTYPE html>
+
 <html lang="zh-Hant">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>模組 02：整體架構鳥瞰圖 — NautilusTrader 教材</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-    rel="stylesheet">
-  <link rel="stylesheet" href="../assets/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>模組 02：整體架構鳥瞰圖 — NautilusTrader 教材</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Noto+Sans+TC:wght@300;400;500;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="../assets/style.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 </head>
-
 <body>
-  <div class="page-wrapper">
+<!-- Language Toggle -->
+<style>
+.lang-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(43, 48, 59, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--text-secondary, #A0AEC0);
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.lang-toggle:hover {
+    background: rgba(60, 65, 75, 0.9);
+    color: var(--text-primary, #F7FAFC);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+.lang-toggle span.active {
+    color: #64ffda;
+    font-weight: 600;
+}
+.lang-toggle svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+</style>
+<a class="lang-toggle" href="../en/Module_02_Architecture_Overview/index.html" title="Switch to English">
+<svg viewbox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0014.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7l1.62-4.33L19.12 17h-3.24z"></path></svg>
+<span>EN / <span class="active">中</span></span>
+</a>
 
-    <!-- 側邊欄 -->
-    <nav class="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
-      </div>
-      <div class="sidebar-nav">
-        <div class="nav-section">
-          <div class="nav-section-title">第零階段：起步</div>
-        </div>
-        <a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
-        <div class="nav-section">
-          <div class="nav-section-title">第一階段：全局認識</div>
-        </div>
-        <a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span> 為什麼選擇
+<!-- Language Toggle -->
+
+
+<div class="page-wrapper">
+<!-- 側邊欄 -->
+<nav class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-logo"><span class="icon">🐚</span> NautilusTrader 教材</div>
+</div>
+<div class="sidebar-nav">
+<div class="nav-section">
+<div class="nav-section-title">第零階段：起步</div>
+</div>
+<a class="nav-item" href="../Module_00_Getting_Started/index.html"><span class="nav-num">00</span> 環境安裝</a>
+<div class="nav-section">
+<div class="nav-section-title">第一階段：全局認識</div>
+</div>
+<a class="nav-item" href="../Module_01_Why_NautilusTrader/index.html"><span class="nav-num">01</span> 為什麼選擇
           NautilusTrader</a>
-        <a class="nav-item active" href="index.html"><span class="nav-num">02</span> 整體架構鳥瞰圖</a>
-        <a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
+<a class="nav-item active" href="index.html"><span class="nav-num">02</span> 整體架構鳥瞰圖</a>
+<a class="nav-item" href="../Module_03_Design_Philosophy/index.html"><span class="nav-num">03</span>
           設計哲學與品質屬性</a>
-        <div class="nav-section">
-          <div class="nav-section-title">第二階段：核心組件</div>
-        </div>
-        <a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
-        <a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
-        <a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
-
-                <a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
-        <a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
-        <a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span> 執行引擎</a>
-        <a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
-        <a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
-        <div class="nav-section">
-          <div class="nav-section-title">第三階段：實戰應用</div>
-        </div>
-        <a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span> 策略開發</a>
-        <a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span> 回測與實盤</a>
-        <div class="nav-section">
-          <div class="nav-section-title">第四階段：進階擴展</div>
-        </div>
-        <a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
+<div class="nav-section">
+<div class="nav-section-title">第二階段：核心組件</div>
+</div>
+<a class="nav-item" href="../Module_04_Domain_Model/index.html"><span class="nav-num">04</span> 領域模型</a>
+<a class="nav-item" href="../Module_05_MessageBus/index.html"><span class="nav-num">05</span> 消息總線</a>
+<a class="nav-item" href="../Module_05B_Data_Management/index.html"><span class="nav-num">05B</span> 數據管理</a>
+<a class="nav-item" href="../Module_06_Cache/index.html"><span class="nav-num">06</span> 緩存系統</a>
+<a class="nav-item" href="../Module_07_DataEngine/index.html"><span class="nav-num">07</span> 數據引擎</a>
+<a class="nav-item" href="../Module_08_ExecutionEngine/index.html"><span class="nav-num">08</span> 執行引擎</a>
+<a class="nav-item" href="../Module_09_RiskEngine/index.html"><span class="nav-num">09</span> 風控引擎</a>
+<a class="nav-item" href="../Module_10_Portfolio/index.html"><span class="nav-num">10</span> 投資組合</a>
+<div class="nav-section">
+<div class="nav-section-title">第三階段：實戰應用</div>
+</div>
+<a class="nav-item" href="../Module_11_Strategy_Development/index.html"><span class="nav-num">11</span> 策略開發</a>
+<a class="nav-item" href="../Module_12_Backtest_And_Live/index.html"><span class="nav-num">12</span> 回測與實盤</a>
+<div class="nav-section">
+<div class="nav-section-title">第四階段：進階擴展</div>
+</div>
+<a class="nav-item" href="../Module_13_Adapters_Extensions/index.html"><span class="nav-num">13</span>
           適配器與擴展</a>
-                <a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
-                <a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
-                <a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
-                <a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
-                <div class="nav-section">
-                    <div class="nav-section-title">第五階段：動手 Lab</div>
-                </div>
-                <a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
-                <a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
-                <a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
-      </div>
-    </nav>
-
-    <!-- 主內容 -->
-    <div class="main-content">
-      <div class="top-bar">
-        <button class="menu-toggle" aria-label="開啟選單">☰</button>
-        <div class="breadcrumb">
-          <a href="../index.html">首頁</a><span class="separator">›</span>第一階段<span class="separator">›</span>模組 02
+<a class="nav-item" href="../Module_14_Configuration/index.html"><span class="nav-num">14</span> 配置系統深潛</a>
+<a class="nav-item" href="../Module_15_Live_Advanced/index.html"><span class="nav-num">15</span> 實盤部署進階</a>
+<a class="nav-item" href="../Module_16_Accounting_Risk/index.html"><span class="nav-num">16</span> 會計與風控</a>
+<a class="nav-item" href="../Module_17_Advanced_Topics/index.html"><span class="nav-num">17</span> 進階主題</a>
+<div class="nav-section">
+<div class="nav-section-title">第五階段：動手 Lab</div>
+</div>
+<a class="nav-item" href="../Lab_01_Backtest_Workflow/index.html"><span class="nav-num">L1</span> Lab 01</a>
+<a class="nav-item" href="../Lab_02_Binance_Sandbox/index.html"><span class="nav-num">L2</span> Lab 02</a>
+<a class="nav-item" href="../Lab_03_Custom_Strategy/index.html"><span class="nav-num">L3</span> Lab 03</a>
+</div>
+</nav>
+<!-- 主內容 -->
+<div class="main-content">
+<div class="top-bar">
+<button aria-label="開啟選單" class="menu-toggle">☰</button>
+<div class="breadcrumb">
+<a href="../index.html">首頁</a><span class="separator">›</span>第一階段<span class="separator">›</span>模組 02
         </div>
-      </div>
-
-      <div class="content-container">
-
-        <span class="phase-label phase-1">第一階段：全局認識</span>
-        <h1>模組 02：整體架構鳥瞰圖<span class="subtitle">在開始細節之前，先看清整個系統的全貌</span></h1>
-
-        <!-- ==================== -->
-        <h2>一、系統的「一句話」總結</h2>
-        <p>NautilusTrader 本質上是一個<strong>事件驅動的交易系統框架</strong>。它的核心可以用一張圖來理解：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+</div>
+<div class="content-container">
+<span class="phase-label phase-1">第一階段：全局認識</span>
+<h1>模組 02：整體架構鳥瞰圖<span class="subtitle">在開始細節之前，先看清整個系統的全貌</span></h1>
+<!-- ==================== -->
+<h2>一、系統的「一句話」總結</h2>
+<p>NautilusTrader 本質上是一個<strong>事件驅動的交易系統框架</strong>。它的核心可以用一張圖來理解：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart LR
             subgraph 外部世界["🌍 外部世界"]
-            exchange["交易所<br />Binance / IB / OKX ..."]
-            data_provider["數據源<br />Databento / Tardis ..."]
+            exchange["交易所<br/>Binance / IB / OKX ..."]
+            data_provider["數據源<br/>Databento / Tardis ..."]
             end
 
             subgraph nautilus["🐚 NautilusTrader"]
             direction TB
-            adapter_in["數據適配器<br />DataClient"]
-            adapter_out["執行適配器<br />ExecutionClient"]
-            data_engine["數據引擎<br />DataEngine"]
-            exec_engine["執行引擎<br />ExecutionEngine"]
-            risk_engine["風控引擎<br />RiskEngine"]
-            cache["緩存<br />Cache"]
-            msgbus["消息總線<br />MessageBus"]
-            strategy["你的策略<br />Strategy"]
-            portfolio["投資組合<br />Portfolio"]
+            adapter_in["數據適配器<br/>DataClient"]
+            adapter_out["執行適配器<br/>ExecutionClient"]
+            data_engine["數據引擎<br/>DataEngine"]
+            exec_engine["執行引擎<br/>ExecutionEngine"]
+            risk_engine["風控引擎<br/>RiskEngine"]
+            cache["緩存<br/>Cache"]
+            msgbus["消息總線<br/>MessageBus"]
+            strategy["你的策略<br/>Strategy"]
+            portfolio["投資組合<br/>Portfolio"]
             end
 
-            data_provider -->|"市場數據"| adapter_in
-            exchange -->|"市場數據"| adapter_in
-            adapter_in --> data_engine
-            data_engine --> msgbus
-            msgbus --> strategy
-            strategy -->|"交易指令"| msgbus
-            msgbus --> risk_engine
-            risk_engine --> exec_engine
-            exec_engine --> adapter_out
-            adapter_out -->|"下單/改單/撤單"| exchange
-            exchange -->|"成交回報"| adapter_out
-            adapter_out --> exec_engine
-            exec_engine --> portfolio
-            data_engine --> cache
-            exec_engine --> cache
-            strategy -.->|"查詢"| cache
+            data_provider --&gt;|"市場數據"| adapter_in
+            exchange --&gt;|"市場數據"| adapter_in
+            adapter_in --&gt; data_engine
+            data_engine --&gt; msgbus
+            msgbus --&gt; strategy
+            strategy --&gt;|"交易指令"| msgbus
+            msgbus --&gt; risk_engine
+            risk_engine --&gt; exec_engine
+            exec_engine --&gt; adapter_out
+            adapter_out --&gt;|"下單/改單/撤單"| exchange
+            exchange --&gt;|"成交回報"| adapter_out
+            adapter_out --&gt; exec_engine
+            exec_engine --&gt; portfolio
+            data_engine --&gt; cache
+            exec_engine --&gt; cache
+            strategy -.-&gt;|"查詢"| cache
           </div>
-          <div class="caption">圖 1：NautilusTrader 整體數據流 — 從市場數據進入到訂單執行的完整路徑</div>
-        </div>
-
-        <div class="callout callout-info">
-          <div class="callout-title">💡 交易員視角</div>
-          <p>
+<div class="caption">圖 1：NautilusTrader 整體數據流 — 從市場數據進入到訂單執行的完整路徑</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">💡 交易員視角</div>
+<p>
             把這張圖想像成一家交易公司：<strong>數據引擎</strong>是行情部門收集市場報價，<strong>策略</strong>是你（交易決策者），<strong>風控引擎</strong>是合規部門審核你的指令，<strong>執行引擎</strong>是交易台執行你的訂單，<strong>緩存</strong>是所有人共享的白板。<strong>消息總線</strong>是辦公室的內部通訊系統，把所有人連在一起。
           </p>
-        </div>
-
-        <!-- ==================== -->
-        <h2>二、六大核心組件</h2>
-        <p>系統的核心由 6 個組件組成，它們各司其職，透過<strong>消息總線</strong>協作：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+</div>
+<!-- ==================== -->
+<h2>二、六大核心組件</h2>
+<p>系統的核心由 6 個組件組成，它們各司其職，透過<strong>消息總線</strong>協作：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart LR
             subgraph kernel["🧠 NautilusKernel — 系統內核大腦"]
             direction TB
-            msgbus["📡 MessageBus<br />消息總線"]
-            cache["💾 Cache<br />緩存"]
+            msgbus["📡 MessageBus<br/>消息總線"]
+            cache["💾 Cache<br/>緩存"]
             msgbus --- cache
             end
 
             subgraph engines["⚙️ 核心引擎組"]
             direction TB
-            data["📊 DataEngine<br />數據引擎"]
-            exec["⚙️ ExecutionEngine<br />執行引擎"]
-            risk["🛡️ RiskEngine<br />風控引擎"]
+            data["📊 DataEngine<br/>數據引擎"]
+            exec["⚙️ ExecutionEngine<br/>執行引擎"]
+            risk["🛡️ RiskEngine<br/>風控引擎"]
             data --- exec --- risk
             end
 
             subgraph management["💰 資金與策略"]
             direction TB
-            port["💰 Portfolio<br />投資組合"]
-            strat["🧩 Strategy<br />你的策略"]
+            port["💰 Portfolio<br/>投資組合"]
+            strat["🧩 Strategy<br/>你的策略"]
             port --- strat
             end
 
-            kernel ==> engines ==> management
+            kernel ==&gt; engines ==&gt; management
 
             style kernel fill:#0f1419,stroke:#4fc3f7,stroke-width:2px
             style engines fill:#0f1419,stroke:#ffa726,stroke-width:1px
             style management fill:#0f1419,stroke:#ab47bc,stroke-width:1px
           </div>
-          <div class="caption">圖 2：六大核心組件及其關係</div>
-        </div>
-
-        <div class="feature-grid">
-          <div class="feature-card">
-            <span class="icon">🧠</span>
-            <h4>NautilusKernel — 系統內核</h4>
-            <p>整個系統的「大腦」。負責初始化所有組件、管理生命週期、配置消息基礎設施。它是所有東西啟動的起點。</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">📡</span>
-            <h4>MessageBus — 消息總線</h4>
-            <p>組件間的「神經網絡」。所有數據、事件和命令都透過它傳遞。支援發布/訂閱、請求/回應和點對點消息。</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">💾</span>
-            <h4>Cache — 緩存</h4>
-            <p>高速記憶體「白板」。儲存金融工具、帳戶、訂單、持倉等所有狀態，讓各組件快速查詢共享數據。</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">📊</span>
-            <h4>DataEngine — 數據引擎</h4>
-            <p>「行情部門」。接收、處理和分發市場數據（報價、成交、K 線、訂單簿），並根據訂閱把數據推送給需要的組件。</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">⚙️</span>
-            <h4>ExecutionEngine — 執行引擎</h4>
-            <p>「交易台」。管理訂單的完整生命週期，從下單到成交/撤銷，追蹤所有訂單和持倉狀態。</p>
-          </div>
-          <div class="feature-card">
-            <span class="icon">🛡️</span>
-            <h4>RiskEngine — 風控引擎</h4>
-            <p>「合規管理」。在訂單到達執行引擎之前進行風險檢查，確保不會超出風險限制。</p>
-          </div>
-        </div>
-
-        <!-- ==================== -->
-        <h2>三、三種運行環境</h2>
-        <p>同一個系統可以在三種「環境」中工作，而你的策略代碼不需要改動：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 2：六大核心組件及其關係</div>
+</div>
+<div class="feature-grid">
+<div class="feature-card">
+<span class="icon">🧠</span>
+<h4>NautilusKernel — 系統內核</h4>
+<p>整個系統的「大腦」。負責初始化所有組件、管理生命週期、配置消息基礎設施。它是所有東西啟動的起點。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📡</span>
+<h4>MessageBus — 消息總線</h4>
+<p>組件間的「神經網絡」。所有數據、事件和命令都透過它傳遞。支援發布/訂閱、請求/回應和點對點消息。</p>
+</div>
+<div class="feature-card">
+<span class="icon">💾</span>
+<h4>Cache — 緩存</h4>
+<p>高速記憶體「白板」。儲存金融工具、帳戶、訂單、持倉等所有狀態，讓各組件快速查詢共享數據。</p>
+</div>
+<div class="feature-card">
+<span class="icon">📊</span>
+<h4>DataEngine — 數據引擎</h4>
+<p>「行情部門」。接收、處理和分發市場數據（報價、成交、K 線、訂單簿），並根據訂閱把數據推送給需要的組件。</p>
+</div>
+<div class="feature-card">
+<span class="icon">⚙️</span>
+<h4>ExecutionEngine — 執行引擎</h4>
+<p>「交易台」。管理訂單的完整生命週期，從下單到成交/撤銷，追蹤所有訂單和持倉狀態。</p>
+</div>
+<div class="feature-card">
+<span class="icon">🛡️</span>
+<h4>RiskEngine — 風控引擎</h4>
+<p>「合規管理」。在訂單到達執行引擎之前進行風險檢查，確保不會超出風險限制。</p>
+</div>
+</div>
+<!-- ==================== -->
+<h2>三、三種運行環境</h2>
+<p>同一個系統可以在三種「環境」中工作，而你的策略代碼不需要改動：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart TB
             subgraph common["🔄 通用核心 (NautilusKernel)"]
-            kernel["MessageBus + Cache + DataEngine<br />+ ExecutionEngine + RiskEngine + Portfolio"]
+            kernel["MessageBus + Cache + DataEngine<br/>+ ExecutionEngine + RiskEngine + Portfolio"]
             end
 
             subgraph bt["📊 回測環境 (Backtest)"]
             bt_data["歷史數據文件"]
-            bt_venue["模擬交易所<br />SimulatedExchange"]
+            bt_venue["模擬交易所<br/>SimulatedExchange"]
             end
 
             subgraph sb["🏖️ 沙箱環境 (Sandbox)"]
             sb_data["即時市場數據"]
-            sb_venue["模擬交易所<br />SimulatedExchange"]
+            sb_venue["模擬交易所<br/>SimulatedExchange"]
             end
 
             subgraph lv["🔴 實盤環境 (Live)"]
             lv_data["即時市場數據"]
-            lv_venue["真實交易所<br />Live Exchange"]
+            lv_venue["真實交易所<br/>Live Exchange"]
             end
 
-            bt --> common
-            sb --> common
-            lv --> common
+            bt --&gt; common
+            sb --&gt; common
+            lv --&gt; common
           </div>
-          <div class="caption">圖 3：三種環境共享同一個核心</div>
-        </div>
-
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>項目</th>
-                <th>📊 回測</th>
-                <th>🏖️ 沙箱</th>
-                <th>🔴 實盤</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>數據來源</td>
-                <td>歷史數據文件</td>
-                <td>即時市場數據</td>
-                <td>即時市場數據</td>
-              </tr>
-              <tr>
-                <td>交易執行</td>
-                <td>內建模擬引擎</td>
-                <td>內建模擬引擎</td>
-                <td>連接真實交易所</td>
-              </tr>
-              <tr>
-                <td>風險</td>
-                <td>零風險</td>
-                <td>零風險</td>
-                <td>真實資金風險</td>
-              </tr>
-              <tr>
-                <td>速度</td>
-                <td>可以加速回放</td>
-                <td>即時</td>
-                <td>即時</td>
-              </tr>
-              <tr>
-                <td>用途</td>
-                <td>驗證策略邏輯</td>
-                <td>驗證即時表現</td>
-                <td>正式交易</td>
-              </tr>
-              <tr>
-                <td>策略代碼</td>
-                <td colspan="3" style="text-align:center;color:var(--accent-green);"><strong>完全相同 — 不需要修改</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ==================== -->
-        <h2>四、代碼架構 — 怎麼組織的？</h2>
-        <p>NautilusTrader 的代碼分兩大部分：<strong>Rust 核心</strong>和 <strong>Python/Cython 封裝</strong>。</p>
-
-        <h3>4.1 三層分離 — 全局視角</h3>
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 3：三種環境共享同一個核心</div>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>📊 回測</th>
+<th>🏖️ 沙箱</th>
+<th>🔴 實盤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>數據來源</td>
+<td>歷史數據文件</td>
+<td>即時市場數據</td>
+<td>即時市場數據</td>
+</tr>
+<tr>
+<td>交易執行</td>
+<td>內建模擬引擎</td>
+<td>內建模擬引擎</td>
+<td>連接真實交易所</td>
+</tr>
+<tr>
+<td>風險</td>
+<td>零風險</td>
+<td>零風險</td>
+<td>真實資金風險</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>可以加速回放</td>
+<td>即時</td>
+<td>即時</td>
+</tr>
+<tr>
+<td>用途</td>
+<td>驗證策略邏輯</td>
+<td>驗證即時表現</td>
+<td>正式交易</td>
+</tr>
+<tr>
+<td>策略代碼</td>
+<td colspan="3" style="text-align:center;color:var(--accent-green);"><strong>完全相同 — 不需要修改</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>四、代碼架構 — 怎麼組織的？</h2>
+<p>NautilusTrader 的代碼分兩大部分：<strong>Rust 核心</strong>和 <strong>Python/Cython 封裝</strong>。</p>
+<h3>4.1 三層分離 — 全局視角</h3>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart LR
             %% Python 層
-            subgraph python_pkg["📦 Python / Cython 層<br />(nautilus_trader/)"]
+            subgraph python_pkg["📦 Python / Cython 層<br/>(nautilus_trader/)"]
             direction TB
-            p_logic["交易策略與指標<br />(trading/ / indicators/)"]
-            p_model["領域模型封裝<br />(model/)"]
-            p_engine["引擎介面與配置<br />(core/ / data/ / exec/)"]
+            p_logic["交易策略與指標<br/>(trading/ / indicators/)"]
+            p_model["領域模型封裝<br/>(model/)"]
+            p_engine["引擎介面與配置<br/>(core/ / data/ / exec/)"]
             p_logic --- p_model --- p_engine
             end
 
             %% 橋接層
-            subgraph bridge["🔗 橋接層<br />(Cython + PyO3)"]
+            subgraph bridge["🔗 橋接層<br/>(Cython + PyO3)"]
             direction TB
             ffi["C FFI 介面"]
             binding["Python 綁定"]
-            ffi <==> binding
+            ffi &lt;==&gt; binding
               end
 
               %% Rust 層
-              subgraph rust_pkg["🦀 Rust 核心層<br />(crates/)"]
+              subgraph rust_pkg["🦀 Rust 核心層<br/>(crates/)"]
               direction TB
-              r_engines["核心引擎組件<br />(data / execution / risk)"]
-              r_base["基礎設施與內核<br />(core / model / common)"]
-              r_infra["底層服務<br />(network / persistence)"]
+              r_engines["核心引擎組件<br/>(data / execution / risk)"]
+              r_base["基礎設施與內核<br/>(core / model / common)"]
+              r_infra["底層服務<br/>(network / persistence)"]
               r_engines --- r_base --- r_infra
               end
 
               %% 全局連接
-              python_pkg <==> bridge <==> rust_pkg
+              python_pkg &lt;==&gt; bridge &lt;==&gt; rust_pkg
 
                   %% 樣式
                   style bridge fill:#1a1f2e,stroke:#ab47bc,stroke-width:2px
                   style python_pkg fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
                   style rust_pkg fill:#0f1419,stroke:#ef5350,stroke-width:1px
           </div>
-          <div class="caption">圖 4：NautilusTrader 的三層分離架構 — 從 Python 策略到底層 Rust 核心</div>
-        </div>
-
-        <h3>4.2 Rust Crates 依賴圖</h3>
-        <p>Rust 側有 23 個 crate，按功能分為五類。下圖展示它們之間的依賴關係：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 4：NautilusTrader 的三層分離架構 — 從 Python 策略到底層 Rust 核心</div>
+</div>
+<h3>4.2 Rust Crates 依賴圖</h3>
+<div class="callout callout-warning">
+<div class="callout-title">⚠️ 進階內容 (選讀)</div>
+<p>以下內容涉及底層 Rust 引擎的具體實現結構。如果你是初學者或只打算用 Python 開發策略，這部分可以完全跳過，不影響後續學習。</p>
+</div>
+<p>Rust 側有 23 個 crate，按功能分為五類。下圖展示它們之間的依賴關係：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart LR
             subgraph layer_found["🧱 基礎層"]
             direction TB
             core["core"]
             model["model"]
             common["common"]
-            model --> core
-            common --> model
+            model --&gt; core
+            common --&gt; model
             end
 
             subgraph layer_infra["🏗️ 基建與引擎"]
@@ -355,12 +385,12 @@
             execution["execution"]
             risk["risk"]
             portfolio["portfolio"]
-            serialization --> model
-            persistence --> serialization
-            data --> common
-            execution --> common
-            risk --> portfolio
-            portfolio --> common
+            serialization --&gt; model
+            persistence --&gt; serialization
+            data --&gt; common
+            execution --&gt; common
+            risk --&gt; portfolio
+            portfolio --&gt; common
             end
 
             subgraph layer_runtime["🚀 運行與擴展"]
@@ -371,288 +401,275 @@
             live["live"]
             adapters["adapters"]
             pyo3["pyo3"]
-            backtest --> system
-            live --> system
-            live --> trading
-            adapters --> live
-            pyo3 --> adapters
+            backtest --&gt; system
+            live --&gt; system
+            live --&gt; trading
+            adapters --&gt; live
+            pyo3 --&gt; adapters
             end
 
-            layer_found ==> layer_infra ==> layer_runtime
+            layer_found ==&gt; layer_infra ==&gt; layer_runtime
 
             style layer_found fill:#0f1419,stroke:#4fc3f7,stroke-width:1px
             style layer_infra fill:#0f1419,stroke:#ffa726,stroke-width:1px
             style layer_runtime fill:#0f1419,stroke:#ef5350,stroke-width:1px
           </div>
-          <div class="caption">圖 5：Rust crate 依賴關係 — 箭頭方向表示「依賴於」</div>
-        </div>
-
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>類別</th>
-                <th>包含的 Crates</th>
-                <th>用途</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="color:var(--accent-cyan);">基礎層</td>
-                <td>core, model, common, system, trading</td>
-                <td>基本類型、領域模型、內核、策略基類</td>
-              </tr>
-              <tr>
-                <td style="color:var(--accent-green);">引擎層</td>
-                <td>data, execution, portfolio, risk</td>
-                <td>核心交易引擎組件</td>
-              </tr>
-              <tr>
-                <td style="color:var(--accent-orange);">基礎設施層</td>
-                <td>serialization, network, cryptography, persistence</td>
-                <td>編碼、網絡、加密、數據存儲</td>
-              </tr>
-              <tr>
-                <td style="color:var(--accent-purple);">運行層</td>
-                <td>live, backtest</td>
-                <td>具體環境的節點實現</td>
-              </tr>
-              <tr>
-                <td style="color:var(--accent-blue);">外部整合</td>
-                <td>adapters/*</td>
-                <td>各交易所和數據源適配器</td>
-              </tr>
-              <tr>
-                <td style="color:var(--accent-gold);">Python 綁定</td>
-                <td>pyo3</td>
-                <td>將 Rust 暴露給 Python</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ==================== -->
-        <h2>五、數據流完整路徑</h2>
-        <p>讓我們追蹤一個市場報價（比如 BTC/USDT 的最新價格）是如何在系統中流動的：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 5：Rust crate 依賴關係 — 箭頭方向表示「依賴於」</div>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>類別</th>
+<th>包含的 Crates</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="color:var(--accent-cyan);">基礎層</td>
+<td>core, model, common, system, trading</td>
+<td>基本類型、領域模型、內核、策略基類</td>
+</tr>
+<tr>
+<td style="color:var(--accent-green);">引擎層</td>
+<td>data, execution, portfolio, risk</td>
+<td>核心交易引擎組件</td>
+</tr>
+<tr>
+<td style="color:var(--accent-orange);">基礎設施層</td>
+<td>serialization, network, cryptography, persistence</td>
+<td>編碼、網絡、加密、數據存儲</td>
+</tr>
+<tr>
+<td style="color:var(--accent-purple);">運行層</td>
+<td>live, backtest</td>
+<td>具體環境的節點實現</td>
+</tr>
+<tr>
+<td style="color:var(--accent-blue);">外部整合</td>
+<td>adapters/*</td>
+<td>各交易所和數據源適配器</td>
+</tr>
+<tr>
+<td style="color:var(--accent-gold);">Python 綁定</td>
+<td>pyo3</td>
+<td>將 Rust 暴露給 Python</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>五、數據流完整路徑</h2>
+<p>讓我們追蹤一個市場報價（比如 BTC/USDT 的最新價格）是如何在系統中流動的：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             sequenceDiagram
             participant Exchange as 🏦 交易所
-            participant DC as 📡 DataClient<br />(適配器)
+            participant DC as 📡 DataClient<br/>(適配器)
             participant DE as 📊 DataEngine
             participant Cache as 💾 Cache
             participant MB as 📡 MessageBus
             participant Strategy as 🎯 你的策略
 
-            Exchange->>DC: WebSocket 推送原始報價
-            DC->>DC: 轉換為標準格式 (QuoteTick)
-            DC->>DE: 傳入標準化數據
-            DE->>Cache: 存入緩存
-            DE->>MB: 發布數據事件
-            MB->>Strategy: 推送給訂閱了該品種的策略
-            Strategy->>Strategy: 執行策略邏輯
+            Exchange-&gt;&gt;DC: WebSocket 推送原始報價
+            DC-&gt;&gt;DC: 轉換為標準格式 (QuoteTick)
+            DC-&gt;&gt;DE: 傳入標準化數據
+            DE-&gt;&gt;Cache: 存入緩存
+            DE-&gt;&gt;MB: 發布數據事件
+            MB-&gt;&gt;Strategy: 推送給訂閱了該品種的策略
+            Strategy-&gt;&gt;Strategy: 執行策略邏輯
             Note over Strategy: 決定是否下單
           </div>
-          <div class="caption">圖 6：市場數據從交易所到策略的完整流程</div>
-        </div>
-
-        <!-- ==================== -->
-        <h2>六、執行流完整路徑</h2>
-        <p>當策略決定下單時，訂單如何從你的策略到達交易所？</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 6：市場數據從交易所到策略的完整流程</div>
+</div>
+<!-- ==================== -->
+<h2>六、執行流完整路徑</h2>
+<p>當策略決定下單時，訂單如何從你的策略到達交易所？</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             sequenceDiagram
             participant Strategy as 🎯 你的策略
             participant MB as 📡 MessageBus
             participant Risk as 🛡️ RiskEngine
             participant EE as ⚙️ ExecutionEngine
-            participant EC as 🔌 ExecutionClient<br />(適配器)
+            participant EC as 🔌 ExecutionClient<br/>(適配器)
             participant Exchange as 🏦 交易所
             participant Portfolio as 💰 Portfolio
             participant Cache as 💾 Cache
 
-            Strategy->>MB: 發送下單命令 (SubmitOrder)
-            MB->>Risk: 風控檢查
-            Risk->>Risk: 驗證風險限制
+            Strategy-&gt;&gt;MB: 發送下單命令 (SubmitOrder)
+            MB-&gt;&gt;Risk: 風控檢查
+            Risk-&gt;&gt;Risk: 驗證風險限制
             alt 風控通過
-            Risk->>EE: 轉發命令
-            EE->>EC: 路由到對應交易所
-            EC->>Exchange: 提交訂單 (REST/WS)
-            Exchange-->>EC: 訂單確認
-            EC->>EE: 回報 OrderAccepted 事件
-            EE->>Cache: 更新訂單狀態
-            EE->>MB: 發布事件
-            Exchange-->>EC: 成交回報
-            EC->>EE: 回報 OrderFilled 事件
-            EE->>Portfolio: 更新持倉和盈虧
-            EE->>Cache: 更新狀態
-            EE->>MB: 發布事件
-            MB->>Strategy: 通知成交
+            Risk-&gt;&gt;EE: 轉發命令
+            EE-&gt;&gt;EC: 路由到對應交易所
+            EC-&gt;&gt;Exchange: 提交訂單 (REST/WS)
+            Exchange--&gt;&gt;EC: 訂單確認
+            EC-&gt;&gt;EE: 回報 OrderAccepted 事件
+            EE-&gt;&gt;Cache: 更新訂單狀態
+            EE-&gt;&gt;MB: 發布事件
+            Exchange--&gt;&gt;EC: 成交回報
+            EC-&gt;&gt;EE: 回報 OrderFilled 事件
+            EE-&gt;&gt;Portfolio: 更新持倉和盈虧
+            EE-&gt;&gt;Cache: 更新狀態
+            EE-&gt;&gt;MB: 發布事件
+            MB-&gt;&gt;Strategy: 通知成交
             else 風控拒絕
-            Risk->>MB: 發布 OrderDenied 事件
-            MB->>Strategy: 通知被拒絕
+            Risk-&gt;&gt;MB: 發布 OrderDenied 事件
+            MB-&gt;&gt;Strategy: 通知被拒絕
             end
           </div>
-          <div class="caption">圖 7：訂單從策略到交易所的完整執行流程</div>
-        </div>
-
-        <div class="callout callout-success">
-          <div class="callout-title">✅ 關鍵洞察</div>
-          <p>注意到了嗎？<strong>策略從不直接和交易所通訊</strong>。所有操作都經過消息總線和引擎層。這是「六角形架構」的設計——策略只關心交易邏輯，不需要知道它連接的是真實交易所還是模擬器。</p>
-        </div>
-
-        <!-- ==================== -->
-        <h2>七、Python 模組地圖</h2>
-        <p>以下是你作為策略開發者最常接觸的 Python 模組：</p>
-
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>模組</th>
-                <th>用途</th>
-                <th>你需要了解的程度</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><code>trading/</code></td>
-                <td>Strategy 和 Actor 基類 — <strong>你寫策略的地方</strong></td>
-                <td style="color:var(--accent-green);">⭐⭐⭐ 必須精通</td>
-              </tr>
-              <tr>
-                <td><code>model/</code></td>
-                <td>訂單、持倉、金融工具等領域對象</td>
-                <td style="color:var(--accent-green);">⭐⭐⭐ 必須熟悉</td>
-              </tr>
-              <tr>
-                <td><code>indicators/</code></td>
-                <td>技術指標（EMA, SMA, RSI 等）</td>
-                <td style="color:var(--accent-green);">⭐⭐⭐ 常用</td>
-              </tr>
-              <tr>
-                <td><code>config/</code></td>
-                <td>系統和策略配置</td>
-                <td style="color:var(--accent-orange);">⭐⭐ 需要知道</td>
-              </tr>
-              <tr>
-                <td><code>backtest/</code></td>
-                <td>回測引擎和配置</td>
-                <td style="color:var(--accent-orange);">⭐⭐ 需要知道</td>
-              </tr>
-              <tr>
-                <td><code>live/</code></td>
-                <td>實盤節點配置</td>
-                <td style="color:var(--accent-orange);">⭐⭐ 部署時需要</td>
-              </tr>
-              <tr>
-                <td><code>adapters/</code></td>
-                <td>交易所連接器</td>
-                <td>⭐ 通常不需要修改</td>
-              </tr>
-              <tr>
-                <td><code>data/</code></td>
-                <td>數據引擎內部</td>
-                <td>⭐ 了解概念即可</td>
-              </tr>
-              <tr>
-                <td><code>execution/</code></td>
-                <td>執行引擎內部</td>
-                <td>⭐ 了解概念即可</td>
-              </tr>
-              <tr>
-                <td><code>cache/</code></td>
-                <td>緩存系統</td>
-                <td>⭐ 知道怎麼查詢</td>
-              </tr>
-              <tr>
-                <td><code>core/</code></td>
-                <td>底層工具和常量</td>
-                <td>⭐ 很少直接使用</td>
-              </tr>
-              <tr>
-                <td><code>risk/</code></td>
-                <td>風控引擎</td>
-                <td>⭐ 了解配置即可</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- ==================== -->
-        <h2>八、一個完整的交易循環</h2>
-        <p>把所有部分串起來，一個完整的交易循環長這樣：</p>
-
-        <div class="mermaid-wrapper">
-          <div class="mermaid">
+<div class="caption">圖 7：訂單從策略到交易所的完整執行流程</div>
+</div>
+<div class="callout callout-success">
+<div class="callout-title">✅ 關鍵洞察</div>
+<p>注意到了嗎？<strong>策略從不直接和交易所通訊</strong>。所有操作都經過消息總線和引擎層。這是「六角形架構」的設計——策略只關心交易邏輯，不需要知道它連接的是真實交易所還是模擬器。</p>
+</div>
+<!-- ==================== -->
+<h2>七、Python 模組地圖</h2>
+<p>以下是你作為策略開發者最常接觸的 Python 模組：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>模組</th>
+<th>用途</th>
+<th>你需要了解的程度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>trading/</code></td>
+<td>Strategy 和 Actor 基類 — <strong>你寫策略的地方</strong></td>
+<td style="color:var(--accent-green);">⭐⭐⭐ 必須精通</td>
+</tr>
+<tr>
+<td><code>model/</code></td>
+<td>訂單、持倉、金融工具等領域對象</td>
+<td style="color:var(--accent-green);">⭐⭐⭐ 必須熟悉</td>
+</tr>
+<tr>
+<td><code>indicators/</code></td>
+<td>技術指標（EMA, SMA, RSI 等）</td>
+<td style="color:var(--accent-green);">⭐⭐⭐ 常用</td>
+</tr>
+<tr>
+<td><code>config/</code></td>
+<td>系統和策略配置</td>
+<td style="color:var(--accent-orange);">⭐⭐ 需要知道</td>
+</tr>
+<tr>
+<td><code>backtest/</code></td>
+<td>回測引擎和配置</td>
+<td style="color:var(--accent-orange);">⭐⭐ 需要知道</td>
+</tr>
+<tr>
+<td><code>live/</code></td>
+<td>實盤節點配置</td>
+<td style="color:var(--accent-orange);">⭐⭐ 部署時需要</td>
+</tr>
+<tr>
+<td><code>adapters/</code></td>
+<td>交易所連接器</td>
+<td>⭐ 通常不需要修改</td>
+</tr>
+<tr>
+<td><code>data/</code></td>
+<td>數據引擎內部</td>
+<td>⭐ 了解概念即可</td>
+</tr>
+<tr>
+<td><code>execution/</code></td>
+<td>執行引擎內部</td>
+<td>⭐ 了解概念即可</td>
+</tr>
+<tr>
+<td><code>cache/</code></td>
+<td>緩存系統</td>
+<td>⭐ 知道怎麼查詢</td>
+</tr>
+<tr>
+<td><code>core/</code></td>
+<td>底層工具和常量</td>
+<td>⭐ 很少直接使用</td>
+</tr>
+<tr>
+<td><code>risk/</code></td>
+<td>風控引擎</td>
+<td>⭐ 了解配置即可</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- ==================== -->
+<h2>八、一個完整的交易循環</h2>
+<p>把所有部分串起來，一個完整的交易循環長這樣：</p>
+<div class="mermaid-wrapper">
+<div class="mermaid">
             flowchart TB
-            A["1️⃣ 系統啟動<br />NautilusKernel 初始化所有組件"] --> B["2️⃣ 連接數據源<br />DataClient 連接交易所 WebSocket"]
-            B --> C["3️⃣ 訂閱數據<br />策略告訴 DataEngine 它需要哪些數據"]
-            C --> D["4️⃣ 接收行情<br />數據到達策略的 on_quote_tick / on_bar 回調"]
-            D --> E["5️⃣ 策略決策<br />策略分析數據、計算指標、生成信號"]
-            E --> F{"6️⃣ 是否下單？"}
-            F -->|"是"| G["7️⃣ 風控檢查<br />RiskEngine 驗證訂單"]
-            F -->|"否"| D
-            G --> H["8️⃣ 執行訂單<br />ExecutionEngine 透過適配器下單"]
-            H --> I["9️⃣ 更新狀態<br />Cache + Portfolio 更新"]
-            I --> D
+            A["1️⃣ 系統啟動<br/>NautilusKernel 初始化所有組件"] --&gt; B["2️⃣ 連接數據源<br/>DataClient 連接交易所 WebSocket"]
+            B --&gt; C["3️⃣ 訂閱數據<br/>策略告訴 DataEngine 它需要哪些數據"]
+            C --&gt; D["4️⃣ 接收行情<br/>數據到達策略的 on_quote_tick / on_bar 回調"]
+            D --&gt; E["5️⃣ 策略決策<br/>策略分析數據、計算指標、生成信號"]
+            E --&gt; F{"6️⃣ 是否下單？"}
+            F --&gt;|"是"| G["7️⃣ 風控檢查<br/>RiskEngine 驗證訂單"]
+            F --&gt;|"否"| D
+            G --&gt; H["8️⃣ 執行訂單<br/>ExecutionEngine 透過適配器下單"]
+            H --&gt; I["9️⃣ 更新狀態<br/>Cache + Portfolio 更新"]
+            I --&gt; D
           </div>
-          <div class="caption">圖 8：一個完整的交易循環</div>
-        </div>
-
-        <!-- ==================== -->
-        <h2>九、互動練習</h2>
-
-        <div class="exercise-block">
-          <div class="exercise-title">🧠 練習 1：組件配對</div>
-          <p>將以下功能和正確的組件配對：</p>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>功能</th>
-                  <th>你的答案</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>A. 存儲訂單狀態</td>
-                  <td>___________</td>
-                </tr>
-                <tr>
-                  <td>B. 接收交易所的即時報價</td>
-                  <td>___________</td>
-                </tr>
-                <tr>
-                  <td>C. 檢查單筆訂單是否超過風險上限</td>
-                  <td>___________</td>
-                </tr>
-                <tr>
-                  <td>D. 把成交事件推送給策略</td>
-                  <td>___________</td>
-                </tr>
-                <tr>
-                  <td>E. 管理訂單的下達和撤銷</td>
-                  <td>___________</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <button class="btn-run" onclick="toggleAnswer('answer-pair')">💡 查看答案</button>
-          <div class="exercise-output" id="answer-pair">A → Cache（緩存）
+<div class="caption">圖 8：一個完整的交易循環</div>
+</div>
+<!-- ==================== -->
+<h2>九、互動練習</h2>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 1：組件配對</div>
+<p>將以下功能和正確的組件配對：</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>你的答案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. 存儲訂單狀態</td>
+<td>___________</td>
+</tr>
+<tr>
+<td>B. 接收交易所的即時報價</td>
+<td>___________</td>
+</tr>
+<tr>
+<td>C. 檢查單筆訂單是否超過風險上限</td>
+<td>___________</td>
+</tr>
+<tr>
+<td>D. 把成交事件推送給策略</td>
+<td>___________</td>
+</tr>
+<tr>
+<td>E. 管理訂單的下達和撤銷</td>
+<td>___________</td>
+</tr>
+</tbody>
+</table>
+</div>
+<button class="btn-run" onclick="toggleAnswer('answer-pair')">💡 查看答案</button>
+<div class="exercise-output" id="answer-pair">A → Cache（緩存）
             B → DataClient / DataEngine（數據適配器 / 數據引擎）
             C → RiskEngine（風控引擎）
             D → MessageBus（消息總線）
             E → ExecutionEngine（執行引擎）</div>
-        </div>
-
-        <div class="exercise-block">
-          <div class="exercise-title">🧠 練習 2：數據追蹤</div>
-          <p>假設你的策略訂閱了 BTC/USDT 的一分鐘 K 線（Bar）。請描述一根新 K 線從形成到你的策略收到它的完整路徑。</p>
-          <button class="btn-run" onclick="toggleAnswer('answer-trace')">💡 查看參考答案</button>
-          <div class="exercise-output" id="answer-trace">1. 交易所的逐筆成交數據透過 WebSocket 推送到 DataClient
+</div>
+<div class="exercise-block">
+<div class="exercise-title">🧠 練習 2：數據追蹤</div>
+<p>假設你的策略訂閱了 BTC/USDT 的一分鐘 K 線（Bar）。請描述一根新 K 線從形成到你的策略收到它的完整路徑。</p>
+<button class="btn-run" onclick="toggleAnswer('answer-trace')">💡 查看參考答案</button>
+<div class="exercise-output" id="answer-trace">1. 交易所的逐筆成交數據透過 WebSocket 推送到 DataClient
             2. DataClient 將原始數據轉換為 NautilusTrader 的標準 TradeTick 格式
             3. DataEngine 收集 TradeTick 並內部聚合為 1 分鐘 Bar
             4. 當 1 分鐘結束時，Bar 完成聚合
@@ -660,38 +677,35 @@
             6. DataEngine 透過 MessageBus 發布 Bar 事件
             7. MessageBus 查找所有訂閱了該 Bar 的組件
             8. 你的策略的 on_bar() 回調被調用，收到這根 K 線</div>
-        </div>
-
-        <!-- ==================== -->
-        <h2>十、本模組重點回顧</h2>
-        <div class="card">
-          <div class="card-title">📋 你應該記住的關鍵點</div>
-          <ol>
-            <li><strong>六大核心組件</strong>：Kernel、MessageBus、Cache、DataEngine、ExecutionEngine、RiskEngine</li>
-            <li><strong>消息總線</strong>是系統的神經中樞，所有組件透過它通訊</li>
-            <li><strong>三種環境</strong>（回測/沙箱/實盤）共享同一個核心，策略代碼不變</li>
-            <li><strong>數據流</strong>：交易所 → 適配器 → 數據引擎 → 消息總線 → 策略</li>
-            <li><strong>執行流</strong>：策略 → 消息總線 → 風控 → 執行引擎 → 適配器 → 交易所</li>
-            <li><strong>策略從不直接連接交易所</strong>，這是架構解耦的核心設計</li>
-          </ol>
-        </div>
-
-        <!-- 頁面導航 -->
-        <div class="page-nav">
-          <a href="../Module_01_Why_NautilusTrader/index.html">
-            <span class="nav-label">← 上一章</span>
-            <span class="nav-title">模組 01：為什麼選擇 NautilusTrader</span>
-          </a>
-          <a href="../Module_03_Design_Philosophy/index.html" style="text-align:right;">
-            <span class="nav-label">下一章 →</span>
-            <span class="nav-title">模組 03：設計哲學與品質屬性</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button class="back-to-top" aria-label="回到頂部">↑</button>
-  <script src="../assets/lecture.js"></script>
+</div>
+<!-- ==================== -->
+<h2>十、本模組重點回顧</h2>
+<div class="card">
+<div class="card-title">📋 你應該記住的關鍵點</div>
+<ol>
+<li><strong>六大核心組件</strong>：Kernel、MessageBus、Cache、DataEngine、ExecutionEngine、RiskEngine</li>
+<li><strong>消息總線</strong>是系統的神經中樞，所有組件透過它通訊</li>
+<li><strong>三種環境</strong>（回測/沙箱/實盤）共享同一個核心，策略代碼不變</li>
+<li><strong>數據流</strong>：交易所 → 適配器 → 數據引擎 → 消息總線 → 策略</li>
+<li><strong>執行流</strong>：策略 → 消息總線 → 風控 → 執行引擎 → 適配器 → 交易所</li>
+<li><strong>策略從不直接連接交易所</strong>，這是架構解耦的核心設計</li>
+</ol>
+</div>
+<!-- 頁面導航 -->
+<div class="page-nav">
+<a href="../Module_01_Why_NautilusTrader/index.html">
+<span class="nav-label">← 上一章</span>
+<span class="nav-title">模組 01：為什麼選擇 NautilusTrader</span>
+</a>
+<a href="../Module_03_Design_Philosophy/index.html" style="text-align:right;">
+<span class="nav-label">下一章 →</span>
+<span class="nav-title">模組 03：設計哲學與品質屬性</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<button aria-label="回到頂部" class="back-to-top">↑</button>
+<script src="../assets/lecture.js"></script>
 </body>
-
 </html>
